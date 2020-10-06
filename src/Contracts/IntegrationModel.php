@@ -4,7 +4,7 @@
 namespace Bddy\Integrations\Contracts;
 
 
-class IntegrationModel
+interface IntegrationModel
 {
 
 }
