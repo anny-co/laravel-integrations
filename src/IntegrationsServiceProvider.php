@@ -2,7 +2,9 @@
 
 namespace Bddy\Integrations;
 
+use Bddy\Integrations\Contracts\IntegrationModel;
 use Bddy\Integrations\Contracts\IntegrationsManager as IntegrationsManagerContract;
+use Bddy\Integrations\Models\Integration;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,7 +29,6 @@ class IntegrationsServiceProvider extends ServiceProvider
 		    __DIR__.'/../config/integrations.php', 'integrations'
 	    );
 
-
     }
 
     /**
@@ -44,5 +45,9 @@ class IntegrationsServiceProvider extends ServiceProvider
 	    $this->publishes([
 		    __DIR__.'/../config/integrations.php' => config_path('integrations.php')
 	    ], 'config');
+
+	    // Register model
+	    $integrationModel = config('integrations.integrationModel') ?: Integration::class;
+	    $this->app->bind(IntegrationModel::class, $integrationModel);
     }
 }
