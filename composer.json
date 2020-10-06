@@ -1,0 +1,52 @@
+{
+  "name": "bddy/laravel-integrations",
+  "description": "Integrations for your laravel application.",
+  "keywords": [
+    "laravel",
+    "bookingbuddy",
+    "bddy.tech",
+    "integrations",
+    "plugins"
+  ],
+  "type": "library",
+  "require-dev": {
+    "phpunit/phpunit": "^8.0",
+    "orchestra/testbench": "^6.2"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Buddy Tech",
+      "email": "dev@bddy.tech"
+    }
+  ],
+  "require": {
+    "php": "^7.3",
+    "illuminate/contracts": "^7.0|^8.0",
+    "illuminate/container": "^7.0|^8.0",
+    "illuminate/database": "^7.0|^8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Bddy\\Integrations\\": "src/",
+      "Bddy\\Integrations\\Tests\\": "tests"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "scripts": {
+    "test": "phpunit"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Bddy\\Integrations\\IntegrationsServiceProvider"
+      ],
+      "aliases": {
+      }
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
