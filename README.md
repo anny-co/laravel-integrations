@@ -10,24 +10,17 @@ You can install the package with composer
 composer require bddy/laravel-integrations
 ```
 
-## Getting started
+### Preparing the database
 
-After you installed the package you can install the migrations.
+You have to publish and run the migration:
 
 ```
+php artisan vendor:publish --provider="Bddy\Integrations\IntegrationsServiceProvider" --tag=migrations
 php artisan migrate
 ```
 
-Or, if you need to change the migration you can publish ist:
+You could also publish the configuration:
 
 ```
-php artisan vendor:publish --provider=Bddy\Integrations\IntegrationsServiceProvider --tag=migrations
+php artisan vendor:publish --provider="Bddy\Integrations\IntegrationsServiceProvider" --tag=migrations
 ```
-
-If you are using own migrations you have to publish the configuration
-
-```
-php artisan vendor:publish --provider=Bddy\Integrations\IntegrationsServiceProvider --tag=migrations
-```
-
-and set the `loadMigrations` parameter to `false`.
