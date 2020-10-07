@@ -39,12 +39,19 @@ class IntegrationsServiceProvider extends ServiceProvider
     public function boot()
     {
     	// Load migrations
-	    $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+	    if(config('integrations.loadMigrations', true)){
+		    $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+	    }
 
 	    // Publish migrations
 	    $this->publishes([
 		    __DIR__.'/../config/integrations.php' => config_path('integrations.php')
 	    ], 'config');
+
+	    // Publish migrations
+	    $this->publishes([
+		    __DIR__.'/../database/migrations/' => database_path('migrations')
+	    ], 'migrations');
 
 	    // Register model
 	    $integrationModel = config('integrations.integrationModel') ?: Integration::class;
