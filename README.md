@@ -21,13 +21,13 @@ php artisan migrate
 Or, if you need to change the migration you can publish ist:
 
 ```
-php artisan vendor:publish --tag=migrations
+php artisan vendor:publish --provider=Bddy\Integrations\IntegrationsServiceProvider --tag=migrations
 ```
 
 If you are using own migrations you have to publish the configuration
 
 ```
-php artisan vendor:publish --tag=migrations
+php artisan vendor:publish --provider=Bddy\Integrations\IntegrationsServiceProvider --tag=migrations
 ```
 
 and set the `loadMigrations` parameter to `false`.
