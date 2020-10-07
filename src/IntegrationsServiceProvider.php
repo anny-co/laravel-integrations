@@ -2,6 +2,8 @@
 
 namespace Bddy\Integrations;
 
+use Bddy\Integrations\Console\Commands\IntegrationMakeCommand;
+use Bddy\Integrations\Console\Commands\IntegrationServiceProviderMakeCommand;
 use Bddy\Integrations\Contracts\IntegrationModel;
 use Bddy\Integrations\Contracts\IntegrationsManager as IntegrationsManagerContract;
 use Bddy\Integrations\Models\Integration;
@@ -57,6 +59,14 @@ class IntegrationsServiceProvider extends ServiceProvider
 	    // Register model
 	    $integrationModel = config('integrations.integrationModel') ?: Integration::class;
 	    $this->app->bind(IntegrationModel::class, $integrationModel);
+
+	    // Commands
+	    if ($this->app->runningInConsole()) {
+		    $this->commands([
+			    IntegrationMakeCommand::class,
+			    IntegrationServiceProviderMakeCommand::class
+		    ]);
+	    }
     }
 
 	/**
