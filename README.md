@@ -22,5 +22,5 @@ php artisan migrate
 You could also publish the configuration:
 
 ```
-php artisan vendor:publish --provider="Bddy\Integrations\IntegrationsServiceProvider" --tag=migrations
+php artisan vendor:publish --provider="Bddy\Integrations\IntegrationsServiceProvider" --tag=config
 ```
