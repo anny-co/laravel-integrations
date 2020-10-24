@@ -21,4 +21,18 @@ interface Integration
 	 */
 	public function getDefaultSettings(): array;
 
+	/**
+	 * Override default rules.
+	 *
+	 * @return array
+	 */
+	public function rules();
+
+	/**
+	 * Get rules for settings.
+	 *
+	 * @return array
+	 */
+	public function settingRules();
+
 }

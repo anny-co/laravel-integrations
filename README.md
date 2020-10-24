@@ -36,8 +36,6 @@ You can use the `HasIntegrations` trait on the model which has integrations.
 
 ## Creating integration
 
-Coming soon:
-
 `php artisan make:integration Slack`
 
 This will create a folder in your `Integrations` folder with a class `Slack` and `SlackIntegrationServiceProvider`.
