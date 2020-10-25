@@ -36,6 +36,13 @@ interface Integration
 	public function getDefaultSettings(): array;
 
 	/**
+	 * Return definitions of integration.
+	 *
+	 * @return array
+	 */
+	public function getDefinitions(): array;
+
+	/**
 	 * Override default rules.
 	 *
 	 * @return array
