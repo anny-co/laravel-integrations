@@ -58,7 +58,7 @@ class Integration extends Model implements IntegrationModel
 	{
 		integrations()
 			->getIntegration($this->getIntegrationKey())
-			->activate($this);
+			->deactivate($this);
 	}
 
 	/**
@@ -70,6 +70,6 @@ class Integration extends Model implements IntegrationModel
 	{
 		integrations()
 			->getIntegration($this->getIntegrationKey())
-			->activate($this);
+			->initialize($this);
 	}
 }

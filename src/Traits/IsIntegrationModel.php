@@ -57,7 +57,7 @@ trait IsIntegrationModel
 	{
 		integrations()
 			->getIntegration($this->getIntegrationKey())
-			->activate($this);
+			->deactivate($this);
 	}
 
 	/**
@@ -69,6 +69,6 @@ trait IsIntegrationModel
 	{
 		integrations()
 			->getIntegration($this->getIntegrationKey())
-			->activate($this);
+			->initialize($this);
 	}
 }

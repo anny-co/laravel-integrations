@@ -71,6 +71,8 @@ abstract class AbstractIntegration implements Integration
 		if($integration){
 			$this->integrationModel = $integration;
 		}
+
+		return $this;
 	}
 
 	/**
@@ -94,7 +96,7 @@ abstract class AbstractIntegration implements Integration
 	 */
 	public function deactivate(?IntegrationModel $integration){
 		$this->for($integration);
-		$integration->active = true;
+		$integration->active = false;
 		return $integration->save();
 	}
 

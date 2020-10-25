@@ -68,7 +68,7 @@ interface Integration
 	 * Set the model for which the next actions should be taken.
 	 * @param Model|IntegrationModel $integration
 	 *
-	 * @return mixed
+	 * @return self|Model
 	 */
 	public function for(IntegrationModel $integration);
 
