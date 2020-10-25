@@ -6,6 +6,7 @@ namespace Bddy\Integrations\Traits;
 
 use Bddy\Integrations\Contracts\Integration as IntegrationContract;
 use Bddy\Integrations\Models\Integration;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 
 trait HasIntegrations
@@ -14,6 +15,7 @@ trait HasIntegrations
 
 	/**
 	 * Relation of many integrations
+	 * @return MorphMany
 	 */
 	public function integrations()
 	{
@@ -44,5 +46,15 @@ trait HasIntegrations
 		return $this->integrations()
 			->where('key', $integration->getKey())
 			->first();
+	}
+
+	/**
+	 * Retrieve integration model from related model.
+	 * @param \Bddy\Integrations\Contracts\HasIntegrations $model
+	 *
+	 * @return mixed
+	 */
+	public function retrieveModelFrom(HasIntegrations $model) {
+
 	}
 }
