@@ -5,7 +5,7 @@ namespace Bddy\Integrations\Models;
 use Bddy\Integrations\Contracts\IntegrationModel;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class Integration extends Model implements IntegrationModel
+class Integration extends Model implements IntegrationModel
 {
 	/**
 	 * @var string

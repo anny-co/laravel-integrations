@@ -5,6 +5,7 @@ namespace Bddy\Integrations\Traits;
 
 
 use Bddy\Integrations\Contracts\Integration as IntegrationContract;
+
 use Bddy\Integrations\Models\Integration;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
@@ -19,7 +20,7 @@ trait HasIntegrations
 	 */
 	public function integrations()
 	{
-		return $this->morphMany(Integration::class, 'model');
+		return $this->morphMany(config('integrations.integrationModel', Integration::class), 'model');
 	}
 
 	/**
