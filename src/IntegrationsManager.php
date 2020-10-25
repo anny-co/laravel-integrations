@@ -26,7 +26,7 @@ class IntegrationsManager implements IntegrationsManagerContract
 	 */
 	public function registerIntegration(Integration $integration)
 	{
-		$this->integrations[$integration->getKey()] = $integration;
+		$this->integrations[$integration->getIntegrationKey()] = $integration;
 
 		return $integration;
 	}
