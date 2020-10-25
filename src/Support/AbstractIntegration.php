@@ -11,9 +11,9 @@ abstract class AbstractIntegration implements Integration
 {
 
 	/**
-	 *
+	 * Key of integration.
 	 */
-	protected const KEY = '';
+	protected static $integrationKey = '';
 
 	/**
 	 * Current integration model.
@@ -28,7 +28,9 @@ abstract class AbstractIntegration implements Integration
 	 */
 	public static function get()
 	{
-		return integrations()->getIntegration(static::KEY);
+		return integrations()->getIntegration(
+			static::getIntegrationKey()
+		);
 	}
 
 	/**
@@ -36,9 +38,9 @@ abstract class AbstractIntegration implements Integration
 	 *
 	 * @return string
 	 */
-	public function getIntegrationKey(): string
+	public static function getIntegrationKey(): string
 	{
-		return self::KEY;
+		return static::$integrationKey;
 	}
 
 	/**

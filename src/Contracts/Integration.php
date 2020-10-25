@@ -26,7 +26,7 @@ interface Integration
 	 *
 	 * @returns string
 	 */
-	public function getIntegrationKey(): string;
+	public static function getIntegrationKey(): string;
 
 	/**
 	 * Returns the default config for an integration.
