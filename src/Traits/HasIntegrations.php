@@ -33,7 +33,7 @@ trait HasIntegrations
 	public function hasIntegration(IntegrationContract $integration)
 	{
 		return $this->integrations()
-				->where('key', $integration->getKey())
+				->where('key', $integration::getIntegrationKey())
 				->count() > 0;
 	}
 
@@ -45,7 +45,7 @@ trait HasIntegrations
 	public function getIntegration(IntegrationContract $integration)
 	{
 		return $this->integrations()
-			->where('key', $integration->getKey())
+			->where('key', $integration::getIntegrationKey())
 			->first();
 	}
 
