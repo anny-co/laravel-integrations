@@ -48,9 +48,9 @@ abstract class AbstractIntegration implements Integration
 	 *
 	 * @param Model|HasIntegrations $model
 	 *
-	 * @return Model|IntegrationModel
+	 * @return Model|IntegrationModel|null
 	 */
-	public function retrieveModelFrom(HasIntegrations $model): IntegrationModel
+	public function retrieveModelFrom(HasIntegrations $model)
 	{
 		return $model
 			->integrations()

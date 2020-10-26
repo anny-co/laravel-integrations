@@ -60,7 +60,7 @@ interface Integration
 	 * Retrieve integration model from related model.
 	 * @param HasIntegrations $model
 	 *
-	 * @return mixed
+	 * @return Model|IntegrationModel|null
 	 */
 	public function retrieveModelFrom(HasIntegrations $model);
 

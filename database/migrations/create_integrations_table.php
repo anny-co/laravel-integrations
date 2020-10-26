@@ -28,6 +28,7 @@ class CreateIntegrationsTable extends Migration
 			    'oauth2',
 			    'access_token',
 		    ])->default('none');
+		    $table->softDeletes();
 		    $table->timestamps();
 	    });
     }
