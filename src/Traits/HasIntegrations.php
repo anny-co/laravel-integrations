@@ -48,14 +48,4 @@ trait HasIntegrations
 			->where('key', $integration::getIntegrationKey())
 			->first();
 	}
-
-	/**
-	 * Retrieve integration model from related model.
-	 * @param \Bddy\Integrations\Contracts\HasIntegrations $model
-	 *
-	 * @return mixed
-	 */
-	public function retrieveModelFrom(HasIntegrations $model) {
-
-	}
 }
