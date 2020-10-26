@@ -56,7 +56,7 @@ abstract class AbstractIntegration implements Integration
 			->integrations()
 			->where('model_type', '=', get_class())
 			->where('model_id', '=', $model->getKey())
-			->where('key', '=', self::KEY)
+			->where('key', '=', static::getIntegrationKey())
 			->first();
 	}
 
