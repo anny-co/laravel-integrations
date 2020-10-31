@@ -73,6 +73,86 @@ class CommandsTest extends TestCase
 		);
 	}
 
+	public function test_it_makes_mails()
+	{
+		$this->runMakeCommandTest(
+			'Integrations/Anny/Mail/TestMail.php',
+			'integration:make:mail Anny TestMail'
+		);
+	}
+
+	public function test_it_makes_middleware()
+	{
+		$this->runMakeCommandTest(
+			'Integrations/Anny/Http/Middleware/TestMiddleware.php',
+			'integration:make:middleware Anny TestMiddleware'
+		);
+	}
+
+	public function test_it_makes_models()
+	{
+		$this->runMakeCommandTest(
+			'Integrations/Anny/Models/Anny.php',
+			'integration:make:model Anny Anny'
+		);
+	}
+
+	public function test_it_makes_notifications()
+	{
+		$this->runMakeCommandTest(
+			'Integrations/Anny/Notifications/TestNotification.php',
+			'integration:make:notification Anny TestNotification'
+		);
+	}
+
+	public function test_it_makes_observers()
+	{
+		$this->runMakeCommandTest(
+			'Integrations/Anny/Observers/TestObserver.php',
+			'integration:make:observer Anny TestObserver'
+		);
+	}
+
+	public function test_it_makes_policies()
+	{
+		$this->runMakeCommandTest(
+			'Integrations/Anny/Policies/TestPolicy.php',
+			'integration:make:policy Anny TestPolicy'
+		);
+	}
+
+	public function test_it_makes_providers()
+	{
+		$this->runMakeCommandTest(
+			'Integrations/Anny/Providers/TestProvider.php',
+			'integration:make:provider Anny TestProvider'
+		);
+	}
+
+	public function test_it_makes_requests()
+	{
+		$this->runMakeCommandTest(
+			'Integrations/Anny/Http/Requests/TestRequest.php',
+			'integration:make:request Anny TestRequest'
+		);
+	}
+
+	public function test_it_makes_resources()
+	{
+		$this->runMakeCommandTest(
+			'Integrations/Anny/Http/Resources/TestResource.php',
+			'integration:make:resource Anny TestResource'
+		);
+	}
+
+	public function test_it_makes_rules()
+	{
+		$this->runMakeCommandTest(
+			'Integrations/Anny/Rules/TestRule.php',
+			'integration:make:rule Anny TestRule'
+		);
+	}
+
 	public function runMakeCommandTest(string $path, string $command)
 	{
 		// Remove previous created file

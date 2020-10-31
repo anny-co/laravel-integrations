@@ -12,6 +12,17 @@ use Bddy\Integrations\Console\Commands\IntegrationMakeCommand;
 use Bddy\Integrations\Console\Commands\IntegrationServiceProviderMakeCommand;
 use Bddy\Integrations\Console\Commands\JobMakeCommand;
 use Bddy\Integrations\Console\Commands\ListenerMakeCommand;
+use Bddy\Integrations\Console\Commands\MailMakeCommand;
+use Bddy\Integrations\Console\Commands\MiddlewareMakeCommand;
+use Bddy\Integrations\Console\Commands\MigrationMakeCommand;
+use Bddy\Integrations\Console\Commands\ModelMakeCommand;
+use Bddy\Integrations\Console\Commands\NotificationMakeCommand;
+use Bddy\Integrations\Console\Commands\ObserverMakeCommand;
+use Bddy\Integrations\Console\Commands\PolicyMakeCommand;
+use Bddy\Integrations\Console\Commands\ProviderMakeCommand;
+use Bddy\Integrations\Console\Commands\RequestMakeCommand;
+use Bddy\Integrations\Console\Commands\ResourceMakeCommand;
+use Bddy\Integrations\Console\Commands\RuleMakeCommand;
 use Bddy\Integrations\Contracts\IntegrationModel;
 use Bddy\Integrations\Contracts\IntegrationsManager as IntegrationsManagerContract;
 use Bddy\Integrations\Models\Integration;
@@ -80,7 +91,17 @@ class IntegrationsServiceProvider extends ServiceProvider
 			    EventMakeCommand::class,
 			    ExceptionMakeCommand::class,
 			    JobMakeCommand::class,
-			    ListenerMakeCommand::class
+			    ListenerMakeCommand::class,
+			    MailMakeCommand::class,
+			    MiddlewareMakeCommand::class,
+			    ModelMakeCommand::class,
+			    NotificationMakeCommand::class,
+			    ObserverMakeCommand::class,
+			    PolicyMakeCommand::class,
+			    ProviderMakeCommand::class,
+			    RequestMakeCommand::class,
+			    ResourceMakeCommand::class,
+			    RuleMakeCommand::class,
 		    ]);
 	    }
     }
