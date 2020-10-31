@@ -4,6 +4,7 @@ namespace Bddy\Integrations;
 
 use Bddy\Integrations\Console\Commands\IntegrationMakeCommand;
 use Bddy\Integrations\Console\Commands\IntegrationServiceProviderMakeCommand;
+use Bddy\Integrations\Console\Commands\JobMakeCommand;
 use Bddy\Integrations\Contracts\IntegrationModel;
 use Bddy\Integrations\Contracts\IntegrationsManager as IntegrationsManagerContract;
 use Bddy\Integrations\Models\Integration;
@@ -64,7 +65,8 @@ class IntegrationsServiceProvider extends ServiceProvider
 	    if ($this->app->runningInConsole()) {
 		    $this->commands([
 			    IntegrationMakeCommand::class,
-			    IntegrationServiceProviderMakeCommand::class
+			    IntegrationServiceProviderMakeCommand::class,
+			    JobMakeCommand::class,
 		    ]);
 	    }
     }
