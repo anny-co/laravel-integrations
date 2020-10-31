@@ -13,7 +13,7 @@ abstract class AbstractIntegration implements Integration
 	/**
 	 * Key of integration.
 	 */
-	protected static $integrationKey = '';
+	protected static string $integrationKey;
 
 	/**
 	 * Current integration model.
@@ -67,7 +67,7 @@ abstract class AbstractIntegration implements Integration
 	 *
 	 * @return mixed
 	 */
-	public function for(?IntegrationModel $integration){
+	public function for(?IntegrationModel $integration = null){
 		if($integration){
 			$this->integrationModel = $integration;
 		}
