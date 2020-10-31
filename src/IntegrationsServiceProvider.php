@@ -2,9 +2,16 @@
 
 namespace Bddy\Integrations;
 
+use Bddy\Integrations\Console\Commands\CastMakeCommand;
+use Bddy\Integrations\Console\Commands\ChannelMakeCommand;
+use Bddy\Integrations\Console\Commands\CommandMakeCommand;
+use Bddy\Integrations\Console\Commands\ControllerMakeCommand;
+use Bddy\Integrations\Console\Commands\EventMakeCommand;
+use Bddy\Integrations\Console\Commands\ExceptionMakeCommand;
 use Bddy\Integrations\Console\Commands\IntegrationMakeCommand;
 use Bddy\Integrations\Console\Commands\IntegrationServiceProviderMakeCommand;
 use Bddy\Integrations\Console\Commands\JobMakeCommand;
+use Bddy\Integrations\Console\Commands\ListenerMakeCommand;
 use Bddy\Integrations\Contracts\IntegrationModel;
 use Bddy\Integrations\Contracts\IntegrationsManager as IntegrationsManagerContract;
 use Bddy\Integrations\Models\Integration;
@@ -66,7 +73,14 @@ class IntegrationsServiceProvider extends ServiceProvider
 		    $this->commands([
 			    IntegrationMakeCommand::class,
 			    IntegrationServiceProviderMakeCommand::class,
+			    CastMakeCommand::class,
+			    ChannelMakeCommand::class,
+			    CommandMakeCommand::class,
+			    ControllerMakeCommand::class,
+			    EventMakeCommand::class,
+			    ExceptionMakeCommand::class,
 			    JobMakeCommand::class,
+			    ListenerMakeCommand::class
 		    ]);
 	    }
     }

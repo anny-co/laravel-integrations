@@ -45,6 +45,8 @@ abstract class AbstractMakeCommand extends Command
 			['name' => $name]
 		);
 
+		unset($arguments['integration']);
+
 		// Make resource
 		$this->call("make:{$this->resource}", $arguments);
 	}
