@@ -6,6 +6,7 @@ namespace Bddy\Integrations\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
+use Illuminate\Support\Stringable;
 
 abstract class AbstractMakeCommand extends Command
 {
@@ -16,6 +17,7 @@ abstract class AbstractMakeCommand extends Command
 	protected string $resource = '';
 
 	/**
+	 * Directory in which the resource is located.
 	 * @var string
 	 */
 	protected string $directory = '';
@@ -34,10 +36,17 @@ abstract class AbstractMakeCommand extends Command
 	 */
 	public function handle()
 	{
+		// Get name
+		$name = $this->getDirectoryName() . $this->getIntegrationFileName();
+
+		// Get arguments
+		$arguments = array_merge(
+			$this->arguments(),
+			['name' => $name]
+		);
+
 		// Make resource
-		$this->call("make:{$this->resource}", [
-			'name' => $this->getDirectoryName() . $this->getIntegrationFileName()
-		]);
+		$this->call("make:{$this->resource}", $arguments);
 	}
 
 	/**
@@ -50,22 +59,26 @@ abstract class AbstractMakeCommand extends Command
 		return (string) Str::of($integration)->camel()->ucfirst();
 	}
 
+	/**
+	 * Get resource directory
+	 *
+	 * @return string
+	 */
 	protected function getResourceDir() {
-		return $resourceDir = Str::of($this->resource)->camel()->plural()->ucfirst()->finish('/');
+		if($this->directory === ''){
+			return (string) Str::of($this->resource)->camel()->plural()->ucfirst()->finish('/');
+		}else{
+			return (string) Str::of($this->directory)->finish('/');
+		}
 	}
 
 	/**
 	 * Return in which directory the resource should go in.
-	 * @return \Illuminate\Support\Stringable|string
+	 * @return Stringable|string
 	 */
 	protected function getDirectoryName() {
-		if($this->directory === ''){
-			// Make directory
-			$integrationName = $integration = $this->argument('integration');
-			$resourceDir = $this->getResourceDir();
-			return "App/Integrations/{$integrationName}/{$resourceDir}";
-		}
+		$integrationName = $this->argument('integration');
 
-		return $this->directory;
+		return "App/Integrations/{$integrationName}/{$this->getResourceDir()}";
 	}
 }
