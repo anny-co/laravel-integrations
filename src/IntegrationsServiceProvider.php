@@ -2,6 +2,7 @@
 
 namespace Bddy\Integrations;
 
+use Bddy\Integrations\Console\Commands\ActionMakeCommand;
 use Bddy\Integrations\Console\Commands\CastMakeCommand;
 use Bddy\Integrations\Console\Commands\ChannelMakeCommand;
 use Bddy\Integrations\Console\Commands\CommandMakeCommand;
@@ -82,6 +83,7 @@ class IntegrationsServiceProvider extends ServiceProvider
 	    // Commands
 	    if ($this->app->runningInConsole()) {
 		    $this->commands([
+		    	ActionMakeCommand::class,
 			    IntegrationMakeCommand::class,
 			    IntegrationServiceProviderMakeCommand::class,
 			    CastMakeCommand::class,
