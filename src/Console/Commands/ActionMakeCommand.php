@@ -6,7 +6,7 @@ namespace Bddy\Integrations\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
-class ActionMakeCommand extends Command
+class ActionMakeCommand extends AbstractMakeCommand
 {
 
 	/**
