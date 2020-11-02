@@ -110,4 +110,18 @@ abstract class AbstractIntegration implements Integration
 		$this->for($integration);
 	}
 
+	/**
+	 * Updating a specific integration model.
+	 *
+	 * @param Model|IntegrationModel|null $integration
+	 * @param array                       $attributes
+	 *
+	 * @return mixed
+	 */
+	public function updating(?IntegrationModel $integration, array $attributes) {
+		$this->for($integration);
+
+		return $attributes;
+	}
+
 }

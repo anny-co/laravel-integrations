@@ -71,4 +71,18 @@ trait IsIntegrationModel
 			->getIntegration($this->getIntegrationKey())
 			->initialize($this);
 	}
+
+	/**
+	 * Updating a specific integration model.
+	 *
+	 * @param array $attributes
+	 *
+	 * @return array
+	 */
+	public function updatingIntegration(array $attributes)
+	{
+		return integrations()
+			->getIntegration($this->getIntegrationKey())
+			->updating($this, $attributes);
+	}
 }
