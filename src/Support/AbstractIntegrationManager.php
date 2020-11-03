@@ -3,11 +3,11 @@
 namespace Bddy\Integrations\Support;
 
 use Bddy\Integrations\Contracts\HasIntegrations;
+use Bddy\Integrations\Contracts\IntegrationManager;
 use Bddy\Integrations\Contracts\Integration;
-use Bddy\Integrations\Contracts\IntegrationModel;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class AbstractIntegration implements Integration
+abstract class AbstractIntegrationManager implements IntegrationManager
 {
 
 	/**
@@ -17,18 +17,18 @@ abstract class AbstractIntegration implements Integration
 
 	/**
 	 * Current integration model.
-	 * @var null|Model|IntegrationModel
+	 * @var null|Model|Integration
 	 */
-	protected $integrationModel = null;
+	protected $integration = null;
 
 	/**
 	 * Get instance from manager.
 	 *
-	 * @return Integration
+	 * @return IntegrationManager
 	 */
 	public static function get()
 	{
-		return integrations()->getIntegration(
+		return integrations()->getIntegrationManager(
 			static::getIntegrationKey()
 		);
 	}
@@ -48,7 +48,7 @@ abstract class AbstractIntegration implements Integration
 	 *
 	 * @param Model|HasIntegrations $model
 	 *
-	 * @return Model|IntegrationModel|null
+	 * @return Model|Integration|null
 	 */
 	public function retrieveModelFrom(HasIntegrations $model)
 	{
@@ -63,13 +63,13 @@ abstract class AbstractIntegration implements Integration
 	/**
 	 * Set the model for which the next actions should be taken.
 	 *
-	 * @param Model|IntegrationModel|null $integration
+	 * @param Model|Integration|null $integration
 	 *
 	 * @return mixed
 	 */
-	public function for(?IntegrationModel $integration = null){
+	public function for(?Integration $integration = null){
 		if($integration){
-			$this->integrationModel = $integration;
+			$this->integration = $integration;
 		}
 
 		return $this;
@@ -77,11 +77,12 @@ abstract class AbstractIntegration implements Integration
 
 	/**
 	 * Activate a specific integration model.
-	 * @param Model|IntegrationModel|null $integration
+	 *
+	 * @param Model|Integration|null $integration
 	 *
 	 * @return mixed
 	 */
-	public function activate(?IntegrationModel $integration){
+	public function activate(?Integration $integration){
 		$this->for($integration);
 		$integration->active = true;
 		return $integration->save();
@@ -90,11 +91,12 @@ abstract class AbstractIntegration implements Integration
 
 	/**
 	 * Deactivate a specific integration model.
-	 * @param Model|IntegrationModel|null $integration
+	 *
+	 * @param Model|Integration|null $integration
 	 *
 	 * @return mixed
 	 */
-	public function deactivate(?IntegrationModel $integration){
+	public function deactivate(?Integration $integration){
 		$this->for($integration);
 		$integration->active = false;
 		return $integration->save();
@@ -102,23 +104,26 @@ abstract class AbstractIntegration implements Integration
 
 	/**
 	 * Initialize a specific integration model.
-	 * @param Model|IntegrationModel|null $integration
+	 *
+	 * @param Model|Integration|null $integration
 	 *
 	 * @return mixed
 	 */
-	public function initialize(?IntegrationModel $integration){
+	public function initialize(?Integration $integration){
 		$this->for($integration);
+
+		return $this;
 	}
 
 	/**
 	 * Updating a specific integration model.
 	 *
-	 * @param Model|IntegrationModel|null $integration
-	 * @param array                       $attributes
+	 * @param Model|Integration|null $integration
+	 * @param array                  $attributes
 	 *
 	 * @return mixed
 	 */
-	public function updating(?IntegrationModel $integration, array $attributes) {
+	public function updating(?Integration $integration, array $attributes) {
 		$this->for($integration);
 
 		return $attributes;

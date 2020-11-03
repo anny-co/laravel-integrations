@@ -4,12 +4,14 @@
 namespace Bddy\Integrations\Traits;
 
 
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+
 trait IsIntegrationModel
 {
 	/**
 	 * @var string
 	 */
-	protected $integrationKeyKey = 'key';
+	protected string $integrationKeyKey = 'key';
 
 	/**
 	 * Casts
@@ -22,14 +24,20 @@ trait IsIntegrationModel
 		'authentication_required' => 'boolean',
 	];
 
+	/**
+	 * Get key of a integration
+	 *
+	 * @return mixed
+	 */
 	protected function getIntegrationKey()
 	{
 		return $this->getAttribute($this->integrationKeyKey);
 	}
 
 	/**
-	 * Relation to integratable model
-	 * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+	 * Relation to integratable model.
+	 *
+	 * @return MorphTo
 	 */
 	public function model()
 	{
@@ -44,7 +52,7 @@ trait IsIntegrationModel
 	public function activateIntegration()
 	{
 		integrations()
-			->getIntegration($this->getIntegrationKey())
+			->getIntegrationManager($this->getIntegrationKey())
 			->activate($this);
 	}
 
@@ -56,7 +64,7 @@ trait IsIntegrationModel
 	public function deactivateIntegration()
 	{
 		integrations()
-			->getIntegration($this->getIntegrationKey())
+			->getIntegrationManager($this->getIntegrationKey())
 			->deactivate($this);
 	}
 
@@ -68,7 +76,7 @@ trait IsIntegrationModel
 	public function initializeIntegration()
 	{
 		integrations()
-			->getIntegration($this->getIntegrationKey())
+			->getIntegrationManager($this->getIntegrationKey())
 			->initialize($this);
 	}
 
@@ -82,7 +90,7 @@ trait IsIntegrationModel
 	public function updatingIntegration(array $attributes)
 	{
 		return integrations()
-			->getIntegration($this->getIntegrationKey())
+			->getIntegrationManager($this->getIntegrationKey())
 			->updating($this, $attributes);
 	}
 }

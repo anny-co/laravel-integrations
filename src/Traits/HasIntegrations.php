@@ -5,8 +5,9 @@ namespace Bddy\Integrations\Traits;
 
 
 use Bddy\Integrations\Contracts\Integration as IntegrationContract;
-
+use Bddy\Integrations\Contracts\IntegrationManager;
 use Bddy\Integrations\Models\Integration;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 
@@ -26,26 +27,26 @@ trait HasIntegrations
 	/**
 	 * Check if model already has an integration
 	 *
-	 * @param IntegrationContract $integration
+	 * @param  $integrationManager
 	 *
 	 * @return bool
 	 */
-	public function hasIntegration(IntegrationContract $integration)
+	public function hasIntegration(IntegrationManager $integrationManager)
 	{
 		return $this->integrations()
-				->where('key', $integration::getIntegrationKey())
+				->where('key', $integrationManager::getIntegrationKey())
 				->count() > 0;
 	}
 
 	/**
-	 * @param IntegrationContract $integration
+	 * @param  $integrationManager
 	 *
-	 * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+	 * @return Model|IntegrationContract
 	 */
-	public function getIntegration(IntegrationContract $integration)
+	public function getIntegration(IntegrationManager $integrationManager)
 	{
 		return $this->integrations()
-			->where('key', $integration::getIntegrationKey())
+			->where('key', $integrationManager::getIntegrationKey())
 			->first();
 	}
 }

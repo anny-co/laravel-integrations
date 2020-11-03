@@ -4,7 +4,7 @@
 namespace Bddy\Integrations\Tests;
 
 
-use Bddy\Integrations\Contracts\IntegrationsManager;
+use Bddy\Integrations\Contracts\IntegrationsRegistry;
 
 class HelperTest extends TestCase
 {
@@ -13,6 +13,6 @@ class HelperTest extends TestCase
 	{
 		$manager = integrations();
 
-		$this->assertInstanceOf(IntegrationsManager::class, $manager);
+		$this->assertInstanceOf(IntegrationsRegistry::class, $manager);
 	}
 }

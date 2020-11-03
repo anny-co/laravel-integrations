@@ -8,10 +8,6 @@ use GuzzleHttp\Client;
 
 trait MakesClient
 {
-	/**
-	 * @var Client|null
-	 */
-	protected ?Client $client = null;
 
 	/**
 	 * Base uri of client
@@ -19,10 +15,13 @@ trait MakesClient
 	 * @var string
 	 */
 	protected string $baseUri = '';
+
 	/**
 	 * Create guzzle client.
 	 *
 	 * @param string $baseUri
+	 *
+	 * @return Client
 	 */
 	protected function makeClient(string $baseUri = '')
 	{
@@ -30,7 +29,7 @@ trait MakesClient
 			$baseUri = $this->baseUri;
 		}
 
-		$this->client = new Client([
+		return new Client([
 			'base_uri' => $baseUri,
 			'headers'  => $this->getHeaders(),
 		]);

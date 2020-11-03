@@ -2,16 +2,11 @@
 
 namespace Bddy\Integrations\Models;
 
-use Bddy\Integrations\Contracts\IntegrationModel;
+use Bddy\Integrations\Contracts\Integration as IntegrationContract;
 use Illuminate\Database\Eloquent\Model;
 
-class Integration extends Model implements IntegrationModel
+class Integration extends Model implements IntegrationContract
 {
-	/**
-	 * @var string
-	 */
-	protected $integrationKeyKey = 'key';
-
 	/**
 	 * Casts
 	 *
@@ -22,11 +17,6 @@ class Integration extends Model implements IntegrationModel
 		'settings'                => 'json',
 		'authentication_required' => 'boolean',
 	];
-
-	protected function getIntegrationKey()
-	{
-		return $this->getAttribute($this->integrationKeyKey);
-	}
 
 	/**
 	 * Relation to integratable model
@@ -45,7 +35,7 @@ class Integration extends Model implements IntegrationModel
 	public function activateIntegration()
 	{
 		integrations()
-			->getIntegration($this->getIntegrationKey())
+			->getIntegrationManager($this->getIntegrationKey())
 			->activate($this);
 	}
 
@@ -57,7 +47,7 @@ class Integration extends Model implements IntegrationModel
 	public function deactivateIntegration()
 	{
 		integrations()
-			->getIntegration($this->getIntegrationKey())
+			->getIntegrationManager($this->getIntegrationKey())
 			->deactivate($this);
 	}
 
@@ -69,7 +59,7 @@ class Integration extends Model implements IntegrationModel
 	public function initializeIntegration()
 	{
 		integrations()
-			->getIntegration($this->getIntegrationKey())
+			->getIntegrationManager($this->getIntegrationKey())
 			->initialize($this);
 	}
 }

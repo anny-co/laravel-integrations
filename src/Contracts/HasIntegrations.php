@@ -4,7 +4,8 @@
 namespace Bddy\Integrations\Contracts;
 
 
-use Bddy\Integrations\Contracts\Integration as IntegrationContract;
+use Bddy\Integrations\Contracts\IntegrationManager as IntegrationManager;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 interface HasIntegrations
@@ -19,16 +20,16 @@ interface HasIntegrations
 	/**
 	 * Check if model already has an integration
 	 *
-	 * @param IntegrationContract $integration
+	 * @param IntegrationManager $integrationManager
 	 *
 	 * @return bool
 	 */
-	public function hasIntegration(IntegrationContract $integration);
+	public function hasIntegration(IntegrationManager $integrationManager);
 
 	/**
-	 * @param IntegrationContract $integration
+	 * @param IntegrationManager $integrationManager
 	 *
-	 * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+	 * @return Model|Integration
 	 */
-	public function getIntegration(IntegrationContract $integration);
+	public function getIntegration(IntegrationManager $integrationManager);
 }

@@ -5,11 +5,11 @@ if (!function_exists('integrations'))
 	/**
 	 * Get integrations manager.
 	 *
-	 * @return \Bddy\Integrations\IntegrationsManager
+	 * @return \Bddy\Integrations\IntegrationsRegistry
 	 */
 	function integrations()
 	{
-		/** @var \Bddy\Integrations\IntegrationsManager $integrations */
+		/** @var \Bddy\Integrations\IntegrationsRegistry $integrations */
 		$integrations = app('integrations');
 
 		return $integrations;

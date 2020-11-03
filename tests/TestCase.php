@@ -3,7 +3,7 @@
 namespace Bddy\Integrations\Tests;
 
 
-use Bddy\Integrations\IntegrationsManager;
+use Bddy\Integrations\IntegrationsRegistry;
 use Bddy\Integrations\IntegrationsServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
@@ -36,9 +36,9 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
 	/**
 	 * Get pipelines manager from container.
-	 * @return IntegrationsManager
+	 * @return IntegrationsRegistry
 	 */
-	protected function getManager()
+	protected function getRegistry()
 	{
 		return $this->app->make('integrations');
 	}
