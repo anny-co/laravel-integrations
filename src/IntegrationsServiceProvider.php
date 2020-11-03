@@ -23,8 +23,9 @@ use Bddy\Integrations\Console\Commands\ProviderMakeCommand;
 use Bddy\Integrations\Console\Commands\RequestMakeCommand;
 use Bddy\Integrations\Console\Commands\ResourceMakeCommand;
 use Bddy\Integrations\Console\Commands\RuleMakeCommand;
-use Bddy\Integrations\Contracts\Integration;
+use Bddy\Integrations\Contracts\Integration as IntegrationContract;
 use Bddy\Integrations\Contracts\IntegrationsRegistry as IntegrationsRegistryContract;
+use Bddy\Integrations\Models\Integration;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
@@ -76,7 +77,7 @@ class IntegrationsServiceProvider extends ServiceProvider
 
 	    // Register model
 	    $integrationModel = config('integrations.integrationModel') ?: Integration::class;
-	    $this->app->bind(Integration::class, $integrationModel);
+	    $this->app->bind(IntegrationContract::class, $integrationModel);
 
 	    // Commands
 	    if ($this->app->runningInConsole()) {
