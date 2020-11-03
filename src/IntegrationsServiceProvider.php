@@ -15,7 +15,6 @@ use Bddy\Integrations\Console\Commands\JobMakeCommand;
 use Bddy\Integrations\Console\Commands\ListenerMakeCommand;
 use Bddy\Integrations\Console\Commands\MailMakeCommand;
 use Bddy\Integrations\Console\Commands\MiddlewareMakeCommand;
-use Bddy\Integrations\Console\Commands\MigrationMakeCommand;
 use Bddy\Integrations\Console\Commands\ModelMakeCommand;
 use Bddy\Integrations\Console\Commands\NotificationMakeCommand;
 use Bddy\Integrations\Console\Commands\ObserverMakeCommand;
@@ -25,8 +24,7 @@ use Bddy\Integrations\Console\Commands\RequestMakeCommand;
 use Bddy\Integrations\Console\Commands\ResourceMakeCommand;
 use Bddy\Integrations\Console\Commands\RuleMakeCommand;
 use Bddy\Integrations\Contracts\Integration;
-use Bddy\Integrations\Contracts\IntegrationsRegistry as IntegrationsManagerContract;
-use Bddy\Integrations\Models\Integration;
+use Bddy\Integrations\Contracts\IntegrationsRegistry as IntegrationsRegistryContract;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
@@ -42,10 +40,10 @@ class IntegrationsServiceProvider extends ServiceProvider
     public function register()
     {
     	// Register bindings
-	    $this->app->singleton(IntegrationsManagerContract::class, IntegrationsRegistry::class);
+	    $this->app->singleton(IntegrationsRegistryContract::class, IntegrationsRegistry::class);
 
 	    $this->app->bind('integrations', function (Application $app) {
-		    return $app->make(IntegrationsManagerContract::class);
+		    return $app->make(IntegrationsRegistryContract::class);
 	    });
 
 	    // Merge config
