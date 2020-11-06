@@ -27,6 +27,15 @@ interface HasIntegrations
 	public function hasIntegration(IntegrationManager $integrationManager);
 
 	/**
+	 * Check if model already has an active integration
+	 *
+	 * @param IntegrationManager $integrationManager
+	 *
+	 * @return bool
+	 */
+	public function hasActiveIntegration(IntegrationManager $integrationManager);
+
+	/**
 	 * @param IntegrationManager $integrationManager
 	 *
 	 * @return Model|Integration

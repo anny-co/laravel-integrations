@@ -39,6 +39,21 @@ trait HasIntegrations
 	}
 
 	/**
+	 * Check if model already has an active integration
+	 *
+	 * @param  $integrationManager
+	 *
+	 * @return bool
+	 */
+	public function hasActiveIntegration(IntegrationManager $integrationManager)
+	{
+		return $this->integrations()
+				->where('key', $integrationManager::getIntegrationKey())
+				->where('active', '=', true)
+				->count() > 0;
+	}
+
+	/**
 	 * @param  $integrationManager
 	 *
 	 * @return Model|IntegrationContract
