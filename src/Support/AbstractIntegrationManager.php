@@ -150,10 +150,14 @@ abstract class AbstractIntegrationManager implements IntegrationManager
 
 		$this->integration->error = $errorMessage;
 		$this->integration->error_details = [
-			'error' => $exception,
-			'trace' => $exception->getTrace(),
-			'message' => $exception->getMessage()
+			'class' => get_class($exception),
+			'line' => $exception->getLine(),
+			'message' => $exception->getMessage(),
+			'code' => $exception->getCode(),
+			'file' =>  $exception->getFile(),
+			'trace' => $exception->getTraceAsString(),
 		];
+
 		if ($this->saveChanges) {
 			$this->integration->save();
 		}
