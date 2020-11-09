@@ -71,7 +71,8 @@ class IntegrationsServiceProvider extends ServiceProvider
 
 		    // Publish migrations
 		    $this->publishes([
-			    __DIR__.'/../database/migrations/create_integrations_table.php' => $this->getMigrationFileName($filesystem)
+			    __DIR__.'/../database/migrations/create_integrations_table.php' => $this->getMigrationFileName('create_integrations_table.php', $filesystem),
+			    __DIR__.'/../database/migrations/create_failed_integration_jobs_table.php' => $this->getMigrationFileName('create_failed_integration_jobs_table.php', $filesystem)
 		    ], 'migrations');
 	    }
 
@@ -112,17 +113,20 @@ class IntegrationsServiceProvider extends ServiceProvider
 	 *
 	 * Copied from
 	 * @see https://github.com/spatie/laravel-permission/blob/master/src/PermissionServiceProvider.php
+	 *
+	 * @param string     $filename
 	 * @param Filesystem $filesystem
+	 *
 	 * @return string
 	 */
-	protected function getMigrationFileName(Filesystem $filesystem): string
+	protected function getMigrationFileName(string $filename, Filesystem $filesystem): string
 	{
 		$timestamp = date('Y_m_d_His');
 
 		return Collection::make($this->app->databasePath().DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR)
-			->flatMap(function ($path) use ($filesystem) {
-				return $filesystem->glob($path.'*_create_integrations_tables.php');
-			})->push($this->app->databasePath()."/migrations/{$timestamp}_create_integrations_tables.php")
+			->flatMap(function ($path) use ($filename, $filesystem) {
+				return $filesystem->glob($path.'*_'.$filename);
+			})->push($this->app->databasePath()."/migrations/{$timestamp}_{$filename}")
 			->first();
 	}
 }

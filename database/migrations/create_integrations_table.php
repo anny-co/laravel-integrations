@@ -22,12 +22,6 @@ class CreateIntegrationsTable extends Migration
 		    $table->string('version')->default('v1.0');
 		    $table->boolean('active')->default(false);
 		    $table->json('settings');
-		    $table->boolean('authentication_required')->default(false);
-		    $table->enum('authentication_type', [
-			    'none',
-			    'oauth2',
-			    'access_token',
-		    ])->default('none');
 		    $table->softDeletes();
 		    $table->timestamps();
 	    });
