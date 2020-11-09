@@ -19,6 +19,14 @@ class Integration extends Model implements IntegrationContract
 	];
 
 	/**
+	 * Hide error details from user.
+	 * @var string[]
+	 */
+	protected $hidden = [
+		'error_details'
+	];
+
+	/**
 	 * Relation to integratable model
 	 * @return \Illuminate\Database\Eloquent\Relations\MorphTo
 	 */

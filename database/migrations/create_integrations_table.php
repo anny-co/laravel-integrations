@@ -22,6 +22,8 @@ class CreateIntegrationsTable extends Migration
 		    $table->string('version')->default('v1.0');
 		    $table->boolean('active')->default(false);
 		    $table->json('settings');
+		    $table->text('error')->nullable();
+		    $table->json('error_details')->nullable();
 		    $table->softDeletes();
 		    $table->timestamps();
 	    });

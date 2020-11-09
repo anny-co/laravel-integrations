@@ -25,6 +25,14 @@ trait IsIntegrationModel
 	];
 
 	/**
+	 * Hide error details from user.
+	 * @var string[]
+	 */
+	protected $hidden = [
+		'error_details'
+	];
+
+	/**
 	 * Get key of a integration
 	 *
 	 * @return mixed

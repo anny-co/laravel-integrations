@@ -6,9 +6,16 @@ use Bddy\Integrations\Contracts\HasIntegrations;
 use Bddy\Integrations\Contracts\IntegrationManager;
 use Bddy\Integrations\Contracts\Integration;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 abstract class AbstractIntegrationManager implements IntegrationManager
 {
+
+	/**
+	 * Flag if changed settings should directly be saved.
+	 * @var bool
+	 */
+	protected bool $saveChanges = true;
 
 	/**
 	 * Key of integration.
@@ -129,4 +136,50 @@ abstract class AbstractIntegrationManager implements IntegrationManager
 		return $attributes;
 	}
 
+	/**
+	 * @param string        $errorMessage
+	 * @param \Throwable    $exception
+	 * @param boolean|false $force
+	 */
+	public function saveError(string $errorMessage, \Throwable $exception, bool $force = false)
+	{
+		// Check if there is already an error
+		if(!$force && $this->hasError()){
+			return;
+		}
+
+		$this->integration->error = $errorMessage;
+		$this->integration->error_details = [
+			'error' => $exception,
+			'trace' => $exception->getTrace(),
+			'message' => $exception->getMessage()
+		];
+		if ($this->saveChanges) {
+			$this->integration->save();
+		}
+	}
+
+
+	/**
+	 * Check if integration has an error.
+	 *
+	 * @return bool
+	 */
+	public function hasError()
+	{
+		return isset($this->error);
+	}
+
+	/**
+	 * Remove error from integration
+	 */
+	public function removeError()
+	{
+		$this->integration->error = null;
+		$this->integration->error_details = null;
+
+		if ($this->saveChanges) {
+			$this->integration->save();
+		}
+	}
 }
