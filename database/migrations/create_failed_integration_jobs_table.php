@@ -15,7 +15,8 @@ class CreateFailedIntegrationJobsTable extends Migration
     {
         Schema::create('failed_integration_jobs', function (Blueprint $table) {
             $table->bigIncrements('id');
-	        $table->text('human_friendly_name');
+            $table->uuid('uuid')->unique();
+	        $table->text('display_name');
 	        $table->uuid('integration_uuid');
             $table->text('connection');
             $table->text('queue');

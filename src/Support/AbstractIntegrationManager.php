@@ -3,10 +3,11 @@
 namespace Bddy\Integrations\Support;
 
 use Bddy\Integrations\Contracts\HasIntegrations;
-use Bddy\Integrations\Contracts\IntegrationManager;
 use Bddy\Integrations\Contracts\Integration;
+use Bddy\Integrations\Contracts\IntegrationManager;
+use Bddy\Integrations\Failed\DatabaseFailedIntegrationJobsProvider;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 abstract class AbstractIntegrationManager implements IntegrationManager
 {
@@ -185,5 +186,68 @@ abstract class AbstractIntegrationManager implements IntegrationManager
 		if ($this->saveChanges) {
 			$this->integration->save();
 		}
+	}
+
+	/**
+	 * @param            $job
+	 * @param \Throwable $exception
+	 * @param string     $key
+	 * @param string     $displayName
+	 * @param string     $explanation
+	 *
+	 * @see \Illuminate\Queue\Failed\DatabaseUuidFailedJobProvider
+	 */
+	public function saveFailure($job, \Throwable $exception, string $key, string $displayName, string $explanation = '')
+	{
+		// @see Illuminate\Queue\Queue@createObjectPayload
+		// Create payload
+		$payload = $this->createPayload($job, $key, $displayName, $explanation);
+
+		$this->createFailedIntegrationProvider()->log(
+			$job->connection,
+			$job->queue,
+			json_encode($payload),
+			$exception
+		);
+	}
+
+	/**
+	 * @param        $job
+	 * @param string $key
+	 * @param string $displayName
+	 * @param string $explanation
+	 *
+	 * @return array
+	 */
+	public function createPayload($job, string $key, string $displayName, string $explanation = '')
+	{
+		$displayFailureText = "[$key] $displayName";
+		if($explanation !== ''){
+			$displayFailureText .= ": $explanation";
+		}
+
+		return [
+			'uuid' => (string) Str::uuid(),
+			'displayName' => $displayFailureText,
+			'data' => [
+				'commandName' => get_class($job),
+				'command' => serialize(clone $job),
+			],
+		];
+	}
+
+	/**
+	 * Create a failed job handler for current integration.
+	 *
+	 * @return DatabaseFailedIntegrationJobsProvider
+	 */
+	public function createFailedIntegrationProvider()
+	{
+		return new DatabaseFailedIntegrationJobsProvider(
+			app('db'),
+			env('DB_CONNECTION', 'mysql'),
+			'failed_integration_jobs',
+			$this->integration
+		);
 	}
 }
