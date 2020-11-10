@@ -222,10 +222,24 @@ abstract class AbstractIntegrationManager implements IntegrationManager
 			->map(function ($record){
 				return (object) [
 					'uuid' => $record->uuid,
-					'display_name' => $record->display_name
+					'display_name' => $record->display_name,
+					'integration_uuid' => $record->integration_uuid,
+					'failed_at' => $record->failed_at
 				];
 			})
 			->all();
+	}
+
+	/**
+	 * Find a failure.
+	 *
+	 * @param string $uuid
+	 *
+	 * @return object|null
+	 */
+	public function findFailure(string $uuid)
+	{
+		return $this->createFailedIntegrationProvider()->find($uuid);
 	}
 
 	/**
@@ -246,7 +260,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager
 		dispatch($job)->onConnection($record->connection)->onQueue($record->queue);
 
 		//
-//		$this->forgetFailure($uuid);
+		$this->forgetFailure($uuid);
 	}
 
 	/**
