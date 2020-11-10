@@ -212,6 +212,66 @@ abstract class AbstractIntegrationManager implements IntegrationManager
 	}
 
 	/**
+	 * List all failures
+	 *
+	 * @return array
+	 */
+	public function listFailures()
+	{
+		return collect($this->createFailedIntegrationProvider()->all())
+			->map(function ($record){
+				return (object) [
+					'uuid' => $record->uuid,
+					'display_name' => $record->display_name
+				];
+			})
+			->all();
+	}
+
+	/**
+	 * Send a failure back on the queue.
+	 *
+	 * @param string $uuid
+	 */
+	public function retryFailure(string $uuid)
+	{
+		$record = $this->createFailedIntegrationProvider()->find($uuid);
+
+		if(!$record){
+			return;
+		}
+
+		$payload = json_decode($record->payload, true);
+		$job = unserialize($payload['data']['command']);
+		dispatch($job)->onConnection($record->connection)->onQueue($record->queue);
+
+		//
+//		$this->forgetFailure($uuid);
+	}
+
+	/**
+	 * Forget a specific failure.
+	 *
+	 * @param string $uuid
+	 *
+	 * @return bool
+	 */
+	public function forgetFailure(string $uuid)
+	{
+		return $this->createFailedIntegrationProvider()->forget($uuid);
+	}
+
+	/**
+	 * Delete all failures.
+	 *
+	 * @return void
+	 */
+	public function flushFailures()
+	{
+		$this->createFailedIntegrationProvider()->flush();
+	}
+
+	/**
 	 * @param        $job
 	 * @param string $key
 	 * @param string $displayName

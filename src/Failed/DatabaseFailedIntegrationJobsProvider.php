@@ -98,7 +98,6 @@ class DatabaseFailedIntegrationJobsProvider implements FailedJobProviderInterfac
 			->get()
 			->map(function ($record) {
 				$record->id = $record->uuid;
-				unset($record->uuid);
 
 				return $record;
 			})->all();
