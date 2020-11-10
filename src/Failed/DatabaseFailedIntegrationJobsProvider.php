@@ -7,6 +7,7 @@ use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\Failed\FailedJobProviderInterface;
 use Illuminate\Support\Facades\Date;
+use Mockery\Exception;
 
 class DatabaseFailedIntegrationJobsProvider implements FailedJobProviderInterface
 {
@@ -65,6 +66,11 @@ class DatabaseFailedIntegrationJobsProvider implements FailedJobProviderInterfac
 	public function log($connection, $queue, $payload, $exception)
 	{
 		$payloadDecoded = json_decode($payload, true);
+
+		if(is_null($queue)){
+			$queue = '';
+		}
+
 		$this->getTable()->insert([
 			'uuid' => $uuid = $payloadDecoded['uuid'],
 			'display_name' => $payloadDecoded['displayName'],
