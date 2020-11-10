@@ -71,6 +71,10 @@ class DatabaseFailedIntegrationJobsProvider implements FailedJobProviderInterfac
 			$queue = '';
 		}
 
+		if(is_null($connection)){
+			$connection = '';
+		}
+
 		$this->getTable()->insert([
 			'uuid' => $uuid = $payloadDecoded['uuid'],
 			'display_name' => $payloadDecoded['displayName'],
