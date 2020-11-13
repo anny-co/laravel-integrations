@@ -26,6 +26,7 @@ use Bddy\Integrations\Console\Commands\RuleMakeCommand;
 use Bddy\Integrations\Contracts\Integration as IntegrationContract;
 use Bddy\Integrations\Contracts\IntegrationsRegistry as IntegrationsRegistryContract;
 use Bddy\Integrations\Models\Integration;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Collection;
@@ -79,6 +80,10 @@ class IntegrationsServiceProvider extends ServiceProvider
 	    // Register model
 	    $integrationModel = config('integrations.integrationModel') ?: Integration::class;
 	    $this->app->bind(IntegrationContract::class, $integrationModel);
+
+	    Relation::morphMap([
+	    	'integrations' => config('integrations.integrationModel')
+	    ], true);
 
 	    // Commands
 	    if ($this->app->runningInConsole()) {
