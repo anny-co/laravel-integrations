@@ -79,7 +79,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager
 	 *
 	 * @return mixed
 	 */
-	public function setting($key, $default = null): mixed {
+	public function setting($key, $default = null) {
 		// Return all settings
 		if(is_null($key)){
 			return $this->integration->settings;
@@ -88,9 +88,12 @@ abstract class AbstractIntegrationManager implements IntegrationManager
 		// Set values
 		if(is_array($key)){
 			// Set each key
+			$settings = $this->integration->settings;
 			foreach ($key as $keyString){
-				Arr::set($this->integration->settings, $keyString, $default);
+				Arr::set($settings, $keyString, $default);
 			}
+			$this->integration->settings = $settings;
+			return $default;
 		}
 
 		// Return specific setting

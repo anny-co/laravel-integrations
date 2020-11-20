@@ -46,7 +46,7 @@ interface IntegrationManager
 	 *
 	 * @return mixed
 	 */
-	public function setting($key, $default = null): mixed;
+	public function setting($key, $default = null);
 
 
 	/**
