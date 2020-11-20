@@ -36,6 +36,20 @@ interface IntegrationManager
 	public function getDefaultSettings(): array;
 
 	/**
+	 * Get specific setting of integration. It will retrieve a default setting when setting is not found and default is null.+
+	 * If setting is not found and default is not null it will return default.
+	 *
+	 * If an array is passed as the key, we will assume you want to set an array of values.
+	 *
+	 * @param array|string|null $key
+	 * @param mixed|null $default
+	 *
+	 * @return mixed
+	 */
+	public function setting($key, $default = null): mixed;
+
+
+	/**
 	 * Return definitions of integration.
 	 *
 	 * @return array

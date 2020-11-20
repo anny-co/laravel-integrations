@@ -7,6 +7,7 @@ use Bddy\Integrations\Contracts\Integration;
 use Bddy\Integrations\Contracts\IntegrationManager;
 use Bddy\Integrations\Failed\DatabaseFailedIntegrationJobsProvider;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 abstract class AbstractIntegrationManager implements IntegrationManager
@@ -42,6 +43,22 @@ abstract class AbstractIntegrationManager implements IntegrationManager
 	}
 
 	/**
+	 * Set the model for which the next actions should be taken.
+	 *
+	 * @param Model|Integration|null $integration
+	 *
+	 * @return mixed
+	 */
+	public function for(?Integration $integration = null){
+		if($integration){
+			$this->integration = $integration;
+		}
+
+		return $this;
+	}
+
+
+	/**
 	 * Return integration key.
 	 *
 	 * @return string
@@ -49,6 +66,41 @@ abstract class AbstractIntegrationManager implements IntegrationManager
 	public static function getIntegrationKey(): string
 	{
 		return static::$integrationKey;
+	}
+
+	/**
+	 * Get specific setting of integration. It will retrieve a default setting when setting is not found and default is null.+
+	 * If setting is not found and default is not null it will return default.
+	 *
+	 * If an array is passed as the key, we will assume you want to set an array of values.
+	 *
+	 * @param array|string|null $key
+	 * @param mixed|null $default
+	 *
+	 * @return mixed
+	 */
+	public function setting($key, $default = null): mixed {
+		// Return all settings
+		if(is_null($key)){
+			return $this->integration->settings;
+		}
+
+		// Set values
+		if(is_array($key)){
+			// Set each key
+			foreach ($key as $keyString){
+				Arr::set($this->integration->settings, $keyString, $default);
+			}
+		}
+
+		// Return specific setting
+		$value = Arr::get($this->integration->settings, $key, $default);
+		if(!$value){
+			// Return default from default settings
+			return Arr::get($this->getDefaultSettings(), $key, $default);
+		}
+
+		return $value;
 	}
 
 	/**
@@ -66,21 +118,6 @@ abstract class AbstractIntegrationManager implements IntegrationManager
 			->where('model_id', '=', $model->getKey())
 			->where('key', '=', static::getIntegrationKey())
 			->first();
-	}
-
-	/**
-	 * Set the model for which the next actions should be taken.
-	 *
-	 * @param Model|Integration|null $integration
-	 *
-	 * @return mixed
-	 */
-	public function for(?Integration $integration = null){
-		if($integration){
-			$this->integration = $integration;
-		}
-
-		return $this;
 	}
 
 	/**
