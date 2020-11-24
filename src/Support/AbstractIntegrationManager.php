@@ -117,7 +117,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager
 	{
 		return $model
 			->integrations()
-			->where('model_type', '=', get_class($model))
+			->where('model_type', '=', $model->getMorphClass())
 			->where('model_id', '=', $model->getKey())
 			->where('key', '=', static::getIntegrationKey())
 			->first();
