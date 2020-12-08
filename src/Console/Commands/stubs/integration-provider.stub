@@ -25,6 +25,6 @@ class {{ class }} extends ServiceProvider
 	 */
 	public function boot()
 	{
-        //
+        // Register events and pipelines
 	}
 }

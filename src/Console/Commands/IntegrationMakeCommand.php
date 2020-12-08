@@ -62,7 +62,7 @@ class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
 	 */
 	protected function getStub()
 	{
-		return $this->resolveStubPath('/stubs/integration.stub');
+		return $this->resolveStubPath('/stubs/integration-manager.stub');
 	}
 
 	/**

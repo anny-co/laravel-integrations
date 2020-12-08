@@ -1,0 +1,56 @@
+<?php
+
+
+namespace {{ namespace }};
+
+
+use Bddy\Integrations\Support\AbstractIntegrationManager;
+
+class {{ class }} extends AbstractIntegrationManager
+{
+
+    protected static string $integrationKey = '';
+
+    /**
+     * Override default rules.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [];
+    }
+
+    /**
+     * Get rules for settings.
+     *
+     * @return string[]
+     */
+    public function settingRules()
+    {
+        return [];
+    }
+
+    /**
+     * Return default settings.
+     *
+     * @return array
+     */
+    public function getDefaultSettings(): array
+    {
+        return [];
+    }
+
+    /**
+     * @return array
+     */
+    public function getDefinitions(): array
+    {
+        return [
+            'title' => '',
+            'key' => self::getIntegrationKey(),
+            'logo_url' => '',
+            'description' => '',
+        ];
+    }
+}
