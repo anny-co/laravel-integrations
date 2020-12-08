@@ -37,7 +37,7 @@ trait IsIntegrationModel
 	 *
 	 * @return mixed
 	 */
-	protected function getIntegrationKey()
+	public function getIntegrationKey()
 	{
 		return $this->getAttribute($this->integrationKeyKey);
 	}
