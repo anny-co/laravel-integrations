@@ -2,6 +2,8 @@
 
 namespace Bddy\Integrations\Support;
 
+use Bddy\Integrations\Contracts\HasErrors;
+use Bddy\Integrations\Contracts\HasFailures;
 use Bddy\Integrations\Contracts\HasIntegrations;
 use Bddy\Integrations\Contracts\Integration;
 use Bddy\Integrations\Contracts\IntegrationManager;
@@ -10,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-abstract class AbstractIntegrationManager implements IntegrationManager
+abstract class AbstractIntegrationManager implements IntegrationManager, HasErrors, HasFailures
 {
 
 	/**
@@ -210,7 +212,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager
 	 *
 	 * @return bool
 	 */
-	public function hasError()
+	public function hasError(): bool
 	{
 		return isset($this->error);
 	}
@@ -256,7 +258,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager
 	 *
 	 * @return array
 	 */
-	public function listFailures()
+	public function listFailures(): array
 	{
 		return collect($this->createFailedIntegrationProvider()->all())
 			->map(function ($record){
@@ -277,7 +279,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager
 	 *
 	 * @return object|null
 	 */
-	public function findFailure(string $uuid)
+	public function findFailure(string $uuid): ?object
 	{
 		return $this->createFailedIntegrationProvider()->find($uuid);
 	}
@@ -310,7 +312,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager
 	 *
 	 * @return bool
 	 */
-	public function forgetFailure(string $uuid)
+	public function forgetFailure(string $uuid): bool
 	{
 		return $this->createFailedIntegrationProvider()->forget($uuid);
 	}
