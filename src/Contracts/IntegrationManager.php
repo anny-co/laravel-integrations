@@ -3,6 +3,7 @@
 
 namespace Bddy\Integrations\Contracts;
 
+use Bddy\Integrations\Models\IntegrationManifest;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -53,8 +54,14 @@ interface IntegrationManager
 	 * Return definitions of integration.
 	 *
 	 * @return array
+     * @deprecated use getManifest instead
 	 */
 	public function getDefinitions(): array;
+
+    /**
+     * @return IntegrationManifest
+     */
+	public function getManifest(): IntegrationManifest;
 
 	/**
 	 * Override default rules.

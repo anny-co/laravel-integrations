@@ -3,7 +3,7 @@
 
 namespace {{ namespace }};
 
-
+use Bddy\Integrations\Models\IntegrationManifest;
 use Bddy\Integrations\Support\AbstractIntegrationManager;
 
 class {{ class }} extends AbstractIntegrationManager
@@ -41,16 +41,15 @@ class {{ class }} extends AbstractIntegrationManager
         return [];
     }
 
+
     /**
-     * @return array
+     * @return IntegrationManifest
      */
-    public function getDefinitions(): array
+    public function getManifest(): IntegrationManifest
     {
-        return [
-            'title' => '',
-            'key' => self::getIntegrationKey(),
-            'logo_url' => '',
-            'description' => '',
-        ];
+        return new {{ class }}Manifest(
+            '{{ class }}',
+            self::getIntegrationKey(),
+        );
     }
 }

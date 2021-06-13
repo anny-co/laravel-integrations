@@ -10,6 +10,7 @@ use Bddy\Integrations\Console\Commands\ControllerMakeCommand;
 use Bddy\Integrations\Console\Commands\EventMakeCommand;
 use Bddy\Integrations\Console\Commands\ExceptionMakeCommand;
 use Bddy\Integrations\Console\Commands\IntegrationMakeCommand;
+use Bddy\Integrations\Console\Commands\IntegrationManifestMakeCommand;
 use Bddy\Integrations\Console\Commands\IntegrationServiceProviderMakeCommand;
 use Bddy\Integrations\Console\Commands\JobMakeCommand;
 use Bddy\Integrations\Console\Commands\ListenerMakeCommand;
@@ -91,6 +92,7 @@ class IntegrationsServiceProvider extends ServiceProvider
 		    	ActionMakeCommand::class,
 			    IntegrationMakeCommand::class,
 			    IntegrationServiceProviderMakeCommand::class,
+			    IntegrationManifestMakeCommand::class,
 			    CastMakeCommand::class,
 			    ChannelMakeCommand::class,
 			    CommandMakeCommand::class,

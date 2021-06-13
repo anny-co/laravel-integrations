@@ -3,9 +3,7 @@
 
 namespace Bddy\Integrations\Console\Commands;
 
-use Illuminate\Support\Str;
-
-class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
+class IntegrationManifestMakeCommand extends \Illuminate\Console\GeneratorCommand
 {
 
 	/**
@@ -13,21 +11,21 @@ class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
 	 *
 	 * @var string
 	 */
-	protected $name = 'make:integration';
+	protected $name = 'make:integration:manifest';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Create a new Integration.';
+	protected $description = 'Create a new integration manifest.';
 
 	/**
 	 * The type of class being generated.
 	 *
 	 * @var string
 	 */
-	protected $type = 'Integration';
+	protected $type = 'IntegrationManifest';
 
 	/**
 	 * @return bool|null
@@ -38,25 +36,6 @@ class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
 		if (parent::handle() === false) {
 			return false;
 		}
-
-		$this->createServiceProvider();
-	}
-
-	/**
-	 * Create a service provider for the integration.
-	 * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-	 */
-	protected function createServiceProvider()
-	{
-		$provider = Str::studly($this->argument('name'));
-
-		$this->call('make:integration:provider', [
-			'name' => "{$provider}ServiceProvider",
-		]);
-
-        $this->call('make:integration:manifest', [
-            'name' => "{$provider}Manifest",
-        ]);
 	}
 
 	/**
@@ -66,7 +45,7 @@ class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
 	 */
 	protected function getStub()
 	{
-		return $this->resolveStubPath('/stubs/integration-manager.stub');
+		return $this->resolveStubPath('/stubs/integration-manifest.stub');
 	}
 
 	/**
@@ -90,7 +69,8 @@ class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
 	 */
 	protected function getDefaultNamespace($rootNamespace)
 	{
-		$integrationNamespace = \Illuminate\Support\Str::studly($this->argument('name'));
+		$integrationNamespace =  \Illuminate\Support\Str::studly($this->argument('name'));
+		$integrationNamespace = str_replace('ServiceProvider', '', $integrationNamespace);
 
 		return $rootNamespace.'\\Integrations\\'.$integrationNamespace;
 	}
