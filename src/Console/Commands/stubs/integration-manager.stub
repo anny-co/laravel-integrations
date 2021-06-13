@@ -3,7 +3,7 @@
 
 namespace {{ namespace }};
 
-use Bddy\Integrations\Models\IntegrationManifest;
+use Bddy\Integrations\Support\IntegrationManifest;
 use Bddy\Integrations\Support\AbstractIntegrationManager;
 
 class {{ class }} extends AbstractIntegrationManager
