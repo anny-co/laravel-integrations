@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Bddy\Integrations\Models;
+namespace Bddy\Integrations\Support;
 
 
 use JetBrains\PhpStorm\ArrayShape;
