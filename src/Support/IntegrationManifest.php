@@ -4,8 +4,6 @@
 namespace Bddy\Integrations\Support;
 
 
-use JetBrains\PhpStorm\ArrayShape;
-
 abstract class IntegrationManifest
 {
     public function __construct(
@@ -20,13 +18,14 @@ abstract class IntegrationManifest
     /**
      * @return array
      */
-    #[ArrayShape(['title' => "string", 'key' => "string", 'logoUrl' => "string", 'description' => "string"])] public function getBasicManifest(): array
+    public function getBasicManifest(): array
     {
         return [
-            'title' => $this->title,
-            'key' => $this->key,
-            'logoUrl' => $this->logoUrl,
-            'description' => $this->description
+            'title' => $this->getTitle(),
+            'key' => $this->getKey(),
+            'available' => $this->isAvailable(),
+            'logoUrl' => $this->getLogoUrl(),
+            'description' => $this->getDescription()
         ];
     }
 
