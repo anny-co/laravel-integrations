@@ -3,7 +3,7 @@
 
 namespace Bddy\Integrations\Contracts;
 
-use Bddy\Integrations\Models\IntegrationManifest;
+use Bddy\Integrations\Support\IntegrationManifest;
 use Illuminate\Database\Eloquent\Model;
 
 /**
