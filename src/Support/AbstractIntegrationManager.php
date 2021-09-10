@@ -8,12 +8,14 @@ use Bddy\Integrations\Contracts\HasIntegrations;
 use Bddy\Integrations\Contracts\IntegrationModel;
 use Bddy\Integrations\Contracts\IntegrationManager;
 use Bddy\Integrations\Failed\DatabaseFailedIntegrationJobsProvider;
+use Bddy\Integrations\Traits\HasManifest;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 abstract class AbstractIntegrationManager implements IntegrationManager, HasErrors, HasFailures
 {
+    use HasManifest;
 
 	/**
 	 * Flag if changed settings should directly be saved.
@@ -37,7 +39,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager, HasErro
 	 *
 	 * @return IntegrationManager
 	 */
-	public static function get()
+	public static function get(): static
 	{
 		return integrations()->getIntegrationManager(
 			static::getIntegrationKey()
@@ -82,7 +84,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager, HasErro
 	 *
 	 * @return mixed
 	 */
-	public function setting($key, $default = null)
+	public function setting(array|string|null $key, mixed $default = null): mixed
     {
 		// Return all settings
 		if(is_null($key)){
@@ -117,7 +119,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager, HasErro
 	 *
 	 * @return Model|IntegrationModel|null
 	 */
-	public function retrieveModelFrom(Model|HasIntegrations $model)
+	public function retrieveModelFrom(HasIntegrations $model): Model|IntegrationModel|null
 	{
 		return $model
 			->integrations()
@@ -181,6 +183,20 @@ abstract class AbstractIntegrationManager implements IntegrationManager, HasErro
 		return $attributes;
 	}
 
+    /**
+     * Get connected manifest.
+     *
+     * @return IntegrationManifest
+     */
+    public function getManifest(): IntegrationManifest
+    {
+        /** @var IntegrationManifest $manifest */
+        $manifest = new ($this->getManifestClass());
+
+        return $manifest->setKey(
+            self::getIntegrationKey()
+        );
+    }
 
     /*
      * The next functions handle error management.

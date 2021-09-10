@@ -6,14 +6,31 @@ namespace Bddy\Integrations\Support;
 
 abstract class IntegrationManifest
 {
-    public function __construct(
-        protected string $title,
-        protected string $key,
-        protected bool $available = true,
-        protected string $logoUrl = '',
-        protected string $description = '')
-    {
-    }
+    /**
+     * @var string
+     */
+    protected string $title;
+
+    /**
+     * @var string
+     */
+    protected string $key;
+
+    /**
+     * @var bool
+     */
+    protected bool $available = true;
+
+    /**
+     * @var string
+     */
+    protected string $logoUrl = '';
+
+    /**
+     * @var string
+     */
+    protected string $description = '';
+
 
     /**
      * @return array
