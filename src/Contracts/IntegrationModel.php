@@ -4,7 +4,7 @@
 namespace Bddy\Integrations\Contracts;
 
 
-interface Integration
+interface IntegrationModel
 {
 
 	/**
@@ -12,19 +12,19 @@ interface Integration
 	 *
 	 * @return mixed
 	 */
-	public function activateIntegration();
+	public function activateIntegration(): static;
 
 	/**
 	 * Deactivate a specific integration model.
 	 *
 	 * @return mixed
 	 */
-	public function deactivateIntegration();
+	public function deactivateIntegration(): static;
 
 	/**
 	 * Initialize a specific integration model.
 	 *
 	 * @return mixed
 	 */
-	public function initializeIntegration();
+	public function initializeIntegration(): static;
 }

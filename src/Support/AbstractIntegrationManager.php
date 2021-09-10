@@ -5,7 +5,7 @@ namespace Bddy\Integrations\Support;
 use Bddy\Integrations\Contracts\HasErrors;
 use Bddy\Integrations\Contracts\HasFailures;
 use Bddy\Integrations\Contracts\HasIntegrations;
-use Bddy\Integrations\Contracts\Integration;
+use Bddy\Integrations\Contracts\IntegrationModel;
 use Bddy\Integrations\Contracts\IntegrationManager;
 use Bddy\Integrations\Failed\DatabaseFailedIntegrationJobsProvider;
 use Illuminate\Database\Eloquent\Model;
@@ -28,7 +28,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager, HasErro
 
 	/**
 	 * Current integration model.
-	 * @var null|Model|Integration
+	 * @var null|Model|IntegrationModel
 	 */
 	protected $integration = null;
 
@@ -47,11 +47,12 @@ abstract class AbstractIntegrationManager implements IntegrationManager, HasErro
 	/**
 	 * Set the model for which the next actions should be taken.
 	 *
-	 * @param Model|Integration|null $integration
+	 * @param Model|IntegrationModel|null $integration
 	 *
-	 * @return mixed
+	 * @return static
 	 */
-	public function for(?Integration $integration = null){
+	public function for(?IntegrationModel $integration = null): static
+    {
 		if($integration){
 			$this->integration = $integration;
 		}
@@ -71,7 +72,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager, HasErro
 	}
 
 	/**
-	 * Get specific setting of integration. It will retrieve a default setting when setting is not found and default is null.+
+	 * Get specific setting of integration. It will retrieve a default setting when setting is not found and default is null.
 	 * If setting is not found and default is not null it will return default.
 	 *
 	 * If an array is passed as the key, we will assume you want to set an array of values.
@@ -81,7 +82,8 @@ abstract class AbstractIntegrationManager implements IntegrationManager, HasErro
 	 *
 	 * @return mixed
 	 */
-	public function setting($key, $default = null) {
+	public function setting($key, $default = null)
+    {
 		// Return all settings
 		if(is_null($key)){
 			return $this->integration->settings;
@@ -109,13 +111,13 @@ abstract class AbstractIntegrationManager implements IntegrationManager, HasErro
 	}
 
 	/**
-	 * Retrieve integration model from related model.
+	 * Retrieve integration model from related model which owns the integration.
 	 *
 	 * @param Model|HasIntegrations $model
 	 *
-	 * @return Model|Integration|null
+	 * @return Model|IntegrationModel|null
 	 */
-	public function retrieveModelFrom(HasIntegrations $model)
+	public function retrieveModelFrom(Model|HasIntegrations $model)
 	{
 		return $model
 			->integrations()
@@ -128,11 +130,11 @@ abstract class AbstractIntegrationManager implements IntegrationManager, HasErro
 	/**
 	 * Activate a specific integration model.
 	 *
-	 * @param Model|Integration|null $integration
+	 * @param Model|IntegrationModel|null $integration
 	 *
 	 * @return mixed
 	 */
-	public function activate(?Integration $integration){
+	public function activate(?IntegrationModel $integration){
 		$this->for($integration);
 		$integration->active = true;
 		return $integration->save();
@@ -142,11 +144,11 @@ abstract class AbstractIntegrationManager implements IntegrationManager, HasErro
 	/**
 	 * Deactivate a specific integration model.
 	 *
-	 * @param Model|Integration|null $integration
+	 * @param Model|IntegrationModel|null $integration
 	 *
 	 * @return mixed
 	 */
-	public function deactivate(?Integration $integration){
+	public function deactivate(?IntegrationModel $integration){
 		$this->for($integration);
 		$integration->active = false;
 		return $integration->save();
@@ -155,11 +157,11 @@ abstract class AbstractIntegrationManager implements IntegrationManager, HasErro
 	/**
 	 * Initialize a specific integration model.
 	 *
-	 * @param Model|Integration|null $integration
+	 * @param Model|IntegrationModel|null $integration
 	 *
 	 * @return mixed
 	 */
-	public function initialize(?Integration $integration){
+	public function initialize(?IntegrationModel $integration){
 		$this->for($integration);
 
 		return $this;
@@ -168,16 +170,21 @@ abstract class AbstractIntegrationManager implements IntegrationManager, HasErro
 	/**
 	 * Updating a specific integration model.
 	 *
-	 * @param Model|Integration|null $integration
-	 * @param array                  $attributes
+	 * @param Model|IntegrationModel|null $integration
+	 * @param array                       $attributes
 	 *
 	 * @return mixed
 	 */
-	public function updating(?Integration $integration, array $attributes) {
+	public function updating(?IntegrationModel $integration, array $attributes) {
 		$this->for($integration);
 
 		return $attributes;
 	}
+
+
+    /*
+     * The next functions handle error management.
+     */
 
 	/**
 	 * @param string        $errorMessage
@@ -205,7 +212,6 @@ abstract class AbstractIntegrationManager implements IntegrationManager, HasErro
 			$this->integration->save();
 		}
 	}
-
 
 	/**
 	 * Check if integration has an error.
@@ -335,8 +341,8 @@ abstract class AbstractIntegrationManager implements IntegrationManager, HasErro
 	 *
 	 * @return array
 	 */
-	public function createPayload($job, string $key, string $displayName, string $explanation = '')
-	{
+	public function createPayload($job, string $key, string $displayName, string $explanation = ''): array
+    {
 		$displayFailureText = "[$key] $displayName";
 		if($explanation !== ''){
 			$displayFailureText .= ": $explanation";
@@ -357,8 +363,8 @@ abstract class AbstractIntegrationManager implements IntegrationManager, HasErro
 	 *
 	 * @return DatabaseFailedIntegrationJobsProvider
 	 */
-	public function createFailedIntegrationProvider()
-	{
+	public function createFailedIntegrationProvider(): DatabaseFailedIntegrationJobsProvider
+    {
 		return new DatabaseFailedIntegrationJobsProvider(
 			app('db'),
 			env('DB_CONNECTION', 'mysql'),

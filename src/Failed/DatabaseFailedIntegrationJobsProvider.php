@@ -3,11 +3,12 @@
 
 namespace Bddy\Integrations\Failed;
 
+use Bddy\Integrations\Contracts\IntegrationModel;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Queue\Failed\FailedJobProviderInterface;
 use Illuminate\Support\Facades\Date;
-use Mockery\Exception;
 
 class DatabaseFailedIntegrationJobsProvider implements FailedJobProviderInterface
 {
@@ -15,7 +16,7 @@ class DatabaseFailedIntegrationJobsProvider implements FailedJobProviderInterfac
 	/**
 	 * The connection resolver implementation.
 	 *
-	 * @var \Illuminate\Database\ConnectionResolverInterface
+	 * @var ConnectionResolverInterface
 	 */
 	protected $resolver;
 
@@ -35,15 +36,17 @@ class DatabaseFailedIntegrationJobsProvider implements FailedJobProviderInterfac
 
 
 	/**
-	 * @var \Bddy\Integrations\Contracts\Integration|Model  $integration
+	 * @var IntegrationModel|Model $integration
 	 */
 	protected $integration;
+
 	/**
 	 * Create a new database failed job provider.
 	 *
-	 * @param  \Illuminate\Database\ConnectionResolverInterface  $resolver
-	 * @param  string  $database
-	 * @param  string  $table
+	 * @param ConnectionResolverInterface $resolver
+	 * @param  string                     $database
+	 * @param  string                     $table
+	 *
 	 * @return void
 	 */
 	public function __construct(ConnectionResolverInterface $resolver, $database, $table, $integration)
@@ -142,7 +145,7 @@ class DatabaseFailedIntegrationJobsProvider implements FailedJobProviderInterfac
 	}
 
 	/**
-	 * Flush all of the failed jobs from storage.
+	 * Flush all the failed jobs from storage.
 	 *
 	 * @return void
 	 */
@@ -156,7 +159,7 @@ class DatabaseFailedIntegrationJobsProvider implements FailedJobProviderInterfac
 	/**
 	 * Get a new query builder instance for the table.
 	 *
-	 * @return \Illuminate\Database\Query\Builder
+	 * @return Builder
 	 */
 	protected function getTable()
 	{

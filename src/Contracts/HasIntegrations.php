@@ -15,7 +15,7 @@ interface HasIntegrations
 	 * Relation of many integrations
 	 * @return MorphMany
 	 */
-	public function integrations();
+	public function integrations(): MorphMany;
 
 	/**
 	 * Check if model already has an integration
@@ -24,7 +24,7 @@ interface HasIntegrations
 	 *
 	 * @return bool
 	 */
-	public function hasIntegration(IntegrationManager $integrationManager);
+	public function hasIntegration(IntegrationManager $integrationManager): bool;
 
 	/**
 	 * Check if model already has an active integration
@@ -33,12 +33,12 @@ interface HasIntegrations
 	 *
 	 * @return bool
 	 */
-	public function hasActiveIntegration(IntegrationManager $integrationManager);
+	public function hasActiveIntegration(IntegrationManager $integrationManager): bool;
 
 	/**
 	 * @param IntegrationManager $integrationManager
 	 *
-	 * @return Model|Integration
+	 * @return Model|IntegrationModel
 	 */
-	public function getIntegration(IntegrationManager $integrationManager);
+	public function getIntegration(IntegrationManager $integrationManager): Model|IntegrationModel;
 }

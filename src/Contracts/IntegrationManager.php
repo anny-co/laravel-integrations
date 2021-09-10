@@ -20,7 +20,7 @@ interface IntegrationManager
 	 * Get instance of integration.
 	 * @return static
 	 */
-	public static function get();
+	public static function get(): static;
 
 	/**
 	 * Returns the identifier name for this integration.
@@ -47,7 +47,7 @@ interface IntegrationManager
 	 *
 	 * @return mixed
 	 */
-	public function setting($key, $default = null);
+	public function setting(array|string|null $key, mixed $default = null): mixed;
 
 
 	/**
@@ -68,67 +68,67 @@ interface IntegrationManager
 	 *
 	 * @return array
 	 */
-	public function rules();
+	public function rules(): array;
 
 	/**
 	 * Get rules for settings.
 	 *
 	 * @return array
 	 */
-	public function settingRules();
+	public function settingRules(): array;
 
 	/**
 	 * Retrieve integration model from related model.
 	 *
 	 * @param HasIntegrations $model
 	 *
-	 * @return Model|Integration|null
+	 * @return Model|IntegrationModel|null
 	 */
-	public function retrieveModelFrom(HasIntegrations $model);
+	public function retrieveModelFrom(HasIntegrations $model): Model|IntegrationModel|null;
 
 	/**
 	 * Set the model for which the next actions should be taken.
 	 *
-	 * @param Model|Integration $integration
+	 * @param Model|IntegrationModel $integration
 	 *
 	 * @return self
 	 */
-	public function for(Integration $integration);
+	public function for(IntegrationModel $integration): static;
 
 	/**
 	 * Activate a specific integration model.
 	 *
-	 * @param Model|Integration|null $integration
+	 * @param Model|IntegrationModel|null $integration
 	 *
 	 * @return mixed
 	 */
-	public function activate(?Integration $integration);
+	public function activate(?IntegrationModel $integration);
 
 	/**
 	 * Deactivate a specific integration model.
 	 *
-	 * @param Model|Integration|null $integration
+	 * @param Model|IntegrationModel|null $integration
 	 *
 	 * @return mixed
 	 */
-	public function deactivate(?Integration $integration);
+	public function deactivate(?IntegrationModel $integration);
 
 	/**
 	 * Initialize a specific integration model.
 	 *
-	 * @param Model|Integration|null $integration
+	 * @param Model|IntegrationModel|null $integration
 	 *
 	 * @return mixed
 	 */
-	public function initialize(?Integration $integration);
+	public function initialize(?IntegrationModel $integration);
 
 	/**
 	 * Updating a specific integration model.
 	 *
-	 * @param Model|Integration|null $integration
-	 * @param array|null $attributes
+	 * @param Model|IntegrationModel|null $integration
+	 * @param array|null                  $attributes
 	 *
 	 * @return mixed
 	 */
-	public function updating(?Integration $integration, array $attributes);
+	public function updating(?IntegrationModel $integration, array $attributes);
 }

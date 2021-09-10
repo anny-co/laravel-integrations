@@ -33,7 +33,7 @@ This have to implement the integration contract. `class Integration extends Mode
 You can use our `IsIntegrationModel` trait.
 
 ```php
-use Bddy\Integrations\Contracts\Integration as IntegrationContract;
+use Bddy\Integrations\Contracts\IntegrationModel as IntegrationContract;
 use Bddy\Integrations\Traits\IsIntegrationModel;
 use \Illuminate\Database\Eloquent\Model;
 class Integration extends Model implements IntegrationContract
@@ -325,5 +325,3 @@ $model->hasIntegration($manager);
 ```php
 $model->getIntegration($manager);
 ```
-
-

@@ -4,7 +4,10 @@
 namespace Bddy\Integrations\Traits;
 
 
+use Bddy\Integrations\Contracts\IntegrationManager;
+use Bddy\Integrations\Models\Integration;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Str;
 
 trait IsIntegrationModel
 {
@@ -13,67 +16,96 @@ trait IsIntegrationModel
 	 */
 	protected string $integrationKeyKey = 'key';
 
-	/**
-	 * Casts
-	 *
-	 * @var string[]
-	 */
-	protected $casts = [
-		'active'                  => 'boolean',
-		'settings'                => 'json',
-		'authentication_required' => 'boolean',
-	];
+    /**
+     * Initialize the IsIntegrationModel trait and set casts and hidden.
+     */
+    public function initializeIsIntegrationModel()
+    {
+        $this->casts = array_merge(
+            [
+                'active'                  => 'boolean',
+                'settings'                => 'json',
+                'authentication_required' => 'boolean',
+            ],
+            $this->casts,
+        );
 
-	/**
-	 * Hide error details from user.
-	 * @var string[]
-	 */
-	protected $hidden = [
-		'error_details'
-	];
+        $this->hidden = array_merge(
+            [
+                'error_details'
+            ],
+            $this->hidden,
+        );
+
+        $this->fillable = array_merge(
+            ['name', 'key', 'version', 'model_type', 'model_id', 'uuid', 'settings'],
+            $this->fillable,
+        );
+	}
+
+    /**
+     * Boot this trait and register events.
+     */
+    public static function bootIsIntegrationModel()
+    {
+        static::creating(function(Integration $integration) {
+            $integration->uuid = Str::uuid();
+        });
+	}
 
 	/**
 	 * Get key of a integration
 	 *
 	 * @return mixed
 	 */
-	public function getIntegrationKey()
+	public function getIntegrationKey(): string
 	{
 		return $this->getAttribute($this->integrationKeyKey);
 	}
 
 	/**
-	 * Relation to integratable model.
+	 * Relation to model which has this integration.
 	 *
 	 * @return MorphTo
 	 */
-	public function model()
-	{
+	public function model(): MorphTo
+    {
 		return $this->morphTo('model');
 	}
 
-	/**
-	 * Activate a specific integration model.
-	 *
-	 * @return mixed
-	 */
-	public function activateIntegration()
-	{
-		integrations()
-			->getIntegrationManager($this->getIntegrationKey())
-			->activate($this);
+    /**
+     * Get manager for this integration instance.
+     *
+     * @return IntegrationManager
+     */
+    public function getIntegrationManager(): IntegrationManager
+    {
+        return integrations()->getIntegrationManager($this->getIntegrationKey());
+	}
+
+
+    /**
+     * Activate a specific integration model.
+     *
+     * @return $this
+     */
+    public function activateIntegration(): static
+    {
+		$this->getIntegrationManager()->activate($this);
+
+		return $this;
 	}
 
 	/**
 	 * Deactivate a specific integration model.
 	 *
-	 * @return mixed
+	 * @return $this
 	 */
-	public function deactivateIntegration()
+	public function deactivateIntegration(): static
 	{
-		integrations()
-			->getIntegrationManager($this->getIntegrationKey())
-			->deactivate($this);
+		$this->getIntegrationManager()->deactivate($this);
+
+		return $this;
 	}
 
 	/**
@@ -81,24 +113,24 @@ trait IsIntegrationModel
 	 *
 	 * @return mixed
 	 */
-	public function initializeIntegration()
+	public function initializeIntegration(): static
 	{
-		integrations()
-			->getIntegrationManager($this->getIntegrationKey())
-			->initialize($this);
+		$this->getIntegrationManager()->initialize($this);
+
+		return $this;
 	}
 
 	/**
+     * TODO: replace with model events
 	 * Updating a specific integration model.
 	 *
 	 * @param array $attributes
 	 *
 	 * @return array
 	 */
-	public function updatingIntegration(array $attributes)
-	{
-		return integrations()
-			->getIntegrationManager($this->getIntegrationKey())
+	public function updatingIntegration(array $attributes): array
+    {
+		return $this->getIntegrationManager()
 			->updating($this, $attributes);
 	}
 }
