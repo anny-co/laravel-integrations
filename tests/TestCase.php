@@ -43,4 +43,14 @@ class TestCase extends \Orchestra\Testbench\TestCase
 		return $this->app->make('integrations');
 	}
 
+    /**
+     * Define database migrations.
+     *
+     * @return void
+     */
+    protected function defineDatabaseMigrations()
+    {
+        $this->loadMigrationsFrom(realpath(__DIR__ . '/database/migrations'));
+    }
+
 }

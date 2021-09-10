@@ -24,9 +24,11 @@ use Bddy\Integrations\Console\Commands\ProviderMakeCommand;
 use Bddy\Integrations\Console\Commands\RequestMakeCommand;
 use Bddy\Integrations\Console\Commands\ResourceMakeCommand;
 use Bddy\Integrations\Console\Commands\RuleMakeCommand;
-use Bddy\Integrations\Contracts\Integration as IntegrationContract;
+use Bddy\Integrations\Contracts\EncryptSettingsService as EncryptSettingsServiceContract;
+use Bddy\Integrations\Contracts\IntegrationModel as IntegrationContract;
 use Bddy\Integrations\Contracts\IntegrationsRegistry as IntegrationsRegistryContract;
 use Bddy\Integrations\Models\Integration;
+use Bddy\Integrations\Services\EncryptSettingsService;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
@@ -48,6 +50,8 @@ class IntegrationsServiceProvider extends ServiceProvider
 	    $this->app->bind('integrations', function (Application $app) {
 		    return $app->make(IntegrationsRegistryContract::class);
 	    });
+
+	    $this->app->bind(EncryptSettingsServiceContract::class, EncryptSettingsService::class);
 
 	    // Merge config
 	    $this->mergeConfigFrom(

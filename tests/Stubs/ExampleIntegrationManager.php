@@ -2,7 +2,11 @@
 
 namespace Bddy\Integrations\Tests\Stubs;
 
-class ExampleIntegrationManager extends \Bddy\Integrations\Support\AbstractIntegrationManager
+use Bddy\Integrations\Support\AbstractIntegrationManager;
+use Bddy\Integrations\Support\IntegrationManifest;
+use JetBrains\PhpStorm\Pure;
+
+class ExampleIntegrationManager extends AbstractIntegrationManager
 {
 
 	/**
@@ -15,15 +19,6 @@ class ExampleIntegrationManager extends \Bddy\Integrations\Support\AbstractInteg
 		return [
 			'settingA' => true,
 			'settingB' => true,
-		];
-	}
-
-	public function getDefinitions(): array
-	{
-		return [
-			'key' => self::getIntegrationKey(),
-			'name' => 'Example Integrations',
-			'description' => 'Desc'
 		];
 	}
 
@@ -40,4 +35,22 @@ class ExampleIntegrationManager extends \Bddy\Integrations\Support\AbstractInteg
 		];
 	}
 
+    /**
+     * @return IntegrationManifest
+     */
+    #[Pure] public function getManifest(): IntegrationManifest
+    {
+        return new ExampleIntegrationManifest(
+            'Example Integration',
+            self::getIntegrationKey(),
+            true,
+                '',
+            'This is an example Integration.'
+        );
+    }
+
+    public function getDefinitions(): array
+    {
+        return [];
+    }
 }
