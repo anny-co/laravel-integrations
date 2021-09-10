@@ -14,6 +14,8 @@ class ExampleIntegrationManager extends AbstractIntegrationManager
 	 */
 	protected static string $integrationKey = 'example';
 
+	protected static string $manifest = ExampleIntegrationManifest::class;
+
 	public function getDefaultSettings(): array
 	{
 		return [
@@ -22,12 +24,12 @@ class ExampleIntegrationManager extends AbstractIntegrationManager
 		];
 	}
 
-	public function rules()
+    public function rules(): array
 	{
 		return [];
 	}
 
-	public function settingRules()
+	public function settingRules(): array
 	{
 		return [
 			'settingA' => 'boolean|nullable',
@@ -35,22 +37,4 @@ class ExampleIntegrationManager extends AbstractIntegrationManager
 		];
 	}
 
-    /**
-     * @return IntegrationManifest
-     */
-    #[Pure] public function getManifest(): IntegrationManifest
-    {
-        return new ExampleIntegrationManifest(
-            'Example Integration',
-            self::getIntegrationKey(),
-            true,
-                '',
-            'This is an example Integration.'
-        );
-    }
-
-    public function getDefinitions(): array
-    {
-        return [];
-    }
 }

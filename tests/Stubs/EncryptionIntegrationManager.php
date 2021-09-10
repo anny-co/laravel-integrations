@@ -14,17 +14,19 @@ class EncryptionIntegrationManager extends AbstractIntegrationManager implements
 	 */
 	protected static string $integrationKey = 'encryption_example';
 
+	protected static string $manifest = EncryptionIntegrationManifest::class;
+
 	public function getDefaultSettings(): array
 	{
 		return [];
 	}
 
-	public function rules()
+	public function rules(): array
 	{
 		return [];
 	}
 
-	public function settingRules()
+	public function settingRules(): array
 	{
 		return [
 			'encrypted_setting_a' => 'string|nullable',
@@ -32,25 +34,6 @@ class EncryptionIntegrationManager extends AbstractIntegrationManager implements
 			'setting_c' => 'string|nullable'
 		];
 	}
-
-    /**
-     * @return IntegrationManifest
-     */
-    public function getManifest(): IntegrationManifest
-    {
-        return new EncryptionIntegrationManifest(
-            'Encryption Integration',
-            self::getIntegrationKey(),
-            true,
-                '',
-            'This is an example Integration which uses encrypted settings.'
-        );
-    }
-
-    public function getDefinitions(): array
-    {
-        return [];
-    }
 
     public function getEncryptedSettingKeys(): array
     {

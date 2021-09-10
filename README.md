@@ -145,18 +145,6 @@ public function getDefaultSettings(): array
     return [];
 }
 
-// Set definition for integration to retrieve this information through an api
-public function getDefinitions(): array
-{
-    return [
-        'title' => 'Slack',
-        'key' => self::getIntegrationKey(),
-        'logo_url' => '',
-        'description' => '',
-    ];
-}
-```
-
 Register this integration in `App\Integration\SlackServiceProvider`
 ```php
 integrations()->registerIntegration(new Slack());

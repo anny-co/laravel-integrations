@@ -50,14 +50,6 @@ interface IntegrationManager
 	public function setting(array|string|null $key, mixed $default = null): mixed;
 
 
-	/**
-	 * Return definitions of integration.
-	 *
-	 * @return array
-     * @deprecated use getManifest instead
-	 */
-	public function getDefinitions(): array;
-
     /**
      * @return IntegrationManifest
      */
