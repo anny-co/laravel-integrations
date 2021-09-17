@@ -86,6 +86,8 @@ class IntegrationsServiceProvider extends ServiceProvider
 	    $integrationModel = config('integrations.integrationModel') ?: Integration::class;
 	    $this->app->bind(IntegrationContract::class, $integrationModel);
 
+	    Integrations::useModel($integrationModel);
+
 	    Relation::morphMap([
 	    	'integrations' => config('integrations.integrationModel')
 	    ], true);

@@ -35,11 +35,11 @@ abstract class IntegrationManifest
     protected string $description = '';
 
     /**
-     * Possible credentials which can be used to authenticate the integration.
+     * Possible authentication strategies which can be used to authenticate the integration.
      *
      * @var array
      */
-    protected array $credentials = [];
+    protected array $authenticationStrategies = [];
 
     /**
      * Flag if the integration is available.
@@ -73,18 +73,19 @@ abstract class IntegrationManifest
     public function getBasicManifest(): array
     {
         $manifestArray = [
-            'title' => $this->getTitle(),
-            'key' => $this->getKey(),
-            'available' => $this->isAvailable(),
-            'logoUrl' => $this->getLogoUrl(),
+            'title'       => $this->getTitle(),
+            'key'         => $this->getKey(),
+            'available'   => $this->isAvailable(),
+            'logoUrl'     => $this->getLogoUrl(),
             'description' => $this->getDescription(),
-            'credentials' => $this->getCredentials(),
+            'credentials' => $this->getAuthenticationStrategies(),
         ];
 
-        if(!$this->available) {
+        if (!$this->available)
+        {
             $manifestArray['unavailable_message'] = $this->getUnavailableMessage();
             $manifestArray['availability_action'] = $this->getUnavailableMessage();
-            $manifestArray['availability_link'] = $this->getUnavailableMessage();
+            $manifestArray['availability_link']   = $this->getUnavailableMessage();
         }
 
         return $manifestArray;
@@ -203,19 +204,19 @@ abstract class IntegrationManifest
     /**
      * @return array
      */
-    public function getCredentials(): array
+    public function getAuthenticationStrategies(): array
     {
-        return $this->credentials;
+        return $this->authenticationStrategies;
     }
 
     /**
-     * @param array $credentials
+     * @param array $authenticationStrategies
      *
      * @return IntegrationManifest
      */
-    public function setCredentials(array $credentials): static
+    public function setAuthenticationStrategies(array $authenticationStrategies): static
     {
-        $this->credentials = $credentials;
+        $this->authenticationStrategies = $authenticationStrategies;
 
         return $this;
     }

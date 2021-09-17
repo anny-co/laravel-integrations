@@ -22,21 +22,23 @@ trait HandlesErrorsAndFailures
     public function saveError(string $errorMessage, \Throwable $exception, bool $force = false)
     {
         // Check if there is already an error
-        if(!$force && $this->hasError()){
+        if (!$force && $this->hasError())
+        {
             return;
         }
 
-        $this->integration->error = $errorMessage;
+        $this->integration->error         = $errorMessage;
         $this->integration->error_details = [
-            'class' => get_class($exception),
-            'line' => $exception->getLine(),
+            'class'   => get_class($exception),
+            'line'    => $exception->getLine(),
             'message' => $exception->getMessage(),
-            'code' => $exception->getCode(),
-            'file' =>  $exception->getFile(),
-            'trace' => $exception->getTraceAsString(),
+            'code'    => $exception->getCode(),
+            'file'    => $exception->getFile(),
+            'trace'   => $exception->getTraceAsString(),
         ];
 
-        if ($this->saveChanges) {
+        if ($this->saveChanges)
+        {
             $this->integration->save();
         }
     }
@@ -54,15 +56,42 @@ trait HandlesErrorsAndFailures
     /**
      * Remove error from integration
      */
-    public function removeError()
+    public function removeError(): void
     {
-        $this->integration->error = null;
+        $this->integration->error         = null;
         $this->integration->error_details = null;
 
-        if ($this->saveChanges) {
+        if ($this->saveChanges)
+        {
             $this->integration->save();
         }
     }
+
+    /**
+     * @param \Throwable $e
+     * @param            $job
+     * @param string     $contextKey
+     * @param string     $displayName
+     */
+    public function handleJobException(\Throwable $e, $job, string $contextKey = '', string $displayName = '', string $explanation = ''): void
+    {
+        $contextKey  = empty($contextKey) ?? 'Unknown';
+        $displayName = empty($displayName) ?? 'An unknown error occurred.';
+        $explanation = empty($explanation) ?? 'Please try to login again.';
+
+        // Unknown error
+        if ($job)
+        {
+            $this->saveFailure(
+                $job,
+                $e,
+                $contextKey,
+                $displayName,
+                $explanation
+            );
+        }
+    }
+
 
     /**
      * @param            $job
@@ -95,12 +124,12 @@ trait HandlesErrorsAndFailures
     public function listFailures(): array
     {
         return collect($this->createFailedIntegrationProvider()->all())
-            ->map(function ($record){
+            ->map(function ($record) {
                 return (object) [
-                    'uuid' => $record->uuid,
-                    'display_name' => $record->display_name,
+                    'uuid'             => $record->uuid,
+                    'display_name'     => $record->display_name,
                     'integration_uuid' => $record->integration_uuid,
-                    'failed_at' => $record->failed_at
+                    'failed_at'        => $record->failed_at
                 ];
             })
             ->all();
@@ -127,12 +156,13 @@ trait HandlesErrorsAndFailures
     {
         $record = $this->createFailedIntegrationProvider()->find($uuid);
 
-        if(!$record){
+        if (!$record)
+        {
             return;
         }
 
         $payload = json_decode($record->payload, true);
-        $job = unserialize($payload['data']['command']);
+        $job     = unserialize($payload['data']['command']);
         dispatch($job)->onConnection($record->connection)->onQueue($record->queue);
 
         //
@@ -172,16 +202,17 @@ trait HandlesErrorsAndFailures
     public function createPayload($job, string $key, string $displayName, string $explanation = ''): array
     {
         $displayFailureText = "[$key] $displayName";
-        if($explanation !== ''){
+        if ($explanation !== '')
+        {
             $displayFailureText .= ": $explanation";
         }
 
         return [
-            'uuid' => (string) Str::uuid(),
+            'uuid'        => (string) Str::uuid(),
             'displayName' => $displayFailureText,
-            'data' => [
+            'data'        => [
                 'commandName' => get_class($job),
-                'command' => serialize(clone $job),
+                'command'     => serialize(clone $job),
             ],
         ];
     }

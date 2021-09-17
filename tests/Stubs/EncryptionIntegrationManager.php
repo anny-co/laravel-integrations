@@ -2,13 +2,12 @@
 
 namespace Bddy\Integrations\Tests\Stubs;
 
+use Bddy\Integrations\Auth\AccessTokenAuthenticationStrategy;
 use Bddy\Integrations\Contracts\ShouldEncryptSettings;
 use Bddy\Integrations\Support\AbstractIntegrationManager;
-use Bddy\Integrations\Support\IntegrationManifest;
 
 class EncryptionIntegrationManager extends AbstractIntegrationManager implements ShouldEncryptSettings
 {
-
 	/**
 	 * Key of integration.
 	 */
@@ -39,6 +38,13 @@ class EncryptionIntegrationManager extends AbstractIntegrationManager implements
     {
         return [
             'encrypted_setting_a',
+        ];
+    }
+
+    public function getPossibleAuthenticationStrategies(): array
+    {
+        return [
+            new AccessTokenAuthenticationStrategy()
         ];
     }
 }
