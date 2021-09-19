@@ -166,7 +166,7 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
 
         $this->saveAccessTokenResponse($integration, $accessTokenResponse);
 
-        // TODO: return success view
+        return view('vendor.anny.callback');
     }
 
     /**

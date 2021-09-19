@@ -82,6 +82,13 @@ class IntegrationsServiceProvider extends ServiceProvider
 		    ], 'migrations');
 	    }
 
+	    // Load and publish views
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'anny');
+
+        $this->publishes([
+            __DIR__.'/../resources/views' => resource_path('views/vendor/anny'),
+        ]);
+
 	    // Register model
 	    $integrationModel = config('integrations.integrationModel') ?: Integration::class;
 	    $this->app->bind(IntegrationContract::class, $integrationModel);

@@ -2,21 +2,21 @@
 
 namespace Bddy\Integrations\Http\Controllers;
 
-use Bddy\Integrations\Contracts\HasAuthenticationStrategies;
 use Bddy\Integrations\Contracts\IntegrationModel;
 use Bddy\Integrations\Integrations;
-use Bddy\Integrations\IntegrationsRegistry;
+use Illuminate\Http\Request;
 
 class OAuth2Controller
 {
     /**
      * Redirect user to integration oauth2 authorization page.
      *
-     * @param $uuid
+     * @param Request $request
+     * @param         $uuid
      *
      * @return mixed
      */
-    public function redirect($uuid)
+    public function redirect(Request $request, $uuid)
     {
         /** @var IntegrationModel $integration */
         $integration = Integrations::newModel()
@@ -24,18 +24,18 @@ class OAuth2Controller
             ->where('uuid', $uuid)
             ->firstOrFail();
 
-        /** @var HasAuthenticationStrategies $manager */
         $manager = $integration->getIntegrationManager();
 
-        return $manager->for($integration)->handleOAuth2Redirect();
+        return $manager->for($integration)->handleOAuth2Redirect($request);
     }
 
     /**
      * Handle callback from oauth2 code flow.
      *
-     * @param $key
+     * @param Request $request
+     * @param         $key
      */
-    public function callback($key)
+    public function callback(Request $request, $key)
     {
         $manager = integrations()->getIntegrationManager($key);
 
@@ -43,6 +43,6 @@ class OAuth2Controller
             abort(404);
         }
 
-        $manager->handleOAuth2Callback();
+        $manager->handleOAuth2Callback($request);
     }
 }
