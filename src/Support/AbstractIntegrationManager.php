@@ -10,11 +10,8 @@ use Bddy\Integrations\Contracts\HasAuthenticationStrategies;
 use Bddy\Integrations\Contracts\HasIntegrations;
 use Bddy\Integrations\Contracts\IntegrationManager;
 use Bddy\Integrations\Contracts\IntegrationModel;
-use Bddy\Integrations\Exceptions\InvalidStateException;
-use Bddy\Integrations\Integrations;
 use Bddy\Integrations\Traits\HandlesErrorsAndFailures;
 use Bddy\Integrations\Traits\HasManifest;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -317,7 +314,6 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
      * @param Request $request
      *
      * @return RedirectResponse
-     * @throws BindingResolutionException
      */
     public function handleOAuth2Redirect(Request $request): RedirectResponse
     {
@@ -325,18 +321,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
         $strategy = $this->getOauth2AuthenticationStrategy();
 
         // Create redirect response
-        $redirectResponse = $strategy->redirect($this->integration);
-
-        // Session has a state, we need to combine it with the current integration
-        $state = $request->session()->get('state');
-
-        // Put integration uuid into session
-        $request->session()->put(
-            $this->getIntegrationSessionKey($state),
-            $this->integration->getKey()
-        );
-
-        return $redirectResponse;
+        return $strategy->redirect($request, $this->integration);
     }
 
     /**
@@ -346,16 +331,8 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
      */
     public function handleOAuth2Callback(Request $request)
     {
-        // Find integration which is assigned for current callback
-        $state = $request->session()->get('state');
-
-        if (!$state)
-        {
-            throw new InvalidStateException();
-        }
-
         // Set integration
-        $integration = $this->getIntegrationFromSession($request, $state);
+        $integration = OAuth2AuthenticationStrategy::getIntegrationFromCallbackRequest($request);
         $this->for($integration);
 
         // Get strategy
@@ -372,32 +349,6 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
     public function getAuthenticationStrategy(string $key): ?AuthenticationStrategy
     {
         return collect($this->getPossibleAuthenticationMethods())->first(fn(AuthenticationStrategy $authenticationStrategy) => $authenticationStrategy->key() === $key);
-    }
-
-    /**
-     * Returns session key to store integration in relation to state.
-     *
-     * @param string $state
-     *
-     * @return string
-     */
-    protected function getIntegrationSessionKey(string $state)
-    {
-        return "integration_${state}";
-    }
-
-    /**
-     * @param Request $request
-     * @param string  $state
-     *
-     * @return IntegrationModel|\Illuminate\Database\Eloquent\Collection|Model
-     */
-    protected function getIntegrationFromSession(Request $request, string $state)
-    {
-        $sessionKey     = $this->getIntegrationSessionKey($state);
-        $integrationKey = $request->session()->get($sessionKey);
-
-        return Integrations::newModel()->newQuery()->findOrFail($integrationKey);
     }
 
     /**

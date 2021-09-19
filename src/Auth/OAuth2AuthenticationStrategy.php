@@ -8,8 +8,10 @@ use Bddy\Integrations\Events\RefreshingTokenFailed;
 use Bddy\Integrations\Exceptions\IntegrationIsLockedException;
 use Bddy\Integrations\Exceptions\InvalidStateException;
 use Bddy\Integrations\Exceptions\RefreshTokenFailedException;
+use Bddy\Integrations\Integrations;
 use Carbon\Carbon;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\Request;
@@ -24,10 +26,12 @@ use Laravel\Socialite\SocialiteManager;
 use Laravel\Socialite\Two\AbstractProvider;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-abstract class OAuth2AuthenticationStrategy implements AuthenticationStrategy
+abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrategy implements AuthenticationStrategy
 {
 
     /**
+     * Socialite oauth2 provider class.
+     *
      * @var string
      */
     protected $providerClass = AbstractProvider::class;
@@ -46,14 +50,12 @@ abstract class OAuth2AuthenticationStrategy implements AuthenticationStrategy
      */
     protected array $scopes = [];
 
-
     /**
-     * @param IntegrationModel $integrationModel
+     * Identifier key for this authentication strategy.
+     *
+     * @var string
      */
-    public function __construct(protected IntegrationModel $integrationModel)
-    {
-
-    }
+    protected string $key = 'oauth2';
 
     /**
      * @param IntegrationModel $integration
@@ -90,9 +92,7 @@ abstract class OAuth2AuthenticationStrategy implements AuthenticationStrategy
      * @return bool
      */
     public function isAuthenticated(IntegrationModel $integration): bool {
-        $accessToken = $this->getAccessToken($integration);
-
-        if(is_null($accessToken)) {
+        if(!$this->hasRequiredData($integration)) {
             return false;
         }
 
@@ -110,76 +110,6 @@ abstract class OAuth2AuthenticationStrategy implements AuthenticationStrategy
     }
 
     /**
-     * Return a http client to make request.
-     *
-     * @param IntegrationModel $integration
-     *
-     * @return PendingRequest
-     */
-    public function getHttpClient(IntegrationModel $integration): PendingRequest
-    {
-        return Http::withHeaders(
-            $this->getHttpHeaders($integration)
-        )->withOptions(
-            $this->getHttpOptions($integration)
-        );
-    }
-
-    /**
-     * Return headers for http client.
-     *
-     * @param IntegrationModel $integration
-     *
-     * @return array
-     */
-    public function getHttpHeaders(IntegrationModel $integration): array
-    {
-        $accessToken = $this->getAccessToken($integration);
-
-        return [
-            'Authorization' => 'Bearer ' . $accessToken,
-            'Accept'        => 'application/json',
-        ];
-    }
-
-    /**
-     * Return options for http client.
-     *
-     * @param IntegrationModel $integration
-     *
-     * @return array
-     */
-    public function getHttpOptions(IntegrationModel $integration)
-    {
-        return [
-            'base_uri' => $this->getHttpClientBaseUrl($integration)
-        ];
-    }
-
-    /**
-     * Return base uri to integration api.
-     *
-     * @param IntegrationModel $integration
-     *
-     * @return string
-     */
-    protected abstract function getHttpClientBaseUrl(IntegrationModel $integration): string;
-
-    /**
-     * @param IntegrationModel $integration
-     *
-     * @return PendingRequest
-     */
-    public function getUnauthenticatedClient(IntegrationModel $integration): PendingRequest
-    {
-        return Http::withOptions(
-            $this->getHttpOptions($integration)
-        )->withHeaders([
-            'Accept' => 'application/json',
-        ]);
-    }
-
-    /**
      * Redirect request to oauth2 page of integration to authorize it.
      *
      * @param IntegrationModel $integration
@@ -187,7 +117,7 @@ abstract class OAuth2AuthenticationStrategy implements AuthenticationStrategy
      * @return RedirectResponse
      * @throws BindingResolutionException
      */
-    public function redirect(IntegrationModel $integration)
+    public function redirect(Request $request, IntegrationModel $integration)
     {
         $socialiteProvider = $this->getSocialiteProvider($integration);
 
@@ -198,7 +128,19 @@ abstract class OAuth2AuthenticationStrategy implements AuthenticationStrategy
 
         $socialiteProvider->scopes($this->scopes);
 
-        return $socialiteProvider->redirect();
+        // Create redirect response
+        $redirectResponse = $socialiteProvider->redirect();
+
+        // Session has a state, we need to combine it with the current integration
+        $state = $request->session()->get('state');
+
+        // Put integration uuid into session
+        $request->session()->put(
+            $this->getIntegrationSessionKey($state),
+            $this->integration->getKey()
+        );
+
+        return $redirectResponse;
     }
 
     /**
@@ -223,7 +165,54 @@ abstract class OAuth2AuthenticationStrategy implements AuthenticationStrategy
         );
 
         $this->saveAccessTokenResponse($integration, $accessTokenResponse);
+
+        // TODO: return success view
     }
+
+    /**
+     * Returns session key to store integration in relation to state.
+     *
+     * @param string $state
+     *
+     * @return string
+     */
+    protected function getIntegrationSessionKey(string $state)
+    {
+        return "integration_${state}";
+    }
+
+    /**
+     * @param string $state
+     *
+     * @return string
+     */
+    public static function getIntegrationSessionKeyStatic(string $state)
+    {
+        return "integration_${state}";
+    }
+
+    /**
+     * @param Request $request
+     * @param string  $state
+     *
+     * @return IntegrationModel|\Illuminate\Database\Eloquent\Collection|Model
+     */
+    public static function getIntegrationFromCallbackRequest(Request $request)
+    {
+        // Find integration which is assigned for current callback
+        $state = $request->session()->get('state');
+
+        if (!$state)
+        {
+            throw new InvalidStateException();
+        }
+
+        $sessionKey     = static::getIntegrationSessionKeyStatic($state);
+        $integrationKey = $request->session()->get($sessionKey);
+
+        return Integrations::newModel()->newQuery()->findOrFail($integrationKey);
+    }
+
 
     /**
      * Refresh the access token for an integration.
@@ -436,18 +425,6 @@ abstract class OAuth2AuthenticationStrategy implements AuthenticationStrategy
 
         // Save
         $integration->setSecrets($secrets);
-    }
-
-    /**
-     * Get access token.
-     *
-     * @param IntegrationModel $integration
-     *
-     * @return string|null
-     */
-    public function getAccessToken(IntegrationModel $integration): string|null
-    {
-        return Arr::get($integration->getSecrets(), 'access_token');
     }
 
     /**
