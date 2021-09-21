@@ -3,9 +3,7 @@
 
 namespace Bddy\Integrations\Console\Commands;
 
-use Illuminate\Support\Str;
-
-class IntegrationManifestMakeCommand extends \Illuminate\Console\GeneratorCommand
+class IntegrationJobMiddlewareMakeCommand extends \Illuminate\Console\GeneratorCommand
 {
 
 	/**
@@ -13,21 +11,21 @@ class IntegrationManifestMakeCommand extends \Illuminate\Console\GeneratorComman
 	 *
 	 * @var string
 	 */
-	protected $name = 'make:integration:manifest';
+	protected $name = 'make:integration:job-middleware';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Create a new integration manifest.';
+	protected $description = 'Create a new integration job middleware.';
 
 	/**
 	 * The type of class being generated.
 	 *
 	 * @var string
 	 */
-	protected $type = 'IntegrationManifest';
+	protected $type = 'IntegrationJobMiddleware';
 
 	/**
 	 * @return bool|null
@@ -47,7 +45,7 @@ class IntegrationManifestMakeCommand extends \Illuminate\Console\GeneratorComman
 	 */
 	protected function getStub()
 	{
-		return $this->resolveStubPath('/stubs/integration-manifest.stub');
+		return $this->resolveStubPath('/stubs/integration-job-middleware.stub');
 	}
 
 	/**
@@ -72,27 +70,10 @@ class IntegrationManifestMakeCommand extends \Illuminate\Console\GeneratorComman
 	protected function getDefaultNamespace($rootNamespace)
 	{
 		$integrationNamespace =  \Illuminate\Support\Str::studly($this->argument('name'));
-		$integrationNamespace = str_replace('Manifest', '', $integrationNamespace);
+		$integrationNamespace = str_replace('Middleware', '', $integrationNamespace);
 
-		return $rootNamespace.'\\Integrations\\'.$integrationNamespace;
+		return $rootNamespace.'\\Integrations\\'.$integrationNamespace . '\\Jobs\\Middleware';
 	}
-
-    /**
-     * Build the class with the given name.
-     *
-     * @param  string  $name
-     * @return string
-     *
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     */
-    protected function buildClass($name)
-    {
-        $stub = parent::buildClass($name);
-
-        $title = Str::of($this->argument('name'))->studly()->replace('Manifest', '');
-
-        return str_replace('{{ title }}', $title, $stub);
-    }
 
 	/**
 	 * Get the console command options.

@@ -8,17 +8,10 @@ use Bddy\Integrations\Support\IntegrationManifest;
 
 class {{ class }} extends IntegrationManifest
 {
-
     /**
-     * @return array|null
+     * Title of the integration.
+     *
+     * @var string
      */
-    public function toArray(): ?array
-    {
-        return array_merge(
-            $this->getBasicManifest(),
-            [
-
-            ]
-        );
-    }
+    protected string $title = '{{ title }}';
 }

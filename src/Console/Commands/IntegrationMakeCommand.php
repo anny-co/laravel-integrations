@@ -39,25 +39,45 @@ class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
 			return false;
 		}
 
-		$this->createServiceProvider();
+		$name = Str::studly($this->argument('name'));
+		$this->createServiceProvider($name);
+		$this->createManifest($name);
+		$this->createJob($name);
 	}
 
 	/**
 	 * Create a service provider for the integration.
 	 * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
 	 */
-	protected function createServiceProvider()
+	protected function createServiceProvider(string $name)
 	{
-		$provider = Str::studly($this->argument('name'));
-
 		$this->call('make:integration:provider', [
-			'name' => "{$provider}ServiceProvider",
+			'name' => "{$name}ServiceProvider",
 		]);
-
-        $this->call('make:integration:manifest', [
-            'name' => "{$provider}Manifest",
-        ]);
 	}
+
+    /**
+     * Create a manifest for the integration.
+     *
+     * @param string $name
+     */
+	protected function createManifest(string $name) {
+        $this->call('make:integration:manifest', [
+            'name' => "{$name}Manifest",
+        ]);
+    }
+
+    /**
+     * Create central job for integration.
+     *
+     * @param string $name
+     */
+    protected function createJob(string $name) {
+        $this->call('make:integration:job', [
+            'name' => "{$name}Job",
+            '--middleware' => 'true'
+        ]);
+    }
 
 	/**
 	 * Get the stub file for the generator.
@@ -95,7 +115,23 @@ class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
 		return $rootNamespace.'\\Integrations\\'.$integrationNamespace;
 	}
 
-	/**
+    /**
+     * Build the class with the given name.
+     *
+     * @param  string  $name
+     * @return string
+     *
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+	protected function buildClass($name)
+    {
+        $stub = parent::buildClass($name);
+        $key = Str::of($this->argument('name'))->studly()->replace('Job', '')->snake('-');
+
+        return str_replace('{{ key }}', $key, $stub);
+    }
+
+    /**
 	 * Get the console command options.
 	 *
 	 * @return array

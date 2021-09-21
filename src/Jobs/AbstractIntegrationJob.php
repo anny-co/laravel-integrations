@@ -69,6 +69,16 @@ abstract class AbstractIntegrationJob implements ShouldQueue
     public abstract function getIntegration(): IntegrationModel|Model;
 
     /**
+     * Returns integration manager of integration.
+     *
+     * @return IntegrationManager
+     */
+    public function getIntegrationManager(): IntegrationManager
+    {
+        return $this->integration->getIntegrationManager();
+    }
+
+    /**
      * @return string
      */
     public function getFailKey(): string

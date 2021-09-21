@@ -9,14 +9,22 @@ use Bddy\Integrations\Support\AbstractIntegrationManager;
 class {{ class }} extends AbstractIntegrationManager
 {
 
-    protected static string $integrationKey = '';
+    /**
+     * Key of integration.
+     */
+    protected static string $integrationKey = '{{ key }}';
+
+    /**
+     * @var string
+     */
+    protected static string $manifest = {{ class }}Manifest::class;
 
     /**
      * Override default rules.
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [];
     }
@@ -26,7 +34,7 @@ class {{ class }} extends AbstractIntegrationManager
      *
      * @return string[]
      */
-    public function settingRules()
+    public function settingRules(): array
     {
         return [];
     }
@@ -41,15 +49,13 @@ class {{ class }} extends AbstractIntegrationManager
         return [];
     }
 
-
     /**
-     * @return IntegrationManifest
+     * Return all possible authentication strategies.
+     *
+     * @return array
      */
-    public function getManifest(): IntegrationManifest
+    public function getPossibleAuthenticationStrategies(): array
     {
-        return new {{ class }}Manifest(
-            '{{ class }}',
-            self::getIntegrationKey(),
-        );
+        return [];
     }
 }

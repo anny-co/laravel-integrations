@@ -1,0 +1,54 @@
+<?php
+
+
+namespace {{ namespace }};
+
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Bddy\Integrations\Jobs\AbstractIntegrationJob;
+{{ middlewareImport }}
+
+class {{ class }} extends AbstractIntegrationJob implements ShouldQueue
+{
+
+    /**
+     * The number of times the job may be attempted.
+     *
+     * @var int
+     */
+    public $tries = 5;
+
+    /**
+     * Key for a failure.
+     * @var string
+     */
+    protected string $failKey;
+
+    /**
+     * Text about a failure.
+     *
+     * @var string
+     */
+    protected string $failText;
+
+    /**
+     * Get the middleware the job should pass through.
+     *
+     * @return array
+     */
+    public function middleware()
+    {
+        return [
+            {{ middleware }}
+        ];
+    }
+
+    /**
+     * Returns the integration for this job.
+     *
+     * @return IntegrationModel|Model
+     */
+    public function getIntegration(): IntegrationModel|Model
+    {
+        // TODO: Implement getIntegration() method.
+    }
+}
