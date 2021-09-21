@@ -1,18 +1,19 @@
 <?php
 
-namespace Bddy\Integrations\Auth;
 
-use Bddy\Integrations\Contracts\AuthenticationStrategy;
-use Bddy\Integrations\Contracts\IntegrationModel;
+namespace {{ namespace }};
 
-abstract class AccessTokenAuthenticationStrategy extends AbstractAuthenticationStrategy implements AuthenticationStrategy
+use Bddy\Integrations\Auth\AuthenticationStrategy;
+
+class {{ class }} extends AbstractAuthenticationStrategy
 {
     /**
      * Identifier key for this authentication strategy.
      *
      * @var string
      */
-    protected string $key = 'access_token';
+    protected string $key = '';
+
 
     /**
      * Authenticate the integration.

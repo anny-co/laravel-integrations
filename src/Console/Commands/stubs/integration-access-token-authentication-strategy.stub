@@ -1,0 +1,22 @@
+<?php
+
+
+namespace {{ namespace }};
+
+use Bddy\Integrations\Auth\AccessTokenAuthenticationStrategy;
+use Bddy\Integrations\Contracts\IntegrationModel;
+
+class {{ class }} extends AccessTokenAuthenticationStrategy
+{
+    /**
+     * Return base uri to integration api.
+     *
+     * @param IntegrationModel $integration
+     *
+     * @return string
+     */
+    protected function getHttpClientBaseUrl(IntegrationModel $integration): string
+    {
+        // TODO: Implement getHttpClientBaseUrl() method.
+    }
+}

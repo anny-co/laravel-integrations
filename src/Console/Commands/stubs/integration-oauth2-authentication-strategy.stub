@@ -1,0 +1,32 @@
+<?php
+
+
+namespace {{ namespace }};
+
+use Bddy\Integrations\Auth\OAuth2AuthenticationStrategy;
+use Bddy\Integrations\Contracts\IntegrationModel;
+
+class {{ class }} extends OAuth2AuthenticationStrategy
+{
+    /**
+     * Return base uri to integration api.
+     *
+     * @param IntegrationModel $integration
+     *
+     * @return string
+     */
+    protected function getHttpClientBaseUrl(IntegrationModel $integration): string
+    {
+        // TODO: Implement getHttpClientBaseUrl() method.
+    }
+
+    /**
+     * Return url to refresh token endpoint.
+     *
+     * @return string
+     */
+    public function getRefreshTokenUrl(): string
+    {
+        // TODO: Implement getRefreshTokenUrl() method.
+    }
+}

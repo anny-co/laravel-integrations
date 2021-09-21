@@ -4,6 +4,7 @@
 namespace Bddy\Integrations\Console\Commands;
 
 use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\InputOption;
 
 class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
 {
@@ -43,6 +44,16 @@ class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
 		$this->createServiceProvider($name);
 		$this->createManifest($name);
 		$this->createJob($name);
+
+		if($this->option('oauth2')) {
+		    $this->createOAuth2AuthenticationStrategy($name);
+        }
+
+        if($this->option('access_token')) {
+            $this->createAccessTokenAuthenticationStrategy($name);
+        }
+
+        return true;
 	}
 
 	/**
@@ -76,6 +87,22 @@ class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
         $this->call('make:integration:job', [
             'name' => "{$name}Job",
             '--middleware' => 'true'
+        ]);
+    }
+
+    protected function createOAuth2AuthenticationStrategy(string $name)
+    {
+        $this->call('make:integration:authentication-strategy', [
+            'name' => "{$name}OAuth2Authentication",
+            '--oauth2' => 'true'
+        ]);
+    }
+
+    protected function createAccessTokenAuthenticationStrategy(string $name)
+    {
+        $this->call('make:integration:authentication-strategy', [
+            'name' => "{$name}AccessTokenAuthentication",
+            '--access_token' => 'true'
         ]);
     }
 
@@ -126,8 +153,26 @@ class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
 	protected function buildClass($name)
     {
         $stub = parent::buildClass($name);
-        $key = Str::of($this->argument('name'))->studly()->replace('Job', '')->snake('-');
+        $name = Str::of($this->argument('name'))->studly();
 
+        // Replace strategies
+        $strategies = "";
+        if($this->option('oauth2')){
+            $strategies .= "new ${name}OAuth2Authentication,";
+        }
+
+        if($this->option('oauth2') && $this->option('access_token')) {
+            $strategies .= "\n\t\t\t";
+        }
+
+        if($this->option('access_token')){
+            $strategies .= "new ${name}AccessTokenAuthentication,";
+        }
+
+        $stub = str_replace('{{ strategies }}', $strategies, $stub);
+
+        // Replace key
+        $key = Str::of($this->argument('name'))->studly()->replace('Job', '')->snake('-');
         return str_replace('{{ key }}', $key, $stub);
     }
 
@@ -138,6 +183,11 @@ class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
 	 */
 	protected function getOptions()
 	{
-		return [];
+		return [
+            ['oauth2', 'oauth2', InputOption::VALUE_NONE, 'Include oauth2 authentication strategy for this integration..'],
+            ['access_token', 'at', InputOption::VALUE_NONE, 'Include oauth2 authentication strategy for this integration..'],
+        ];
 	}
+
+
 }

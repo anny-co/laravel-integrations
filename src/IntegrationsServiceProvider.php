@@ -9,6 +9,7 @@ use Bddy\Integrations\Console\Commands\CommandMakeCommand;
 use Bddy\Integrations\Console\Commands\ControllerMakeCommand;
 use Bddy\Integrations\Console\Commands\EventMakeCommand;
 use Bddy\Integrations\Console\Commands\ExceptionMakeCommand;
+use Bddy\Integrations\Console\Commands\IntegrationAuthenticationStrategyMakeCommand;
 use Bddy\Integrations\Console\Commands\IntegrationJobMakeCommand;
 use Bddy\Integrations\Console\Commands\IntegrationJobMiddlewareMakeCommand;
 use Bddy\Integrations\Console\Commands\IntegrationMakeCommand;
@@ -110,6 +111,7 @@ class IntegrationsServiceProvider extends ServiceProvider
 			    IntegrationManifestMakeCommand::class,
 			    IntegrationJobMakeCommand::class,
 			    IntegrationJobMiddlewareMakeCommand::class,
+			    IntegrationAuthenticationStrategyMakeCommand::class,
 			    CastMakeCommand::class,
 			    ChannelMakeCommand::class,
 			    CommandMakeCommand::class,
