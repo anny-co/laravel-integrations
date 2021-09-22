@@ -34,7 +34,7 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
      *
      * @var string
      */
-    protected $providerClass = AbstractProvider::class;
+    protected string $providerClass = AbstractProvider::class;
 
     /**
      * Indicates if PKCE should be used.
@@ -137,7 +137,7 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
         // Put integration uuid into session
         $request->session()->put(
             $this->getIntegrationSessionKey($state),
-            $this->integration->getKey()
+            $integration->getKey()
         );
 
         return $redirectResponse;
