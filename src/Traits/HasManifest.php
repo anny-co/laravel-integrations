@@ -20,7 +20,7 @@ trait HasManifest
      */
     public function getManifestClass(): string
     {
-        return self::$manifest;
+        return static::$manifest;
     }
 
 
