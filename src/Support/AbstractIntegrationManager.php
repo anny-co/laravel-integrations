@@ -99,7 +99,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
      *
      * @return mixed
      */
-    public function setting(array|string|null $key, mixed $default = null): mixed
+    public function setting(array|string|null $key = null, mixed $default = null): mixed
     {
         // Return all settings
         if (is_null($key))
@@ -112,9 +112,9 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
         {
             // Set each key
             $settings = $this->integration->settings;
-            foreach ($key as $keyString)
+            foreach ($key as $keyString => $value)
             {
-                Arr::set($settings, $keyString, $default);
+                Arr::set($settings, $keyString, $value);
             }
             $this->integration->settings = $settings;
 
@@ -219,7 +219,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
         /** @var IntegrationManifest $manifest */
         $manifest = new ($this->getManifestClass());
 
-        // get possible credentials
+        // get possible authentication strategies
         $strategies = collect($this->getPossibleAuthenticationStrategies())
             ->map(fn(AbstractAuthenticationStrategy $strategy) => $strategy->getKey())->values()->toArray();
 
@@ -259,7 +259,6 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
     public function getSelectedAuthenticationStrategy(): AuthenticationStrategy|null
     {
         $key = $this->setting(self::AUTHENTICATION_STRATEGY_SETTING_KEY);
-
         // Find strategy by key
         return collect($this->getPossibleAuthenticationStrategies())
             ->first(fn(AuthenticationStrategy $strategy) => $strategy->getKey() === $key);
