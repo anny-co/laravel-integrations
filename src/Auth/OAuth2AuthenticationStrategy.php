@@ -375,8 +375,8 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
         /** @var SocialiteManager $socialite */
         $socialite = app()->make(SocialiteFactory::class);
 
-        $socialite->extend($key, function (SocialiteManager $manager) use ($provider, $key) {
-            return $manager->buildProvider($provider, config("integrations.${key}"));
+        $socialite->extend($key, function ($app) use ($socialite, $provider, $key) {
+            return $socialite->buildProvider($provider, config("integrations.${key}"));
         });
     }
 
