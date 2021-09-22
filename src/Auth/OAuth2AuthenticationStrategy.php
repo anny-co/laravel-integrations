@@ -121,13 +121,6 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
     {
         $socialiteProvider = $this->getSocialiteProvider($integration);
 
-        if ($this->usesPKCE)
-        {
-            $socialiteProvider->enablePKCE();
-        }
-
-        $socialiteProvider->scopes($this->scopes);
-
         // Create redirect response
         $redirectResponse = $socialiteProvider->redirect();
 
@@ -166,7 +159,7 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
 
         $this->saveAccessTokenResponse($integration, $accessTokenResponse);
 
-        return view('vendor.anny.callback');
+        return true;
     }
 
     /**
@@ -208,7 +201,7 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
         }
 
         $sessionKey     = static::getIntegrationSessionKeyStatic($state);
-        $integrationKey = $request->session()->get($sessionKey);
+        $integrationKey = $request->session()->pull($sessionKey);
 
         return Integrations::newModel()->newQuery()->findOrFail($integrationKey);
     }
@@ -361,7 +354,16 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
             $this->getProvider()
         );
 
-        return Socialite::driver($key);
+        $socialiteProvider = Socialite::driver($key);
+
+        if ($this->usesPKCE)
+        {
+            $socialiteProvider->enablePKCE();
+        }
+
+        $socialiteProvider->scopes($this->scopes);
+
+        return $socialiteProvider;
     }
 
     /**

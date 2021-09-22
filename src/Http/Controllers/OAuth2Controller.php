@@ -44,5 +44,7 @@ class OAuth2Controller
         }
 
         $manager->handleOAuth2Callback($request);
+
+        return view('anny::callback');
     }
 }
