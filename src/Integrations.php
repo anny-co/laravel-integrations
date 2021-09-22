@@ -33,4 +33,16 @@ class Integrations
     {
         self::$model = $integrationModel;
     }
+
+    /**
+     * Register routes for integrations.
+     *
+     * @param string $prefix
+     *
+     * @return IntegrationRouteRegistrar
+     */
+    public static function routes(string $prefix = 'integrations'): IntegrationRouteRegistrar
+    {
+        return (new IntegrationRouteRegistrar())->prefix($prefix);
+    }
 }

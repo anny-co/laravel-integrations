@@ -48,14 +48,4 @@ class IntegrationsRegistry implements IntegrationsRegistryContract
     {
         return Arr::get($this->integrations, $key);
     }
-
-    /**
-     * Register routes for integrations.
-     *
-     * @return IntegrationRouteRegistrar
-     */
-    public static function routes(string $prefix = 'api')
-    {
-        return (new IntegrationRouteRegistrar())->prefix($prefix);
-    }
 }
