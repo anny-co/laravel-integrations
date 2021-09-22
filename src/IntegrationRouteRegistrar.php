@@ -20,7 +20,14 @@ class IntegrationRouteRegistrar
      *
      * @var string
      */
-    protected string $prefix = 'api';
+    protected string $prefix = 'integrations';
+
+    /**
+     * Sets the middlewares to use with routes.
+     *
+     * @var string|array|null
+     */
+    protected string|array|null $middleware = 'web';
 
     /**
      * @param string $prefix
@@ -38,11 +45,16 @@ class IntegrationRouteRegistrar
     {
         $this->registered = true;
 
-        Route::prefix($this->prefix)
-            ->group(function(){
-                Route::get('integrations/{uuid}/oauth2/redirect', [OAuth2Controller::class, 'redirect']);
-                Route::get('integrations/{key}/oauth2/callback', [OAuth2Controller::class, 'callback']);
-            });
+        $defineRoutes = function() {
+            Route::prefix($this->prefix)
+                ->middleware($this->middleware)
+                ->group(function(){
+                    Route::get('/auth/{uuid}/oauth2/redirect', [OAuth2Controller::class, 'redirect']);
+                    Route::get('/auth/{key}/oauth2/callback', [OAuth2Controller::class, 'callback']);
+                });
+        };
+
+        app()->booted($defineRoutes);
     }
 
     /**
