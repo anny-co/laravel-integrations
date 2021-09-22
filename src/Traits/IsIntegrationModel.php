@@ -5,7 +5,7 @@ namespace Bddy\Integrations\Traits;
 
 
 use Bddy\Integrations\Contracts\IntegrationManager;
-use Bddy\Integrations\Models\Integration;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;
 
@@ -48,7 +48,7 @@ trait IsIntegrationModel
      */
     public static function bootIsIntegrationModel()
     {
-        static::creating(function(Integration $integration) {
+        static::creating(function(Model $integration) {
             $integration->uuid = Str::uuid();
         });
 	}
@@ -80,7 +80,7 @@ trait IsIntegrationModel
      */
     public function getIntegrationManager(): IntegrationManager
     {
-        return integrations()->getIntegrationManager($this->getIntegrationKey());
+        return integrations()->getIntegrationManager($this->getIntegrationKey())->for($this);
 	}
 
 
