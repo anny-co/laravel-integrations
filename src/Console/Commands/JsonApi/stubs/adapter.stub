@@ -1,0 +1,21 @@
+<?php
+
+namespace {{ namespace }};
+
+use Bddy\Integrations\Contracts\IntegrationModel;
+use Bddy\Integrations\JsonApi\AbstractAdapter;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+
+class {{ class }} extends AbstractAdapter
+{
+    public function getIntegration(): IntegrationModel|Model|null
+    {
+        // TODO: Implement getIntegration() method.
+    }
+
+    public function getResources(?array $filters = null, ?array $pagination = null): Collection
+    {
+        // TODO: Implement getResources() method.
+    }
+}

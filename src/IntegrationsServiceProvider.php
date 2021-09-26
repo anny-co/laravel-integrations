@@ -16,6 +16,13 @@ use Bddy\Integrations\Console\Commands\IntegrationMakeCommand;
 use Bddy\Integrations\Console\Commands\IntegrationManifestMakeCommand;
 use Bddy\Integrations\Console\Commands\IntegrationServiceProviderMakeCommand;
 use Bddy\Integrations\Console\Commands\JobMakeCommand;
+use Bddy\Integrations\Console\Commands\JsonApi\MakeAdapter;
+use Bddy\Integrations\Console\Commands\JsonApi\MakeAuthorizer;
+use Bddy\Integrations\Console\Commands\JsonApi\MakeContentNegotiator;
+use Bddy\Integrations\Console\Commands\JsonApi\MakeResource;
+use Bddy\Integrations\Console\Commands\JsonApi\MakeResourceProvider;
+use Bddy\Integrations\Console\Commands\JsonApi\MakeSchema;
+use Bddy\Integrations\Console\Commands\JsonApi\MakeValidators;
 use Bddy\Integrations\Console\Commands\ListenerMakeCommand;
 use Bddy\Integrations\Console\Commands\MailMakeCommand;
 use Bddy\Integrations\Console\Commands\MiddlewareMakeCommand;
@@ -130,6 +137,15 @@ class IntegrationsServiceProvider extends ServiceProvider
 			    RequestMakeCommand::class,
 			    ResourceMakeCommand::class,
 			    RuleMakeCommand::class,
+
+                // Json Api commands
+                MakeResourceProvider::class,
+                MakeAdapter::class,
+                MakeAuthorizer::class,
+                MakeContentNegotiator::class,
+                MakeResource::class,
+                MakeSchema::class,
+                MakeValidators::class,
 		    ]);
 	    }
     }
