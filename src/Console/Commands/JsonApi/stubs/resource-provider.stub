@@ -1,0 +1,27 @@
+<?php
+
+namespace {{ namespace }};
+
+use CloudCreativity\LaravelJsonApi\Api\AbstractProvider;
+use CloudCreativity\LaravelJsonApi\Routing\RouteRegistrar;
+
+class {{ class }} extends AbstractProvider
+{
+
+    /**
+     * @inheritdoc
+     */
+    protected $resources = [
+        //
+    ];
+
+    public function mount(RouteRegistrar $api): void
+    {
+        //
+    }
+
+    protected function getRootNamespace(): string
+    {
+        return __NAMESPACE__ . '\\Resources';
+    }
+}
