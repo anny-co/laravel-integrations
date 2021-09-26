@@ -9,22 +9,34 @@ use Bddy\Integrations\Support\AbstractIntegrationManager;
 class EncryptionIntegrationManager extends AbstractIntegrationManager implements ShouldEncryptSettings
 {
 	/**
-	 * Key of integration.
+	 * @inheritdoc
 	 */
 	protected static string $integrationKey = 'encryption_example';
 
+    /**
+     * @inheritdoc
+     */
 	protected static string $manifest = EncryptionIntegrationManifest::class;
 
+    /**
+     * @inheritdoc
+     */
 	public function getDefaultSettings(): array
 	{
 		return [];
 	}
 
+    /**
+     * @inheritdoc
+     */
 	public function rules(): array
 	{
 		return [];
 	}
 
+    /**
+     * @inheritdoc
+     */
 	public function settingRules(): array
 	{
 		return [
@@ -34,6 +46,9 @@ class EncryptionIntegrationManager extends AbstractIntegrationManager implements
 		];
 	}
 
+    /**
+     * @inheritdoc
+     */
     public function getEncryptedSettingKeys(): array
     {
         return [
@@ -41,10 +56,13 @@ class EncryptionIntegrationManager extends AbstractIntegrationManager implements
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getPossibleAuthenticationStrategies(): array
     {
         return [
-            new AccessTokenAuthenticationStrategy()
+
         ];
     }
 }
