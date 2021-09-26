@@ -278,7 +278,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
             return true;
         }
 
-        return $strategy->hasRequiredData();
+        return $strategy->hasRequiredData($this->integration);
     }
 
     /**
