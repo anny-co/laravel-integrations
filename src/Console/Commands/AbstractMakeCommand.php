@@ -25,11 +25,23 @@ abstract class AbstractMakeCommand extends Command
 	public function __construct()
 	{
 		// Setting properties from resource
-		$this->name = "integration:make:{$this->resource}";
-		$this->signature = "integration:make:{$this->resource} {integration} {name}";
-		$this->description = "Create a new {$this->resource} class.";
+        $this->setNameInitially();
+        $this->setSignatureInitially();
+        $this->setDescriptionInitially();
 		parent::__construct();
 	}
+
+	protected function setNameInitially() {
+        $this->name = "make:integration:{$this->resource}";
+    }
+
+    protected function setSignatureInitially() {
+        $this->signature = "make:integration:{$this->resource} {integration} {name}";
+    }
+
+    protected function setDescriptionInitially() {
+        $this->description = "Create a new {$this->resource} class.";
+    }
 
 	/**
 	 * @return void
@@ -48,7 +60,16 @@ abstract class AbstractMakeCommand extends Command
 		unset($arguments['integration']);
 
 		// Make resource
-		$this->call("make:{$this->resource}", $arguments);
+        $command = $this->getMakeCommand();
+		$this->call($command, $arguments);
+	}
+
+    /**
+     * @return string
+     */
+    protected function getMakeCommand()
+    {
+        return "make:{$this->resource}";
 	}
 
 	/**
@@ -83,4 +104,5 @@ abstract class AbstractMakeCommand extends Command
 
 		return "App/Integrations/{$integrationName}/{$this->getResourceDir()}";
 	}
+
 }
