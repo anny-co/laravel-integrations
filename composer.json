@@ -25,7 +25,8 @@
     "illuminate/contracts": "^7.0|^8.0",
     "illuminate/container": "^7.0|^8.0",
     "illuminate/database": "^7.0|^8.0",
-    "laravel/socialite": "^5.2"
+    "laravel/socialite": "^5.2",
+    "cloudcreativity/laravel-json-api": "^3.3"
   },
   "autoload": {
     "psr-4": {
