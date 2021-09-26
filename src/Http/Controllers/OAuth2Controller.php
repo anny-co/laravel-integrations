@@ -24,9 +24,7 @@ class OAuth2Controller
             ->where('uuid', $uuid)
             ->firstOrFail();
 
-        $manager = $integration->getIntegrationManager();
-
-        return $manager->for($integration)->handleOAuth2Redirect($request);
+        return $integration->getIntegrationManager()->handleOAuth2Redirect($request);
     }
 
     /**
