@@ -5,7 +5,7 @@ namespace Bddy\Integrations\Console\Commands;
 
 use Illuminate\Support\Str;
 
-class IntegrationManifestMakeCommand extends \Illuminate\Console\GeneratorCommand
+class IntegrationManifestMakeCommand extends AbstractGeneratorCommand
 {
 
 	/**
@@ -18,7 +18,7 @@ class IntegrationManifestMakeCommand extends \Illuminate\Console\GeneratorComman
 	/**
 	 * The console command description.
 	 *
-	 * @var string
+	 * @var stringfeat: added make commands for json-api
 	 */
 	protected $description = 'Create a new integration manifest.';
 
@@ -30,17 +30,6 @@ class IntegrationManifestMakeCommand extends \Illuminate\Console\GeneratorComman
 	protected $type = 'IntegrationManifest';
 
 	/**
-	 * @return bool|null
-	 * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-	 */
-	public function handle()
-	{
-		if (parent::handle() === false) {
-			return false;
-		}
-	}
-
-	/**
 	 * Get the stub file for the generator.
 	 *
 	 * @return string
@@ -50,18 +39,6 @@ class IntegrationManifestMakeCommand extends \Illuminate\Console\GeneratorComman
 		return $this->resolveStubPath('/stubs/integration-manifest.stub');
 	}
 
-	/**
-	 * Resolve the fully-qualified path to the stub.
-	 *
-	 * @param  string  $stub
-	 * @return string
-	 */
-	protected function resolveStubPath($stub)
-	{
-		return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
-			? $customPath
-			: __DIR__.$stub;
-	}
 
 	/**
 	 * Get the default namespace for the class.
