@@ -427,6 +427,7 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
 
         // Save
         $integration->setSecrets($secrets);
+        $integration->save();
     }
 
     /**
