@@ -35,7 +35,7 @@ abstract class AbstractAdapter extends AbstractResourceAdapter
     {
         $integration = $this->getIntegration();
 
-        if(!$integration) {
+        if(!$integration || !$integration->isActive()) {
             return [];
         }
 
