@@ -45,7 +45,6 @@
 </div>
 
 <script>
-    window.opener.postMessage()
     window.setTimeout(function() {
         window.close();
     }, 3000)
