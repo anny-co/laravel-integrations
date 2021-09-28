@@ -10,9 +10,9 @@ interface IntegrationModel
     /**
      * Get corresponding integration manager.
      *
-     * @return IntegrationManager
+     * @return IntegrationManager|HasAuthenticationStrategies
      */
-    public function getIntegrationManager(): IntegrationManager;
+    public function getIntegrationManager(): IntegrationManager|HasAuthenticationStrategies;
 
     /**
      * Return array of secrets.
@@ -29,6 +29,13 @@ interface IntegrationModel
      * @return static
      */
     public function setSecrets(array $secrets): static;
+
+    /**
+     * Returns if integration is activated.
+     *
+     * @return bool
+     */
+    public function isActive(): bool;
 
 	/**
 	 * Activate a specific integration model.

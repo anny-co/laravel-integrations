@@ -4,6 +4,7 @@
 namespace Bddy\Integrations\Traits;
 
 
+use Bddy\Integrations\Contracts\HasAuthenticationStrategies;
 use Bddy\Integrations\Contracts\IntegrationManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -11,10 +12,17 @@ use Illuminate\Support\Str;
 
 trait IsIntegrationModel
 {
-	/**
-	 * @var string
-	 */
-	protected string $integrationKeyKey = 'key';
+    /**
+     * @var string
+     */
+    protected string $integrationKeyKey = 'key';
+
+    /**
+     * Key for attribute which indicates if the integration is active.
+     *
+     * @var string
+     */
+    protected string $isActiveKey = 'active';
 
     /**
      * Initialize the IsIntegrationModel trait and set casts and hidden.
@@ -41,48 +49,55 @@ trait IsIntegrationModel
             ['name', 'key', 'version', 'model_type', 'model_id', 'uuid', 'settings'],
             $this->fillable,
         );
-	}
+    }
 
     /**
      * Boot this trait and register events.
      */
     public static function bootIsIntegrationModel()
     {
-        static::creating(function(Model $integration) {
+        static::creating(function (Model $integration) {
             $integration->uuid = Str::uuid();
         });
-	}
+    }
 
-	/**
-	 * Get key of a integration
-	 *
-	 * @return mixed
-	 */
-	public function getIntegrationKey(): string
-	{
-		return $this->getAttribute($this->integrationKeyKey);
-	}
-
-	/**
-	 * Relation to model which has this integration.
-	 *
-	 * @return MorphTo
-	 */
-	public function model(): MorphTo
+    /**
+     * Get key of a integration
+     *
+     * @return mixed
+     */
+    public function getIntegrationKey(): string
     {
-		return $this->morphTo('model');
-	}
+        return $this->getAttribute($this->integrationKeyKey);
+    }
+
+    /**
+     * Relation to model which has this integration.
+     *
+     * @return MorphTo
+     */
+    public function model(): MorphTo
+    {
+        return $this->morphTo('model');
+    }
 
     /**
      * Get manager for this integration instance.
      *
-     * @return IntegrationManager
+     * @return IntegrationManager|HasAuthenticationStrategies
      */
-    public function getIntegrationManager(): IntegrationManager
+    public function getIntegrationManager(): IntegrationManager|HasAuthenticationStrategies
     {
         return integrations()->getIntegrationManager($this->getIntegrationKey())->for($this);
-	}
+    }
 
+    /**
+     * @inheritdoc
+     */
+    public function isActive(): bool
+    {
+        return $this->{$this->isActiveKey};
+    }
 
     /**
      * Activate a specific integration model.
@@ -91,46 +106,46 @@ trait IsIntegrationModel
      */
     public function activateIntegration(): static
     {
-		$this->getIntegrationManager()->activate($this);
+        $this->getIntegrationManager()->activate($this);
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * Deactivate a specific integration model.
-	 *
-	 * @return $this
-	 */
-	public function deactivateIntegration(): static
-	{
-		$this->getIntegrationManager()->deactivate($this);
-
-		return $this;
-	}
-
-	/**
-	 * Initialize a specific integration model.
-	 *
-	 * @return mixed
-	 */
-	public function initializeIntegration(): static
-	{
-		$this->getIntegrationManager()->initialize($this);
-
-		return $this;
-	}
-
-	/**
-     * TODO: replace with model events
-	 * Updating a specific integration model.
-	 *
-	 * @param array $attributes
-	 *
-	 * @return array
-	 */
-	public function updatingIntegration(array $attributes): array
+    /**
+     * Deactivate a specific integration model.
+     *
+     * @return $this
+     */
+    public function deactivateIntegration(): static
     {
-		return $this->getIntegrationManager()
-			->updating($this, $attributes);
-	}
+        $this->getIntegrationManager()->deactivate($this);
+
+        return $this;
+    }
+
+    /**
+     * Initialize a specific integration model.
+     *
+     * @return mixed
+     */
+    public function initializeIntegration(): static
+    {
+        $this->getIntegrationManager()->initialize($this);
+
+        return $this;
+    }
+
+    /**
+     * TODO: replace with model events
+     * Updating a specific integration model.
+     *
+     * @param array $attributes
+     *
+     * @return array
+     */
+    public function updatingIntegration(array $attributes): array
+    {
+        return $this->getIntegrationManager()
+            ->updating($this, $attributes);
+    }
 }
