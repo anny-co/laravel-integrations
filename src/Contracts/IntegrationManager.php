@@ -5,6 +5,7 @@ namespace Bddy\Integrations\Contracts;
 
 use Bddy\Integrations\Support\IntegrationManifest;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Client\PendingRequest;
 
 /**
  * Integration interface for a manager of an specific integration.
@@ -51,9 +52,18 @@ interface IntegrationManager
 
 
     /**
+     * Returns manifest for this integration.
+     *
      * @return IntegrationManifest
      */
 	public function getManifest(): IntegrationManifest;
+
+    /**
+     * Returns http client for this integration.
+     *
+     * @return PendingRequest
+     */
+    public function httpClient(): PendingRequest;
 
 	/**
 	 * Override default rules.

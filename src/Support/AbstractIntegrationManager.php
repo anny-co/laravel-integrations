@@ -13,8 +13,10 @@ use Bddy\Integrations\Contracts\IntegrationModel;
 use Bddy\Integrations\Traits\HandlesErrorsAndFailures;
 use Bddy\Integrations\Traits\HasManifest;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 abstract class AbstractIntegrationManager implements IntegrationManager, HandlesErrorsAndFailuresContract, HasAuthenticationStrategies
@@ -147,6 +149,18 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
             ->where('model_id', '=', $model->getKey())
             ->where('key', '=', static::getIntegrationKey())
             ->first();
+    }
+
+    /**
+     * Returns http client for this integration.
+     *
+     * @return PendingRequest
+     */
+    public function httpClient(): PendingRequest
+    {
+        return $this->getSelectedAuthenticationStrategy()
+            ? $this->getSelectedAuthenticationStrategy()->getHttpClient($this->integration)
+            : Http::withOptions([]);
     }
 
     /**
@@ -306,7 +320,7 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
     {
         $strategy = $this->getSelectedAuthenticationStrategy();
 
-        $strategy->authenticate($this->integration);
+        return $strategy->authenticate($this->integration);
     }
 
     /**
@@ -347,7 +361,8 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
      */
     public function getAuthenticationStrategy(string $key): ?AuthenticationStrategy
     {
-        return collect($this->getPossibleAuthenticationMethods())->first(fn(AuthenticationStrategy $authenticationStrategy) => $authenticationStrategy->key() === $key);
+        return collect($this->getPossibleAuthenticationStrategies())
+            ->first(fn(AuthenticationStrategy $authenticationStrategy) => $authenticationStrategy->getKey() === $key);
     }
 
     /**
