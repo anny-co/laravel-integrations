@@ -21,7 +21,7 @@ interface IntegrationManager
 	 * Get instance of integration.
 	 * @return static
 	 */
-	public static function get(): static;
+	public static function get(): static|IntegrationManager;
 
 	/**
 	 * Returns the identifier name for this integration.

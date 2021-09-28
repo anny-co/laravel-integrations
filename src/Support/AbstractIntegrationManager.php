@@ -43,9 +43,9 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
     /**
      * Get instance from manager.
      *
-     * @return IntegrationManager
+     * @return static|IntegrationManager
      */
-    public static function get(): static
+    public static function get(): static|IntegrationManager
     {
         return integrations()->getIntegrationManager(
             static::getIntegrationKey()
