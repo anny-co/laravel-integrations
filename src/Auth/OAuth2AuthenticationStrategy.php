@@ -51,6 +51,13 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
     protected array $scopes = [];
 
     /**
+     * The separating character for the requested scopes.
+     *
+     * @var string
+     */
+    protected $scopeSeparator = ',';
+
+    /**
      * Identifier key for this authentication strategy.
      *
      * @var string
@@ -306,10 +313,12 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
     {
         return $this->getTokenHttpClient()
             ->withOptions([
-                    'query' => $this->getRefreshTokenFields($integration),
                     'debug' => $this->shouldDebug()
                 ]
-            )->post($this->getRefreshTokenUrl());
+            )->asForm()->post(
+                $this->getRefreshTokenUrl(),
+                $this->getRefreshTokenFields($integration)
+            );
     }
 
     /**
@@ -332,8 +341,31 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
 
         return [
             'grant_type'    => 'refresh_token',
-            'refresh_token' => Arr::get($secrets, 'refresh_token')
+            'refresh_token' => $this->getRefreshToken($integration),
+            'scopes'        => $this->formatScopes($this->getScopes(), $this->scopeSeparator)
         ];
+    }
+
+    /**
+     * Format the given scopes.
+     *
+     * @param  array  $scopes
+     * @param  string  $scopeSeparator
+     * @return string
+     */
+    protected function formatScopes(array $scopes, $scopeSeparator)
+    {
+        return implode($scopeSeparator, $scopes);
+    }
+
+    /**
+     * Get the current scopes.
+     *
+     * @return array
+     */
+    public function getScopes()
+    {
+        return $this->scopes;
     }
 
     /**
