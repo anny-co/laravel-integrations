@@ -75,9 +75,9 @@ trait HandlesErrorsAndFailures
      */
     public function handleJobException(\Throwable $e, $job, string $contextKey = '', string $displayName = '', string $explanation = ''): void
     {
-        $contextKey  = empty($contextKey) ?? 'Unknown';
-        $displayName = empty($displayName) ?? 'An unknown error occurred.';
-        $explanation = empty($explanation) ?? 'Please try to login again.';
+        $contextKey  = empty($contextKey) ? 'Unknown' : $contextKey;
+        $displayName = empty($displayName) ? 'An unknown error occurred.' : $displayName;
+        $explanation = empty($explanation) ? 'Please try to login again.' : $explanation;
 
         // Unknown error
         if ($job)
@@ -201,7 +201,7 @@ trait HandlesErrorsAndFailures
      */
     public function createPayload($job, string $key, string $displayName, string $explanation = ''): array
     {
-        $displayFailureText = "[$key] $displayName";
+        $displayFailureText = "[${key}] ${displayName}";
         if ($explanation !== '')
         {
             $displayFailureText .= ": $explanation";
