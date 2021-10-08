@@ -63,6 +63,7 @@ class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
 	protected function createServiceProvider(string $name)
 	{
 		$this->call('make:integration:provider', [
+			'integration' => $name,
 			'name' => "{$name}ServiceProvider",
 		]);
 	}
@@ -74,6 +75,7 @@ class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
      */
 	protected function createManifest(string $name) {
         $this->call('make:integration:manifest', [
+            'integration' => $name,
             'name' => "{$name}Manifest",
         ]);
     }
@@ -85,6 +87,7 @@ class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
      */
     protected function createJob(string $name) {
         $this->call('make:integration:job', [
+            'integration' => $name,
             'name' => "{$name}Job",
             '--middleware' => 'true'
         ]);
@@ -93,6 +96,7 @@ class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
     protected function createOAuth2AuthenticationStrategy(string $name)
     {
         $this->call('make:integration:authentication-strategy', [
+            'integration' => $name,
             'name' => "{$name}OAuth2Authentication",
             '--oauth2' => 'true'
         ]);
@@ -101,6 +105,7 @@ class IntegrationMakeCommand extends \Illuminate\Console\GeneratorCommand
     protected function createAccessTokenAuthenticationStrategy(string $name)
     {
         $this->call('make:integration:authentication-strategy', [
+            'integration' => $name,
             'name' => "{$name}AccessTokenAuthentication",
             '--access_token' => 'true'
         ]);

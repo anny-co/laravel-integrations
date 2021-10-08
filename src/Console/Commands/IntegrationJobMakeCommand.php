@@ -6,7 +6,7 @@ namespace Bddy\Integrations\Console\Commands;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class IntegrationJobMakeCommand extends \Illuminate\Console\GeneratorCommand
+class IntegrationJobMakeCommand extends AbstractGeneratorCommand
 {
 
 	/**

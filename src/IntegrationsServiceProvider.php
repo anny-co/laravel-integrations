@@ -125,7 +125,7 @@ class IntegrationsServiceProvider extends ServiceProvider
 			    ControllerMakeCommand::class,
 			    EventMakeCommand::class,
 			    ExceptionMakeCommand::class,
-			    JobMakeCommand::class,
+//			    JobMakeCommand::class,
 			    ListenerMakeCommand::class,
 			    MailMakeCommand::class,
 			    MiddlewareMakeCommand::class,
