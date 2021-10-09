@@ -1,9 +1,9 @@
 <?php
 
-namespace Bddy\Integrations\Traits;
+namespace Anny\Integrations\Traits;
 
-use Bddy\Integrations\Contracts\EncryptSettingsService;
-use Bddy\Integrations\Contracts\ShouldEncryptSettings;
+use Anny\Integrations\Contracts\EncryptSettingsService;
+use Anny\Integrations\Contracts\ShouldEncryptSettings;
 use ReflectionClass;
 
 trait EncryptsSettings

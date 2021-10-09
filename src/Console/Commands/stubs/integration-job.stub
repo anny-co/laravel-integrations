@@ -4,7 +4,7 @@
 namespace {{ namespace }};
 
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Bddy\Integrations\Jobs\AbstractIntegrationJob;
+use Anny\Integrations\Jobs\AbstractIntegrationJob;
 {{ middlewareImport }}
 
 class {{ class }} extends AbstractIntegrationJob implements ShouldQueue

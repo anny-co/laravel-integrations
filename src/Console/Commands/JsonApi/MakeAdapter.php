@@ -1,6 +1,6 @@
 <?php
 
-namespace Bddy\Integrations\Console\Commands\JsonApi;
+namespace Anny\Integrations\Console\Commands\JsonApi;
 
 /**
  * Class MakeAdapter

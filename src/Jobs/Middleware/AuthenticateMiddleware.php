@@ -1,10 +1,10 @@
 <?php
 
-namespace Bddy\Integrations\Jobs\Middleware;
+namespace Anny\Integrations\Jobs\Middleware;
 
-use Bddy\Integrations\Exceptions\IntegrationIsLockedException;
-use Bddy\Integrations\Exceptions\RefreshTokenFailedException;
-use Bddy\Integrations\Jobs\AbstractIntegrationJob;
+use Anny\Integrations\Exceptions\IntegrationIsLockedException;
+use Anny\Integrations\Exceptions\RefreshTokenFailedException;
+use Anny\Integrations\Jobs\AbstractIntegrationJob;
 use Closure;
 
 class AuthenticateMiddleware

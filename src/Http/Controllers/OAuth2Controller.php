@@ -1,9 +1,9 @@
 <?php
 
-namespace Bddy\Integrations\Http\Controllers;
+namespace Anny\Integrations\Http\Controllers;
 
-use Bddy\Integrations\Contracts\IntegrationModel;
-use Bddy\Integrations\Integrations;
+use Anny\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Integrations;
 use Illuminate\Http\Request;
 
 class OAuth2Controller

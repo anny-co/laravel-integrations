@@ -1,8 +1,8 @@
 <?php
 
-namespace Bddy\Integrations\Tests\Stubs;
+namespace Anny\Integrations\Tests\Stubs;
 
-use Bddy\Integrations\Support\IntegrationManifest;
+use Anny\Integrations\Support\IntegrationManifest;
 
 class EncryptionIntegrationManifest extends IntegrationManifest
 {

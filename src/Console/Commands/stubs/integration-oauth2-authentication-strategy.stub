@@ -3,8 +3,8 @@
 
 namespace {{ namespace }};
 
-use Bddy\Integrations\Auth\OAuth2AuthenticationStrategy;
-use Bddy\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Auth\OAuth2AuthenticationStrategy;
+use Anny\Integrations\Contracts\IntegrationModel;
 
 class {{ class }} extends OAuth2AuthenticationStrategy
 {

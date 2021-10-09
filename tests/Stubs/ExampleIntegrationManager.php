@@ -1,9 +1,9 @@
 <?php
 
-namespace Bddy\Integrations\Tests\Stubs;
+namespace Anny\Integrations\Tests\Stubs;
 
-use Bddy\Integrations\Support\AbstractIntegrationManager;
-use Bddy\Integrations\Support\IntegrationManifest;
+use Anny\Integrations\Support\AbstractIntegrationManager;
+use Anny\Integrations\Support\IntegrationManifest;
 use JetBrains\PhpStorm\Pure;
 
 class ExampleIntegrationManager extends AbstractIntegrationManager
@@ -37,4 +37,8 @@ class ExampleIntegrationManager extends AbstractIntegrationManager
 		];
 	}
 
+    public function getPossibleAuthenticationStrategies(): array
+    {
+        return [];
+    }
 }

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Bddy\Integrations;
+namespace Anny\Integrations;
 
-use Bddy\Integrations\Contracts\IntegrationManager;
-use Bddy\Integrations\Contracts\IntegrationsRegistry as IntegrationsRegistryContract;
+use Anny\Integrations\Contracts\IntegrationManager;
+use Anny\Integrations\Contracts\IntegrationsRegistry as IntegrationsRegistryContract;
 use Illuminate\Support\Arr;
 
 class IntegrationsRegistry implements IntegrationsRegistryContract

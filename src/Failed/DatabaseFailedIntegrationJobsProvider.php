@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Bddy\Integrations\Failed;
+namespace Anny\Integrations\Failed;
 
-use Bddy\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Contracts\IntegrationModel;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;

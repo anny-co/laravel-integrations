@@ -1,9 +1,9 @@
 <?php
 
-namespace Bddy\Integrations\Traits;
+namespace Anny\Integrations\Traits;
 
-use Bddy\Integrations\Contracts\IntegrationModel;
-use Bddy\Integrations\Services\GetIntegrationFromRequestService;
+use Anny\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Services\GetIntegrationFromRequestService;
 use Illuminate\Database\Eloquent\Model;
 
 Trait GetsIntegrationFromRequest

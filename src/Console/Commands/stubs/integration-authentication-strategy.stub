@@ -3,7 +3,7 @@
 
 namespace {{ namespace }};
 
-use Bddy\Integrations\Auth\AuthenticationStrategy;
+use Anny\Integrations\Auth\AuthenticationStrategy;
 
 class {{ class }} extends AbstractAuthenticationStrategy
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Bddy\Integrations\Exceptions;
+namespace Anny\Integrations\Exceptions;
 
-use Bddy\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Contracts\IntegrationModel;
 use Throwable;
 
 class RefreshTokenFailedException extends \Exception

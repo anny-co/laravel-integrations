@@ -1,10 +1,10 @@
 <?php
 
-namespace Bddy\Integrations\Tests\EncryptSettings;
+namespace Anny\Integrations\Tests\EncryptSettings;
 
-use Bddy\Integrations\Models\Integration;
-use Bddy\Integrations\Tests\Stubs\EncryptionIntegrationManager;
-use Bddy\Integrations\Tests\TestCase;
+use Anny\Integrations\Models\Integration;
+use Anny\Integrations\Tests\Stubs\EncryptionIntegrationManager;
+use Anny\Integrations\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Crypt;

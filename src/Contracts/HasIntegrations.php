@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Bddy\Integrations\Contracts;
+namespace Anny\Integrations\Contracts;
 
 
-use Bddy\Integrations\Contracts\IntegrationManager as IntegrationManager;
+use Anny\Integrations\Contracts\IntegrationManager as IntegrationManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 

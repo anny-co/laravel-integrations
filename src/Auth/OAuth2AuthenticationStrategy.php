@@ -1,14 +1,14 @@
 <?php
 
-namespace Bddy\Integrations\Auth;
+namespace Anny\Integrations\Auth;
 
-use Bddy\Integrations\Contracts\AuthenticationStrategy;
-use Bddy\Integrations\Contracts\IntegrationModel;
-use Bddy\Integrations\Events\RefreshingTokenFailed;
-use Bddy\Integrations\Exceptions\IntegrationIsLockedException;
-use Bddy\Integrations\Exceptions\InvalidStateException;
-use Bddy\Integrations\Exceptions\RefreshTokenFailedException;
-use Bddy\Integrations\Integrations;
+use Anny\Integrations\Contracts\AuthenticationStrategy;
+use Anny\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Events\RefreshingTokenFailed;
+use Anny\Integrations\Exceptions\IntegrationIsLockedException;
+use Anny\Integrations\Exceptions\InvalidStateException;
+use Anny\Integrations\Exceptions\RefreshTokenFailedException;
+use Anny\Integrations\Integrations;
 use Carbon\Carbon;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Model;

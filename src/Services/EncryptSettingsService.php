@@ -1,8 +1,8 @@
 <?php
 
-namespace Bddy\Integrations\Services;
+namespace Anny\Integrations\Services;
 
-use Bddy\Integrations\Contracts\EncryptSettingsService as Contract;
+use Anny\Integrations\Contracts\EncryptSettingsService as Contract;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Crypt;
 

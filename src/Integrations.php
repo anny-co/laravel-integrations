@@ -1,6 +1,6 @@
 <?php
 
-namespace Bddy\Integrations;
+namespace Anny\Integrations;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,7 +12,7 @@ class Integrations
      *
      * @var string
      */
-    public static $model = \Bddy\Integrations\Models\Integration::class;
+    public static $model = \Anny\Integrations\Models\Integration::class;
 
     /**
      * Create a new model from integration model.

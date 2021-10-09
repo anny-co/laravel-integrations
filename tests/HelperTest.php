@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Bddy\Integrations\Tests;
+namespace Anny\Integrations\Tests;
 
 
-use Bddy\Integrations\Contracts\IntegrationsRegistry;
+use Anny\Integrations\Contracts\IntegrationsRegistry;
 
 class HelperTest extends TestCase
 {

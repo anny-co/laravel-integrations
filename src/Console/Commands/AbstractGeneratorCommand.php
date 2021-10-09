@@ -1,6 +1,6 @@
 <?php
 
-namespace Bddy\Integrations\Console\Commands;
+namespace Anny\Integrations\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;

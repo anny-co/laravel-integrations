@@ -1,6 +1,6 @@
 <?php
 
-namespace Bddy\Integrations\Exceptions;
+namespace Anny\Integrations\Exceptions;
 
 class InvalidStateException extends \InvalidArgumentException
 {

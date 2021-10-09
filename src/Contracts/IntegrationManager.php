@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Bddy\Integrations\Contracts;
+namespace Anny\Integrations\Contracts;
 
-use Bddy\Integrations\Support\IntegrationManifest;
+use Anny\Integrations\Support\IntegrationManifest;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\PendingRequest;
 
@@ -12,7 +12,7 @@ use Illuminate\Http\Client\PendingRequest;
  * For example a Zoom integration would implement
  *
  *
- * @package Bddy\Integrations\Contracts
+ * @package Anny\Integrations\Contracts
  */
 interface IntegrationManager
 {

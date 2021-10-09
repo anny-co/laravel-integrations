@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Bddy\Integrations\Support;
+namespace Anny\Integrations\Support;
 
 
 abstract class IntegrationManifest

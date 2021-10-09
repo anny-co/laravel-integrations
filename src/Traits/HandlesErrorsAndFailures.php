@@ -1,8 +1,8 @@
 <?php
 
-namespace Bddy\Integrations\Traits;
+namespace Anny\Integrations\Traits;
 
-use Bddy\Integrations\Failed\DatabaseFailedIntegrationJobsProvider;
+use Anny\Integrations\Failed\DatabaseFailedIntegrationJobsProvider;
 use Illuminate\Support\Str;
 
 trait HandlesErrorsAndFailures

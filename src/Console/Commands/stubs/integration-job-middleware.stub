@@ -4,7 +4,7 @@
 namespace {{ namespace }};
 
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Bddy\Integrations\Jobs\Middleware\AuthenticateMiddleware;
+use Anny\Integrations\Jobs\Middleware\AuthenticateMiddleware;
 
 class {{ class }} extends AuthenticateMiddleware
 {

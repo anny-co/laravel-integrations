@@ -1,4 +1,4 @@
 <?php
 return [
-	"integrationModel" => \Bddy\Integrations\Models\Integration::class,
+	"integrationModel" => \Anny\Integrations\Models\Integration::class,
 ];

@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Bddy\Integrations\Tests;
+namespace Anny\Integrations\Tests;
 
 
-use Bddy\Integrations\Models\Integration;
-use Bddy\Integrations\Tests\Stubs\ExampleIntegrationManager;
+use Anny\Integrations\Models\Integration;
+use Anny\Integrations\Tests\Stubs\ExampleIntegrationManager;
 
 class IntegrationManagerTest extends TestCase
 {

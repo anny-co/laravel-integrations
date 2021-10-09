@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Bddy\Integrations\Tests;
+namespace Anny\Integrations\Tests;
 
 
 use Illuminate\Support\Facades\File;

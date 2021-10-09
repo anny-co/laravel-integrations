@@ -1,10 +1,10 @@
 <?php
 
-namespace Bddy\Integrations\Jobs;
+namespace Anny\Integrations\Jobs;
 
-use Bddy\Integrations\Contracts\HandlesErrorsAndFailures;
-use Bddy\Integrations\Contracts\IntegrationManager;
-use Bddy\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Contracts\HandlesErrorsAndFailures;
+use Anny\Integrations\Contracts\IntegrationManager;
+use Anny\Integrations\Contracts\IntegrationModel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;

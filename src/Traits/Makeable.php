@@ -1,6 +1,6 @@
 <?php
 
-namespace Bddy\Integrations\Traits;
+namespace Anny\Integrations\Traits;
 
 trait Makeable
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Bddy\Integrations\Tests\Stubs;
+namespace Anny\Integrations\Tests\Stubs;
 
-use Bddy\Integrations\Auth\AccessTokenAuthenticationStrategy;
-use Bddy\Integrations\Contracts\ShouldEncryptSettings;
-use Bddy\Integrations\Support\AbstractIntegrationManager;
+use Anny\Integrations\Auth\AccessTokenAuthenticationStrategy;
+use Anny\Integrations\Contracts\ShouldEncryptSettings;
+use Anny\Integrations\Support\AbstractIntegrationManager;
 
 class EncryptionIntegrationManager extends AbstractIntegrationManager implements ShouldEncryptSettings
 {

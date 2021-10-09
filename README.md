@@ -7,7 +7,7 @@ This package makes it easy to get started with integrations for your laravel app
 You can install the package with composer
 
 ```bash
-composer require bddy/laravel-integrations
+composer require anny/laravel-integrations
 ```
 
 ### Preparing the database and publish config
@@ -15,26 +15,26 @@ composer require bddy/laravel-integrations
 You have to publish and run the migration:
 
 ```
-php artisan vendor:publish --provider="Bddy\Integrations\IntegrationsServiceProvider" --tag=migrations
+php artisan vendor:publish --provider="Anny\Integrations\IntegrationsServiceProvider" --tag=migrations
 php artisan migrate
 ```
 
 You could also publish the configuration:
 
 ```
-php artisan vendor:publish --provider="Bddy\Integrations\IntegrationsServiceProvider" --tag=config
+php artisan vendor:publish --provider="Anny\Integrations\IntegrationsServiceProvider" --tag=config
 ```
 
 ## Use own integration model
 
 To use your own Integration you have to create it with `php artisan make:model Integration`.
 
-This have to implement the integration contract. `class Integration extends Model implements Bddy\Integrations\Contracts\Integration`.
+This have to implement the integration contract. `class Integration extends Model implements Anny\Integrations\Contracts\Integration`.
 You can use our `IsIntegrationModel` trait.
 
 ```php
-use Bddy\Integrations\Contracts\IntegrationModel as IntegrationContract;
-use Bddy\Integrations\Traits\IsIntegrationModel;
+use Anny\Integrations\Contracts\IntegrationModel as IntegrationContract;
+use Anny\Integrations\Traits\IsIntegrationModel;
 use \Illuminate\Database\Eloquent\Model;
 class Integration extends Model implements IntegrationContract
 {
@@ -187,10 +187,10 @@ pipeline(new ConstructingEmailPassable($text));
 If you want to use pipelines you need to add the laravel-pipes package
 
 ```
-composer require bddy/laravel-pipes
+composer require anny/laravel-pipes
 ```
 
-For more information look at [https://packagist.org/packages/bddy/laravel-pipes](https://packagist.org/packages/bddy/laravel-pipes)
+For more information look at [https://packagist.org/packages/anny/laravel-pipes](https://packagist.org/packages/bddy/laravel-pipes)
 
 ## Handling errors and failures
 

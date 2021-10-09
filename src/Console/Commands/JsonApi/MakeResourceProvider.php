@@ -1,8 +1,8 @@
 <?php
 
-namespace Bddy\Integrations\Console\Commands\JsonApi;
+namespace Anny\Integrations\Console\Commands\JsonApi;
 
-use Bddy\Integrations\Console\Commands\AbstractGeneratorCommand;
+use Anny\Integrations\Console\Commands\AbstractGeneratorCommand;
 
 class MakeResourceProvider extends AbstractGeneratorCommand
 {

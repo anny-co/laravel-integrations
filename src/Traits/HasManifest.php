@@ -1,8 +1,8 @@
 <?php
 
-namespace Bddy\Integrations\Traits;
+namespace Anny\Integrations\Traits;
 
-use Bddy\Integrations\Support\IntegrationManifest;
+use Anny\Integrations\Support\IntegrationManifest;
 
 trait HasManifest
 {

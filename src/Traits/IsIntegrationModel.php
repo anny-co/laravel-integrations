@@ -1,11 +1,11 @@
 <?php
 
 
-namespace Bddy\Integrations\Traits;
+namespace Anny\Integrations\Traits;
 
 
-use Bddy\Integrations\Contracts\HasAuthenticationStrategies;
-use Bddy\Integrations\Contracts\IntegrationManager;
+use Anny\Integrations\Contracts\HasAuthenticationStrategies;
+use Anny\Integrations\Contracts\IntegrationManager;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;

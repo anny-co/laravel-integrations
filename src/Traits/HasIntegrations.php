@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Bddy\Integrations\Traits;
+namespace Anny\Integrations\Traits;
 
 
-use Bddy\Integrations\Contracts\IntegrationModel;
-use Bddy\Integrations\Contracts\IntegrationManager;
-use Bddy\Integrations\Models\Integration;
+use Anny\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Contracts\IntegrationManager;
+use Anny\Integrations\Models\Integration;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 

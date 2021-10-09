@@ -1,8 +1,8 @@
 <?php
 
-namespace Bddy\Integrations;
+namespace Anny\Integrations;
 
-use Bddy\Integrations\Http\Controllers\OAuth2Controller;
+use Anny\Integrations\Http\Controllers\OAuth2Controller;
 use Illuminate\Support\Facades\Route;
 
 class IntegrationRouteRegistrar

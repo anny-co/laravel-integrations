@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Bddy\Integrations\Console\Commands;
+namespace Anny\Integrations\Console\Commands;
 
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;

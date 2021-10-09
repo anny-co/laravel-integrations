@@ -1,9 +1,9 @@
 <?php
 
-namespace Bddy\Integrations\Auth;
+namespace Anny\Integrations\Auth;
 
-use Bddy\Integrations\Contracts\AuthenticationStrategy;
-use Bddy\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Contracts\AuthenticationStrategy;
+use Anny\Integrations\Contracts\IntegrationModel;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;

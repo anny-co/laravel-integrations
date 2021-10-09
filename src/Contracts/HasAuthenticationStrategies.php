@@ -1,8 +1,8 @@
 <?php
 
-namespace Bddy\Integrations\Contracts;
+namespace Anny\Integrations\Contracts;
 
-use Bddy\Integrations\Auth\AbstractAuthenticationStrategy;
+use Anny\Integrations\Auth\AbstractAuthenticationStrategy;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 

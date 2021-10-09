@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Bddy\Integrations\Console\Commands;
+namespace Anny\Integrations\Console\Commands;
 
 use Illuminate\Support\Str;
 
@@ -18,7 +18,7 @@ class IntegrationManifestMakeCommand extends AbstractGeneratorCommand
 	/**
 	 * The console command description.
 	 *
-	 * @var stringfeat: added make commands for json-api
+	 * @var string
 	 */
 	protected $description = 'Create a new integration manifest.';
 

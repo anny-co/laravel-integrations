@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Bddy\Integrations\Contracts;
+namespace Anny\Integrations\Contracts;
 
 
 interface IntegrationsRegistry

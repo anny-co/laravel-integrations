@@ -1,10 +1,10 @@
 <?php
 
-namespace Bddy\Integrations\Tests;
+namespace Anny\Integrations\Tests;
 
 
-use Bddy\Integrations\IntegrationsRegistry;
-use Bddy\Integrations\IntegrationsServiceProvider;
+use Anny\Integrations\IntegrationsRegistry;
+use Anny\Integrations\IntegrationsServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {

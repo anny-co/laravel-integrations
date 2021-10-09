@@ -1,9 +1,9 @@
 <?php
 
-namespace Bddy\Integrations\Auth;
+namespace Anny\Integrations\Auth;
 
-use Bddy\Integrations\Contracts\AuthenticationStrategy;
-use Bddy\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Contracts\AuthenticationStrategy;
+use Anny\Integrations\Contracts\IntegrationModel;
 
 abstract class AccessTokenAuthenticationStrategy extends AbstractAuthenticationStrategy implements AuthenticationStrategy
 {

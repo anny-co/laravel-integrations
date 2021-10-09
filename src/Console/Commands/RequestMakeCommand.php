@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Bddy\Integrations\Console\Commands;
+namespace Anny\Integrations\Console\Commands;
 
 class RequestMakeCommand extends AbstractMakeCommand
 {

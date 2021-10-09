@@ -1,17 +1,17 @@
 <?php
 
-namespace Bddy\Integrations\Support;
+namespace Anny\Integrations\Support;
 
-use Bddy\Integrations\Auth\AbstractAuthenticationStrategy;
-use Bddy\Integrations\Auth\OAuth2AuthenticationStrategy;
-use Bddy\Integrations\Contracts\AuthenticationStrategy;
-use Bddy\Integrations\Contracts\HandlesErrorsAndFailures as HandlesErrorsAndFailuresContract;
-use Bddy\Integrations\Contracts\HasAuthenticationStrategies;
-use Bddy\Integrations\Contracts\HasIntegrations;
-use Bddy\Integrations\Contracts\IntegrationManager;
-use Bddy\Integrations\Contracts\IntegrationModel;
-use Bddy\Integrations\Traits\HandlesErrorsAndFailures;
-use Bddy\Integrations\Traits\HasManifest;
+use Anny\Integrations\Auth\AbstractAuthenticationStrategy;
+use Anny\Integrations\Auth\OAuth2AuthenticationStrategy;
+use Anny\Integrations\Contracts\AuthenticationStrategy;
+use Anny\Integrations\Contracts\HandlesErrorsAndFailures as HandlesErrorsAndFailuresContract;
+use Anny\Integrations\Contracts\HasAuthenticationStrategies;
+use Anny\Integrations\Contracts\HasIntegrations;
+use Anny\Integrations\Contracts\IntegrationManager;
+use Anny\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Traits\HandlesErrorsAndFailures;
+use Anny\Integrations\Traits\HasManifest;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Request;

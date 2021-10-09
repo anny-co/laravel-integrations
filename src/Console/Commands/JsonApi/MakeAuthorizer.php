@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace Bddy\Integrations\Console\Commands\JsonApi;
+namespace Anny\Integrations\Console\Commands\JsonApi;
 
 use CloudCreativity\LaravelJsonApi\Exceptions\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;

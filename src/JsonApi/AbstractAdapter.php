@@ -1,8 +1,8 @@
 <?php
 
-namespace Bddy\Integrations\JsonApi;
+namespace Anny\Integrations\JsonApi;
 
-use Bddy\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Contracts\IntegrationModel;
 use CloudCreativity\LaravelJsonApi\Adapter\AbstractResourceAdapter;
 use CloudCreativity\LaravelJsonApi\Document\ResourceObject;
 use CloudCreativity\LaravelJsonApi\Pagination\Page;

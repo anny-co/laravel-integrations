@@ -1,8 +1,8 @@
 <?php
 
-namespace Bddy\Integrations\Events;
+namespace Anny\Integrations\Events;
 
-use Bddy\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Contracts\IntegrationModel;
 use Illuminate\Http\Client\Response;
 
 class RefreshingTokenFailed

@@ -1,10 +1,9 @@
 {
-  "name": "bddy/laravel-integrations",
-  "description": "Integrations for your laravel application.",
+  "name": "anny/laravel-integrations",
+  "description": "Integrations for laravel applications.",
   "keywords": [
     "laravel",
-    "bookingbuddy",
-    "bddy.tech",
+    "anny",
     "integrations",
     "plugins"
   ],
@@ -16,8 +15,8 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "Buddy Tech",
-      "email": "dev@bddy.tech"
+      "name": "Anny",
+      "email": "hello@anny.co"
     }
   ],
   "require": {
@@ -30,8 +29,8 @@
   },
   "autoload": {
     "psr-4": {
-      "Bddy\\Integrations\\": "src/",
-      "Bddy\\Integrations\\Tests\\": "tests"
+      "Anny\\Integrations\\": "src/",
+      "Anny\\Integrations\\Tests\\": "tests"
     },
     "files": [
       "src/helpers.php"
@@ -43,7 +42,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Bddy\\Integrations\\IntegrationsServiceProvider"
+        "Anny\\Integrations\\IntegrationsServiceProvider"
       ],
       "aliases": {
       }

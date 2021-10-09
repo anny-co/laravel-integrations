@@ -1,10 +1,10 @@
 <?php
 
-namespace Bddy\Integrations\Services;
+namespace Anny\Integrations\Services;
 
-use Bddy\Integrations\Contracts\IntegrationModel;
-use Bddy\Integrations\Integrations;
-use Bddy\Integrations\Traits\Makeable;
+use Anny\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Integrations;
+use Anny\Integrations\Traits\Makeable;
 use Illuminate\Database\Eloquent\Model;
 
 class GetIntegrationFromRequestService
