@@ -3,7 +3,7 @@
 
 namespace Anny\Integrations\Console\Commands;
 
-class IntegrationJobMiddlewareMakeCommand extends \Illuminate\Console\GeneratorCommand
+class IntegrationJobMiddlewareMakeCommand extends AbstractGeneratorCommand
 {
 
 	/**
@@ -69,10 +69,7 @@ class IntegrationJobMiddlewareMakeCommand extends \Illuminate\Console\GeneratorC
 	 */
 	protected function getDefaultNamespace($rootNamespace)
 	{
-		$integrationNamespace =  \Illuminate\Support\Str::studly($this->argument('name'));
-		$integrationNamespace = str_replace('Middleware', '', $integrationNamespace);
-
-		return $rootNamespace.'\\Integrations\\'.$integrationNamespace . '\\Jobs\\Middleware';
+	    return parent::getDefaultNamespace($rootNamespace) . '\\Jobs\\Middleware';
 	}
 
 	/**

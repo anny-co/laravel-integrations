@@ -44,6 +44,7 @@ class IntegrationJobMakeCommand extends AbstractGeneratorCommand
 
 		if($middleware) {
             $this->call('make:integration:job-middleware', [
+                'integration' => Str::studly($this->argument('integration')),
                 'name' => $this->getMiddlewareName()
             ]);
         }
@@ -100,10 +101,7 @@ class IntegrationJobMakeCommand extends AbstractGeneratorCommand
 	 */
 	protected function getDefaultNamespace($rootNamespace)
 	{
-		$integrationNamespace =  \Illuminate\Support\Str::studly($this->argument('name'));
-		$integrationNamespace = str_replace('Job', '', $integrationNamespace);
-
-		return $rootNamespace.'\\Integrations\\'.$integrationNamespace.'\\Jobs';
+	    return parent::getDefaultNamespace($rootNamespace) . '\\Jobs';
 	}
 
 	protected function buildClass($name)

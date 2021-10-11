@@ -3,7 +3,7 @@
 
 namespace Anny\Integrations\Console\Commands;
 
-class IntegrationServiceProviderMakeCommand extends \Illuminate\Console\GeneratorCommand
+class IntegrationServiceProviderMakeCommand extends AbstractGeneratorCommand
 {
 
 	/**
@@ -59,20 +59,6 @@ class IntegrationServiceProviderMakeCommand extends \Illuminate\Console\Generato
 		return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
 			? $customPath
 			: __DIR__.$stub;
-	}
-
-	/**
-	 * Get the default namespace for the class.
-	 *
-	 * @param  string  $rootNamespace
-	 * @return string
-	 */
-	protected function getDefaultNamespace($rootNamespace)
-	{
-		$integrationNamespace =  \Illuminate\Support\Str::studly($this->argument('name'));
-		$integrationNamespace = str_replace('ServiceProvider', '', $integrationNamespace);
-
-		return $rootNamespace.'\\Integrations\\'.$integrationNamespace;
 	}
 
 	/**

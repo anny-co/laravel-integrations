@@ -6,7 +6,7 @@ namespace Anny\Integrations\Console\Commands;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class IntegrationAuthenticationStrategyMakeCommand extends \Illuminate\Console\GeneratorCommand
+class IntegrationAuthenticationStrategyMakeCommand extends AbstractGeneratorCommand
 {
 
 	/**
@@ -59,24 +59,6 @@ class IntegrationAuthenticationStrategyMakeCommand extends \Illuminate\Console\G
 		return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
 			? $customPath
 			: __DIR__.$stub;
-	}
-
-	/**
-	 * Get the default namespace for the class.
-	 *
-	 * @param  string  $rootNamespace
-	 * @return string
-	 */
-	protected function getDefaultNamespace($rootNamespace)
-	{
-		$integrationNamespace = \Illuminate\Support\Str::studly($this->argument('name'));
-        $integrationNamespace = str_replace('OAuth2Authentication', '', $integrationNamespace);
-        $integrationNamespace = str_replace('AccessTokenAuthentication', '', $integrationNamespace);
-        $integrationNamespace = str_replace('AuthenticationStrategy', '', $integrationNamespace);
-        $integrationNamespace = str_replace('Authentication', '', $integrationNamespace);
-        $integrationNamespace = str_replace('Auth', '', $integrationNamespace);
-
-		return $rootNamespace.'\\Integrations\\'.$integrationNamespace;
 	}
 
     /**

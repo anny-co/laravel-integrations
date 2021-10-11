@@ -17,7 +17,7 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        $integrationNamespace =  Str::studly($this->argument('integration'));
+        $integrationNamespace = Str::studly($this->argument('integration'));
 
         return $rootNamespace.'\\Integrations\\'.$integrationNamespace;
     }
