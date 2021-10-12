@@ -31,6 +31,24 @@ interface IntegrationModel
     public function setSecrets(array $secrets): static;
 
     /**
+     * Get a single secret.
+     *
+     * @param string $path
+     * @param        $default
+     *
+     * @return mixed
+     */
+    public function getSecret(string $key, $default): mixed;
+
+    /**
+     * Set a single secret
+     *
+     * @param string $key
+     * @param        $value
+     */
+    public function setSecret(string $key, $value): static;
+
+    /**
      * Returns if integration is activated.
      *
      * @return bool
