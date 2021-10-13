@@ -10,6 +10,7 @@ use Anny\Integrations\Contracts\HasAuthenticationStrategies;
 use Anny\Integrations\Contracts\HasIntegrations;
 use Anny\Integrations\Contracts\IntegrationManager;
 use Anny\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Exceptions\MissingAuthenticationException;
 use Anny\Integrations\Traits\HandlesErrorsAndFailures;
 use Anny\Integrations\Traits\HasManifest;
 use Illuminate\Database\Eloquent\Model;
@@ -166,16 +167,29 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
     /**
      * Activate a specific integration model.
      *
-     * @param Model|IntegrationModel|null $integration
+     * @param IntegrationModel|null $integration
      *
-     * @return mixed
+     * @return static
+     * @throws MissingAuthenticationException
      */
-    public function activate(?IntegrationModel $integration)
+    public function activate(?IntegrationModel $integration): static
     {
         $this->for($integration);
-        $integration->active = true;
+        // Check if we can activate integration
+        if(count($this->getPossibleAuthenticationStrategies()) <= 0) {
+            $this->integration->active = true;
 
-        return $integration->save();
+            return $this;
+        }
+
+        $selectedAuthenticationStrategy = $this->getSelectedAuthenticationStrategy();
+        if(!$selectedAuthenticationStrategy || !$this->authenticationStrategyHasRequiredData()) {
+            throw new MissingAuthenticationException();
+        }
+
+        $this->integration->active = true;
+
+        return $this;
     }
 
 
@@ -184,14 +198,14 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
      *
      * @param Model|IntegrationModel|null $integration
      *
-     * @return mixed
+     * @return static
      */
-    public function deactivate(?IntegrationModel $integration)
+    public function deactivate(?IntegrationModel $integration): static
     {
         $this->for($integration);
         $integration->active = false;
 
-        return $integration->save();
+        return $this;
     }
 
     /**
@@ -199,9 +213,9 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
      *
      * @param Model|IntegrationModel|null $integration
      *
-     * @return mixed
+     * @return static
      */
-    public function initialize(?IntegrationModel $integration)
+    public function initialize(?IntegrationModel $integration): static
     {
         $this->for($integration);
 
