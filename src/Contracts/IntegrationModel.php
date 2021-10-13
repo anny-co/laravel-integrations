@@ -38,7 +38,7 @@ interface IntegrationModel
      *
      * @return mixed
      */
-    public function getSecret(string $key, $default): mixed;
+    public function getSecret(string $key, $default = null): mixed;
 
     /**
      * Set a single secret
