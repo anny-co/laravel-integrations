@@ -4,6 +4,7 @@ namespace Anny\Integrations\Auth;
 
 use Anny\Integrations\Contracts\AuthenticationStrategy;
 use Anny\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Events\OAuth2CallbackFinished;
 use Anny\Integrations\Events\RefreshingTokenFailed;
 use Anny\Integrations\Exceptions\IntegrationIsLockedException;
 use Anny\Integrations\Exceptions\InvalidStateException;
@@ -165,6 +166,8 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
         );
 
         $this->saveAccessTokenResponse($integration, $accessTokenResponse);
+
+        event(new OAuth2CallbackFinished($integration, $accessTokenResponse));
 
         return true;
     }
