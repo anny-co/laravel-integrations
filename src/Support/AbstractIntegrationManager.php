@@ -266,6 +266,13 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
     public abstract function getPossibleAuthenticationStrategies(): array;
 
     /**
+     * Check if connection to integration is successful.
+     *
+     * @return bool
+     */
+    public abstract function testConnection(): bool;
+
+    /**
      * Select a specific authentication strategy.
      *
      * @param AuthenticationStrategy $strategy

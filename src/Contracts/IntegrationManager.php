@@ -65,6 +65,13 @@ interface IntegrationManager
      */
     public function httpClient(): PendingRequest;
 
+    /**
+     * Check if connection to integration is successful.
+     *
+     * @return bool
+     */
+    public function testConnection(): bool;
+
 	/**
 	 * Override default rules.
 	 *
