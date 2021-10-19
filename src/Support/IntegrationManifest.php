@@ -84,8 +84,8 @@ abstract class IntegrationManifest
         if (!$this->available)
         {
             $manifestArray['unavailable_message'] = $this->getUnavailableMessage();
-            $manifestArray['availability_action'] = $this->getUnavailableMessage();
-            $manifestArray['availability_link']   = $this->getUnavailableMessage();
+            $manifestArray['availability_action'] = $this->getAvailabilityAction();
+            $manifestArray['availability_link']   = $this->getAvailabilityLink();
         }
 
         return $manifestArray;
