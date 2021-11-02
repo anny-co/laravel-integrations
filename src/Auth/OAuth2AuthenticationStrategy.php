@@ -505,7 +505,7 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
      */
     public function accessTokenExpiresSoon(IntegrationModel $integration): bool
     {
-        return $this->getExpiresAt($integration)?->subMinutes(5)->isBefore(now());
+        return $this->getExpiresAt($integration)?->subMinutes(5)->isBefore(now()) ?? false;
     }
 
     /**
