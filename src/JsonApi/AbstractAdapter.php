@@ -66,8 +66,16 @@ abstract class AbstractAdapter extends AbstractResourceAdapter
 
         if (count($ids) > 0) {
             $resources = $resources
-                ->filter(function (array $user) use ($ids) {
-                    return in_array($user['id'], $ids);
+                ->filter(function ($model) use ($ids) {
+                    if(is_array($model) && array_key_exists('id', $model)) {
+                        return in_array($model['id'], $ids);
+                    }
+
+                    if(is_object($model) && property_exists($model, 'id')){
+                        return in_array($model->id, $ids);
+                    }
+
+                    return true;
                 });
         }
 
