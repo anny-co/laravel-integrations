@@ -71,12 +71,20 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
      * @return bool
      * @throws IntegrationIsLockedException
      */
-    public function authenticate(IntegrationModel $integration): bool
+    public function authenticate(IntegrationModel $integration, int $waitingSeconds = 0): bool
     {
         // If it is still locked throw exception
         Log::info('Check integration lock.');
-        if ($this->isLocked($integration))
+        // loop and wait 1 second until lock is released for $waitingSeconds
+        $currentWaitTime = 0;
+        while ($currentWaitTime < $waitingSeconds && $this->isLocked($integration))
         {
+                sleep(1);
+                $currentWaitTime++;
+        }
+        // Check if it is still locked
+        if($this->isLocked($integration)) {
+            // if it is locked, we can wait an amount of time
             Log::info('Integration is locked.');
             throw new IntegrationIsLockedException($integration);
         }
