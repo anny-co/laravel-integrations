@@ -59,6 +59,15 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
     }
 
     /**
+     * Get integration type.
+     *
+     * @return string
+     */
+    public static function getType(): string {
+        return static::$type;
+    }
+
+    /**
      * Set the model for which the next actions should be taken.
      *
      * @param Model|IntegrationModel|null $integration
