@@ -9,11 +9,11 @@ interface IntegrationsRegistry
 	/**
 	 * Let the manager know about a new integration.
 	 *
-	 * @param IntegrationManager $manager
+	 * @param IntegrationManager $integration
 	 *
 	 * @return mixed
 	 */
-	public function registerIntegrationManager(IntegrationManager $manager);
+	public function registerIntegrationManager(IntegrationManager $integration);
 
 
 	/**
@@ -27,7 +27,7 @@ interface IntegrationsRegistry
 	 *
 	 * @param string $key
 	 *
-	 * @return IntegrationManager|null
+	 * @return IntegrationManager
 	 */
-	public function getIntegrationManager(string $key): IntegrationManager|null;
+	public function getIntegrationManager(string $key): IntegrationManager;
 }

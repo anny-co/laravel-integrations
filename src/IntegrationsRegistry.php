@@ -12,9 +12,7 @@ class IntegrationsRegistry implements IntegrationsRegistryContract
     /**
      * @var array $integrations
      */
-    private array $integrations = [
-        'default' => [],
-    ];
+    private array $integrations = [];
 
     public function __construct()
     {
@@ -22,38 +20,32 @@ class IntegrationsRegistry implements IntegrationsRegistryContract
     }
 
     /**
-     * @param IntegrationManager $manager
-     * @param string             $type
+     * @param IntegrationManager $integration
      *
-     * @return IntegrationManager
+     * @return IntegrationManager|mixed
      */
-    public function registerIntegrationManager(IntegrationManager $manager, string $type = 'default')
+    public function registerIntegrationManager(IntegrationManager $integration)
     {
-        if($type === '') {
-            $type = 'default';
-        }
+        $this->integrations[$integration->getIntegrationKey()] = $integration;
 
-        $this->integrations[$type][$manager->getIntegrationKey()] = $manager;
-
-        return $manager;
+        return $integration;
     }
 
     /**
      * @return array|mixed
      */
-    public function getIntegrationManagers(string $type = 'default')
+    public function getIntegrationManagers()
     {
-        return Arr::get($this->integrations, $type, []);
+        return $this->integrations;
     }
 
     /**
      * @param string $key
-     * @param string $type
      *
-     * @return IntegrationManager|null
+     * @return IntegrationManager
      */
-    public function getIntegrationManager(string $key, string $type = 'default'): IntegrationManager|null
+    public function getIntegrationManager(string $key): IntegrationManager
     {
-        return Arr::get($this->integrations, $type . '.' . $key);
+        return Arr::get($this->integrations, $key);
     }
 }
