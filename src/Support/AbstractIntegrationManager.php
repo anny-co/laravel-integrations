@@ -31,6 +31,11 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
     protected static string $integrationKey;
 
     /**
+     * @var string
+     */
+    protected static string $type = 'default';
+
+    /**
      * Current integration model.
      * @var null|Model|IntegrationModel
      */
