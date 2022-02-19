@@ -43,6 +43,10 @@ class OAuth2Controller
 
         $manager->handleOAuth2Callback($request);
 
+        if(method_exists($manager, 'authorized')) {
+            $manager->authorized($manager->getIntegrationModel());
+        }
+
         return view('anny::callback');
     }
 }

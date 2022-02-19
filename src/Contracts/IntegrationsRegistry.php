@@ -22,12 +22,12 @@ interface IntegrationsRegistry
 	 */
 	public function getIntegrationManagers();
 
-	/**
-	 * Get a integration by it's key.
-	 *
-	 * @param string $key
-	 *
-	 * @return IntegrationManager
-	 */
-	public function getIntegrationManager(string $key): IntegrationManager;
+    /**
+     * Get a integration by it's key.
+     *
+     * @param string $key
+     *
+     * @return IntegrationManager|null
+     */
+	public function getIntegrationManager(string $key): IntegrationManager|null;
 }

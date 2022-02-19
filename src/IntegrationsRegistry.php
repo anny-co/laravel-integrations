@@ -42,10 +42,10 @@ class IntegrationsRegistry implements IntegrationsRegistryContract
     /**
      * @param string $key
      *
-     * @return IntegrationManager
+     * @return IntegrationManager|null
      */
-    public function getIntegrationManager(string $key): IntegrationManager
+    public function getIntegrationManager(string $key): IntegrationManager|null
     {
-        return Arr::get($this->integrations, $key);
+        return Arr::get($this->integrations, $key, null);
     }
 }

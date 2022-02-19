@@ -84,6 +84,13 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
         return $this;
     }
 
+    /**
+     * @return IntegrationModel|null
+     */
+    public function getIntegrationModel(): IntegrationModel|null
+    {
+        return $this->integration;
+    }
 
     /**
      * Return integration key.

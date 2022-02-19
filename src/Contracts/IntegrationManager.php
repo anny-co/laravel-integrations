@@ -112,6 +112,11 @@ interface IntegrationManager
 	 */
 	public function for(IntegrationModel $integration): static;
 
+    /**
+     * @return IntegrationModel|null
+     */
+    public function getIntegrationModel(): IntegrationModel|null;
+
 	/**
 	 * Activate a specific integration model.
 	 *
