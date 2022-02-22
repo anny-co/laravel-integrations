@@ -6,6 +6,7 @@ namespace Anny\Integrations\Traits;
 
 use Anny\Integrations\Contracts\HasAuthenticationStrategies;
 use Anny\Integrations\Contracts\IntegrationManager;
+use Anny\Integrations\Observers\IntegrationModelObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;
@@ -56,6 +57,7 @@ trait IsIntegrationModel
      */
     public static function bootIsIntegrationModel()
     {
+        static::observe(new IntegrationModelObserver());
         static::creating(function (Model $integration) {
             $integration->uuid = Str::uuid();
         });
