@@ -65,4 +65,9 @@ class EncryptionIntegrationManager extends AbstractIntegrationManager implements
 
         ];
     }
+
+    public function testConnection(): bool
+    {
+        return true;
+    }
 }

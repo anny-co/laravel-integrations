@@ -41,4 +41,9 @@ class ExampleIntegrationManager extends AbstractIntegrationManager
     {
         return [];
     }
+
+    public function testConnection(): bool
+    {
+       return true;
+    }
 }
