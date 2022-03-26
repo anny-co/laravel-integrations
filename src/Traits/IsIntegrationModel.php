@@ -136,18 +136,4 @@ trait IsIntegrationModel
 
         return $this;
     }
-
-    /**
-     * TODO: replace with model events
-     * Updating a specific integration model.
-     *
-     * @param array $attributes
-     *
-     * @return array
-     */
-    public function updatingIntegration(array $attributes): array
-    {
-        return $this->getIntegrationManager()
-            ->updating($this, $attributes);
-    }
 }

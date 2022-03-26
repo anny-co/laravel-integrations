@@ -244,21 +244,6 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
     }
 
     /**
-     * Updating a specific integration model.
-     *
-     * @param Model|IntegrationModel|null $integration
-     * @param array                       $attributes
-     *
-     * @return mixed
-     */
-    public function updating(?IntegrationModel $integration, array $attributes)
-    {
-        $this->for($integration);
-
-        return $attributes;
-    }
-
-    /**
      * Get connected manifest.
      *
      * @return IntegrationManifest

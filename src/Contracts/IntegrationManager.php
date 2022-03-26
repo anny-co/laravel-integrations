@@ -143,14 +143,4 @@ interface IntegrationManager
 	 * @return mixed
 	 */
 	public function initialize(?IntegrationModel $integration);
-
-	/**
-	 * Updating a specific integration model.
-	 *
-	 * @param Model|IntegrationModel|null $integration
-	 * @param array|null                  $attributes
-	 *
-	 * @return mixed
-	 */
-	public function updating(?IntegrationModel $integration, array $attributes);
 }
