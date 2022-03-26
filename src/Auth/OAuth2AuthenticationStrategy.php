@@ -11,6 +11,7 @@ use Anny\Integrations\Exceptions\InvalidStateException;
 use Anny\Integrations\Exceptions\RefreshTokenFailedException;
 use Anny\Integrations\Integrations;
 use Carbon\Carbon;
+use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\PendingRequest;
@@ -29,7 +30,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrategy implements AuthenticationStrategy
 {
-
     /**
      * Socialite oauth2 provider class.
      *
@@ -67,39 +67,36 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
 
     /**
      * @param IntegrationModel $integration
+     * @param int              $waitingSeconds
+     * @param int              $lockSeconds
      *
      * @return bool
      * @throws IntegrationIsLockedException
      */
-    public function authenticate(IntegrationModel $integration, int $waitingSeconds = 0): bool
+    public function authenticate(IntegrationModel $integration, int $waitingSeconds = 1, int $lockSeconds = 30): bool
     {
         // If it is still locked throw exception
         Log::info('Check integration lock.');
-        // loop and wait 1 second until lock is released for $waitingSeconds
-        $currentWaitTime = 0;
-        while ($currentWaitTime < $waitingSeconds && $this->isLocked($integration))
-        {
-                sleep(1);
-                $currentWaitTime++;
-        }
-        // Check if it is still locked
-        if($this->isLocked($integration)) {
-            // if it is locked, we can wait an amount of time
-            Log::info('Integration is locked.');
-            throw new IntegrationIsLockedException($integration);
-        }
 
-        // Check if we need to refresh token
-        Log::info('Check if access token expires soon.');
-        if ($this->accessTokenExpiresSoon($integration))
-        {
-            Log::info('Access token expires soon or is expired. Requesting a new one.');
+        try {
+            return Cache::lock($this->getRefreshingTokenLockKey($integration), $lockSeconds)
+                ->block($waitingSeconds, function () use ($integration) {
+                    // Check if we need to refresh token
+                    Log::info('Check if access token expires soon.');
+                    if ($this->accessTokenExpiresSoon($integration))
+                    {
+                        Log::info('Access token expires soon or is expired. Requesting a new one.');
 
-            // Run action for refreshing token
-            return $this->refreshToken($integration);
+                        // Run action for refreshing token
+                        return $this->refreshToken($integration);
+                    }
+
+                    return true;
+                });
+
+        }catch (LockTimeoutException $e){
+            throw new IntegrationIsLockedException($integration, $e);
         }
-
-        return true;
     }
 
     /**
@@ -231,30 +228,19 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
      * @param IntegrationModel $integration
      *
      * @return bool
-     * @throws IntegrationIsLockedException
      * @throws RefreshTokenFailedException
      */
     public function refreshToken(IntegrationModel $integration): bool
     {
-        if ($this->isLocked($integration))
-        {
-            throw new IntegrationIsLockedException($integration);
-        }
-
-        $this->lock($integration);
-
         $response = $this->getRefreshTokenResponse($integration);
 
         // Check if request has failed
         if ($response->failed())
         {
-            $this->unlock($integration);
             $this->handleFailedRefreshTokenResponse($integration, $response);
         }
 
         $this->saveAccessTokenResponse($integration, $response->json());
-
-        $this->unlock($integration);
 
         return true;
     }
@@ -521,60 +507,12 @@ abstract class OAuth2AuthenticationStrategy extends AbstractAuthenticationStrate
      *
      * @return string
      */
-    public function getRefreshingTokenCacheKey(IntegrationModel $integration): string
+    public function getRefreshingTokenLockKey(IntegrationModel $integration): string
     {
         $integrationManagerKey = $integration->getIntegrationManager()->getKey();
         $integrationKey        = $integration->getKey();
 
         return "integrations.${integrationManagerKey}.${integrationKey}";
-    }
-
-    /**
-     * Lock integration for refreshing token.
-     *
-     * @param IntegrationModel $integration
-     *
-     * @return $this
-     */
-    public function lock(IntegrationModel $integration): static
-    {
-        Cache::put(
-            $this->getRefreshingTokenCacheKey($integration),
-            true,
-            now()->addSeconds(30)
-        );
-
-        return $this;
-    }
-
-    /**
-     * Unlock integration for refreshing token.
-     *
-     * @param IntegrationModel $integration
-     *
-     * @return $this
-     */
-    public function unlock(IntegrationModel $integration): static
-    {
-        Cache::forget(
-            $this->getRefreshingTokenCacheKey($integration)
-        );
-
-        return $this;
-    }
-
-    /**
-     * Check if integration is locked for refreshing token.
-     *
-     * @param IntegrationModel $integration
-     *
-     * @return bool
-     */
-    public function isLocked(IntegrationModel $integration): bool
-    {
-        return Cache::has(
-            $this->getRefreshingTokenCacheKey($integration)
-        );
     }
 
     /**
