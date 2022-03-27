@@ -47,7 +47,7 @@ trait IsIntegrationModel
         );
 
         $this->fillable = array_merge(
-            ['name', 'key', 'version', 'model_type', 'model_id', 'uuid', 'settings'],
+            ['name', 'key', 'version', 'model_type', 'model_id', 'uuid', 'settings', 'active'],
             $this->fillable,
         );
     }
@@ -57,7 +57,6 @@ trait IsIntegrationModel
      */
     public static function bootIsIntegrationModel()
     {
-        static::observe(new IntegrationModelObserver());
         static::creating(function (Model $integration) {
             $integration->uuid = Str::uuid();
         });

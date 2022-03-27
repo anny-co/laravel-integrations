@@ -94,6 +94,9 @@ abstract class AbstractIntegrationJob implements ShouldQueue
         return $this->failText;
     }
 
+    /**
+     * @return string
+     */
     public function getExplanation(): string
     {
         return '';

@@ -2,8 +2,8 @@
 
 namespace Anny\Integrations\Observers;
 
-use Anny\Integrations\Contracts\IntegrationManager;
 use Anny\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Support\AbstractIntegrationManager;
 use Illuminate\Database\Eloquent\Model;
 
 class IntegrationModelObserver
@@ -17,6 +17,7 @@ class IntegrationModelObserver
     protected function callEventHook(IntegrationModel|Model $model, string $hook)
     {
         $manager = $model->getIntegrationManager();
+
         if (method_exists($manager, $hook))
         {
             $manager->for($model);
@@ -52,6 +53,8 @@ class IntegrationModelObserver
     public function created(IntegrationModel|Model $model)
     {
         $this->callEventHook($model, 'created');
+
+        $model->initializeIntegration();
     }
 
     /**
@@ -82,6 +85,14 @@ class IntegrationModelObserver
     public function saving(IntegrationModel|Model $model)
     {
         $this->callEventHook($model, 'saving');
+
+        if ($model->isDirty('active')) {
+            if ($model->isActive()) {
+                $model->activateIntegration();
+            } else {
+                $model->deactivateIntegration();
+            }
+        }
     }
 
     /**
@@ -92,6 +103,20 @@ class IntegrationModelObserver
     public function saved(IntegrationModel|Model $model)
     {
         $this->callEventHook($model, 'saved');
+
+        // Check if integration was activated or deactivated
+        if($model->wasChanged('active')) {
+            $manager = $model->getIntegrationManager();
+           if($model->isActive()) {
+               if(method_exists($manager, 'activated')) {
+                   $manager->activated();
+               }
+           }else {
+               if(method_exists($manager, 'deactivated')) {
+                   $manager->deactivated();
+               }
+           }
+        }
     }
 
     /**
@@ -102,6 +127,15 @@ class IntegrationModelObserver
     public function deleting(IntegrationModel|Model $model)
     {
         $this->callEventHook($model, 'deleting');
+
+        // If integration is active, deactivate first
+        if ($model->isActive()) {
+            $model->deactivateIntegration();
+        }
+
+        /** @var AbstractIntegrationManager $manager */
+        $manager = $model->getIntegrationManager();
+        $manager->flushFailures();
     }
 
     /**
@@ -112,6 +146,14 @@ class IntegrationModelObserver
     public function deleted(IntegrationModel|Model $model)
     {
         $this->callEventHook($model, 'deleted');
+
+        // after integration is deleted, it could be deactivated
+        if($model->wasChanged('active')) {
+            $manager = $model->getIntegrationManager();
+            if(method_exists($manager, 'deactivated')) {
+                $manager->deactivated();
+            }
+        }
     }
 
     /**

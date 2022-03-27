@@ -209,9 +209,27 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
             throw new MissingAuthenticationException();
         }
 
+        $this->activating();
+
         $this->integration->active = true;
 
         return $this;
+    }
+
+    /**
+     * @return void
+     */
+    public function activating()
+    {
+        //
+    }
+
+    /**
+     * @return void
+     */
+    public function activated()
+    {
+
     }
 
 
@@ -225,10 +243,30 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
     public function deactivate(?IntegrationModel $integration): static
     {
         $this->for($integration);
+
+        $this->deactivating();
+
         $integration->active = false;
 
         return $this;
     }
+
+    /**
+     * @return void
+     */
+    public function deactivating()
+    {
+        //
+    }
+
+    /**
+     * @return void
+     */
+    public function deactivated()
+    {
+        //
+    }
+
 
     /**
      * Initialize a specific integration model.
