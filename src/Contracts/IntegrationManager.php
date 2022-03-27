@@ -67,6 +67,13 @@ interface IntegrationManager
 	public function getManifest(): IntegrationManifest;
 
     /**
+     * Returns parser for webhooks.
+     *
+     * @return WebhookProcessor|null
+     */
+    public function getWebhookProcessor(): ?WebhookProcessor;
+
+    /**
      * Returns http client for this integration.
      *
      * @return PendingRequest

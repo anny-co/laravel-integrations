@@ -10,6 +10,7 @@ use Anny\Integrations\Contracts\HasAuthenticationStrategies;
 use Anny\Integrations\Contracts\HasIntegrations;
 use Anny\Integrations\Contracts\IntegrationManager;
 use Anny\Integrations\Contracts\IntegrationModel;
+use Anny\Integrations\Contracts\WebhookProcessor;
 use Anny\Integrations\Exceptions\MissingAuthenticationException;
 use Anny\Integrations\Traits\HandlesErrorsAndFailures;
 use Anny\Integrations\Traits\HasManifest;
@@ -262,6 +263,16 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
         )->setAuthenticationStrategies(
             $strategies
         );
+    }
+
+    /**
+     * Returns parser for webhooks.
+     *
+     * @return WebhookProcessor|null
+     */
+    public function getWebhookProcessor(): ?WebhookProcessor
+    {
+        return null;
     }
 
     /**

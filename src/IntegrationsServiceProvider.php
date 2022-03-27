@@ -38,6 +38,9 @@ use Anny\Integrations\Contracts\EncryptSettingsService as EncryptSettingsService
 use Anny\Integrations\Contracts\IntegrationModel as IntegrationContract;
 use Anny\Integrations\Contracts\IntegrationsRegistry as IntegrationsRegistryContract;
 use Anny\Integrations\Models\Integration;
+use Anny\Integrations\Models\IntegrationWebhookCall;
+use Anny\Integrations\Models\IntegrationWebhookSubscription;
+use Anny\Integrations\Observers\IntegrationModelObserver;
 use Anny\Integrations\Services\EncryptSettingsService;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Filesystem\Filesystem;
@@ -87,8 +90,10 @@ class IntegrationsServiceProvider extends ServiceProvider
 
 		    // Publish migrations
 		    $this->publishes([
-			    __DIR__.'/../database/migrations/create_integrations_table.php' => $this->getMigrationFileName('create_integrations_table.php', $filesystem),
-			    __DIR__.'/../database/migrations/create_failed_integration_jobs_table.php' => $this->getMigrationFileName('create_failed_integration_jobs_table.php', $filesystem)
+                __DIR__.'/../database/migrations/create_integrations_table.php' => $this->getMigrationFileName('create_integrations_table.php', $filesystem),
+                __DIR__.'/../database/migrations/create_failed_integration_jobs_table.php' => $this->getMigrationFileName('create_failed_integration_jobs_table.php', $filesystem),
+                __DIR__.'/../database/migrations/create_integration_webhook_subscriptions_table.php' => $this->getMigrationFileName('create_integration_webhook_subscriptions_table.php', $filesystem),
+                __DIR__.'/../database/migrations/create_integration_webhook_calls_table.php' => $this->getMigrationFileName('create_integration_webhook_calls_table.php', $filesystem),
 		    ], 'migrations');
 	    }
 
@@ -99,11 +104,18 @@ class IntegrationsServiceProvider extends ServiceProvider
             __DIR__.'/../resources/views' => resource_path('views/vendor/anny'),
         ]);
 
-	    // Register model
+	    // Register models
 	    $integrationModel = config('integrations.integrationModel') ?: Integration::class;
+        $integrationWebhookCallModel = config('integrations.integrationWebhookCallModel') ?: IntegrationWebhookCall::class;
+        $integrationWebhookSubscriptionModel = config('integrations.integrationWebhookSubscriptionModel') ?: IntegrationWebhookSubscription::class;#
+
 	    $this->app->bind(IntegrationContract::class, $integrationModel);
 
+        // Set model and observe it
 	    Integrations::useModel($integrationModel);
+        Integrations::newModel()::observe(new IntegrationModelObserver());
+        Integrations::useWebhookCallModel($integrationWebhookCallModel);
+        Integrations::useWebhookSubscriptionModel($integrationWebhookSubscriptionModel);
 
 	    Relation::morphMap([
 	    	'integrations' => config('integrations.integrationModel')
