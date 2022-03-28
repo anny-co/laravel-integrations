@@ -12,28 +12,34 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 /**
- * App\Integrations\Webhooks\WebhookSubscription.
+ * App\Models\IntegrationWebhookSubscription
  *
  * @property int $id
- * @property string|null $integration
+ * @property string $uuid
+ * @property int $integration_id
+ * @property mixed $secret
+ * @property int $active
  * @property string|null $external_id
- * @property string|null $secret
- * @property string|null $url
  * @property array|null $data
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @method static Builder|IntegrationWebhookSubscription newModelQuery()
- * @method static Builder|IntegrationWebhookSubscription newQuery()
- * @method static Builder|IntegrationWebhookSubscription query()
- * @method static Builder|IntegrationWebhookSubscription whereCreatedAt($value)
- * @method static Builder|IntegrationWebhookSubscription whereData($value)
- * @method static Builder|IntegrationWebhookSubscription whereId($value)
- * @method static Builder|IntegrationWebhookSubscription whereMetaTag($value)
- * @method static Builder|IntegrationWebhookSubscription whereIntegration($value)
- * @method static Builder|IntegrationWebhookSubscription whereRegistrationId($value)
- * @method static Builder|IntegrationWebhookSubscription whereUpdatedAt($value)
- * @method static Builder|IntegrationWebhookSubscription whereUrl($value)
- * @mixin Eloquent
+ * @property \Illuminate\Support\Carbon|null $expired_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $url
+ * @property-read \App\Integration $integration
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\IntegrationWebhookSubscription newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookSubscription newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookSubscription query()
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookSubscription whereActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookSubscription whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookSubscription whereData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookSubscription whereExpiredAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookSubscription whereExternalId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookSubscription whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookSubscription whereIntegrationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookSubscription whereSecret($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookSubscription whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookSubscription whereUuid($value)
+ * @mixin \Eloquent
  */
 class IntegrationWebhookSubscription extends Model implements WebhookSubscription
 {

@@ -16,25 +16,38 @@ use Illuminate\Support\Carbon;
 use Symfony\Component\HttpFoundation\HeaderBag;
 
 /**
- * \Anny\Integrations\Models\IntegrationWebhook.
+ * App\Models\IntegrationWebhookCall
  *
- * @mixin Builder
  * @property int $id
- * @property string|null $webhook_id
- * @property string|null $data
+ * @property int $integration_id
+ * @property int|null $subscription_id
+ * @property string|null $external_id
+ * @property string $type
+ * @property string $url
+ * @property mixed|null $headers
+ * @property array|null $payload
+ * @property string|null $exception
  * @property int|null $failed_runs
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @method static Builder|\Anny\Integrations\Models\IntegrationWebhookCall newModelQuery()
- * @method static Builder|IntegrationWebhookCall newQuery()
- * @method static Builder|IntegrationWebhookCall query()
- * @method static Builder|IntegrationWebhookCall whereCreatedAt($value)
- * @method static Builder|IntegrationWebhookCall whereData($value)
- * @method static Builder|IntegrationWebhookCall whereFailedRuns($value)
- * @method static Builder|IntegrationWebhookCall whereId($value)
- * @method static Builder|IntegrationWebhookCall whereIntegration($value)
- * @method static Builder|IntegrationWebhookCall whereUpdatedAt($value)
- * @method static Builder|IntegrationWebhookCall whereWebhookId($value)
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Integration $integration
+ * @property-read \App\Models\IntegrationWebhookSubscription|null $subscription
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\IntegrationWebhookCall newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookCall newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookCall query()
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookCall whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookCall whereException($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookCall whereExternalId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookCall whereFailedRuns($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookCall whereHeaders($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookCall whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookCall whereIntegrationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookCall wherePayload($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookCall whereSubscriptionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookCall whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookCall whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|IntegrationWebhookCall whereUrl($value)
+ * @mixin \Eloquent
  */
 class IntegrationWebhookCall extends Model implements WebhookCall
 {
