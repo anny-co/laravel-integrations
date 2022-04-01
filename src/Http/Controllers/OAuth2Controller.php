@@ -32,6 +32,8 @@ class OAuth2Controller
      *
      * @param Request $request
      * @param         $key
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function callback(Request $request, $key)
     {
@@ -41,7 +43,13 @@ class OAuth2Controller
             abort(404);
         }
 
-        $manager->handleOAuth2Callback($request);
+        if($request->query('error') || !$manager->handleOAuth2Callback($request)) {
+            $description = $request->query('error_description', $request->query('error'));
+
+            return view('anny::error',[
+                'description' => $description
+            ]);
+        };
 
         if(method_exists($manager, 'authorized')) {
             $manager->authorized($manager->getIntegrationModel());
