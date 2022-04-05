@@ -118,7 +118,9 @@ class IntegrationsServiceProvider extends ServiceProvider
         Integrations::useWebhookSubscriptionModel($integrationWebhookSubscriptionModel);
 
 	    Relation::morphMap([
-	    	'integrations' => config('integrations.integrationModel')
+	    	'integrations' => $integrationModel,
+            'integrations-webhook-calls' => $integrationWebhookCallModel,
+            'integrations-webhook-subscriptions' => $integrationWebhookSubscriptionModel
 	    ], true);
 
 	    // Commands

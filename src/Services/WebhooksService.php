@@ -40,7 +40,7 @@ class WebhooksService
             return $processor->processSyncRequest($request, $webhookSubscription);
         }
 
-        // Get all webhooks from webhook#
+        // Get all webhooks from request
         // There are integrations (i.e. Microsoft), which could sending
         // multiple webhooks at once.
         $webhooks = $processor->makeWebhooksFromRequest($request, $webhookSubscription)

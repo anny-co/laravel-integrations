@@ -27,15 +27,8 @@ class WebhooksController extends Controller
         $webhookSubscription = Integrations::newWebhookSubscriptionModel()
             ->newQuery()
             ->where('uuid', $subscriptionUuid)
-            ->first();
+            ->firstOrFail();
 
-        if(is_null($webhookSubscription)){
-            throw new ModelNotFoundException();
-        }
-
-        // Find parser class
         return $service->process($request, $webhookSubscription);
     }
-
-
 }
