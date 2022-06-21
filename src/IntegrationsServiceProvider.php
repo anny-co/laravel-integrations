@@ -37,11 +37,13 @@ use Anny\Integrations\Console\Commands\RuleMakeCommand;
 use Anny\Integrations\Contracts\EncryptSettingsService as EncryptSettingsServiceContract;
 use Anny\Integrations\Contracts\IntegrationModel as IntegrationContract;
 use Anny\Integrations\Contracts\IntegrationsRegistry as IntegrationsRegistryContract;
+use Anny\Integrations\Jobs\RenewWebhookSubscriptions;
 use Anny\Integrations\Models\Integration;
 use Anny\Integrations\Models\IntegrationWebhookCall;
 use Anny\Integrations\Models\IntegrationWebhookSubscription;
 use Anny\Integrations\Observers\IntegrationModelObserver;
 use Anny\Integrations\Services\EncryptSettingsService;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Application;
@@ -116,6 +118,15 @@ class IntegrationsServiceProvider extends ServiceProvider
         Integrations::newModel()::observe(new IntegrationModelObserver());
         Integrations::useWebhookCallModel($integrationWebhookCallModel);
         Integrations::useWebhookSubscriptionModel($integrationWebhookSubscriptionModel);
+
+        // Schedule jobs
+        $this->callAfterResolving(Schedule::class, function (Schedule $schedule) {
+            if(Integrations::$shouldRunWebhookSubscriptionRenewal) {
+                $threshold = Integrations::$webhookSubscriptionRenewalThreshold;
+                $cron = "0 */${threshold} * * *";
+                $schedule->job(new RenewWebhookSubscriptions())->cron($cron);
+            }
+        });
 
 	    Relation::morphMap([
 	    	'integrations' => $integrationModel,

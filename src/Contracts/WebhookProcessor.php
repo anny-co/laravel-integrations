@@ -22,4 +22,6 @@ interface WebhookProcessor
     public function process(WebhookCall|Model $webhookCall, WebhookSubscription|Model $webhookSubscription): void;
 
     public function createResponse(): Response;
+
+    public function renewWebhookSubscription(WebhookSubscription|Model $webhookSubscription): WebhookSubscription|Model;
 }

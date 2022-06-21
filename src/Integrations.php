@@ -31,6 +31,21 @@ class Integrations
     public static string $webhookSubscriptionModel = IntegrationWebhookSubscription::class;
 
     /**
+     * Flag if webhook renewal should run in cron.
+     *
+     * @var bool
+     */
+    public static bool $shouldRunWebhookSubscriptionRenewal = true;
+
+    /**
+     * Threshold for which an expiring webhook subscription would be renewed.
+     *
+     * @var int
+     */
+    public static int $webhookSubscriptionRenewalThreshold = 6;
+
+
+    /**
      * Create a new model from integration model.
      *
      * @return Model
@@ -68,6 +83,25 @@ class Integrations
     public static function useWebhookCallModel(string $model)
     {
         static::$webhookModel = $model;
+    }
+
+    /**
+     * @param bool $shouldRun
+     *
+     * @return void
+     */
+    public static function setShouldRunWebhookSubscriptionRenewal(bool $shouldRun = true) {
+        static::$shouldRunWebhookSubscriptionRenewal = $shouldRun;
+    }
+
+    /**
+     * @param int $hours
+     *
+     * @return void
+     */
+    public static function useCustomWebhookSubscriptionRenewalThreshold(int $hours)
+    {
+        static::$webhookSubscriptionRenewalThreshold = $hours;
     }
 
     /**
