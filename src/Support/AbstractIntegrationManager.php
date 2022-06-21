@@ -11,6 +11,7 @@ use Anny\Integrations\Contracts\HasIntegrations;
 use Anny\Integrations\Contracts\IntegrationManager;
 use Anny\Integrations\Contracts\IntegrationModel;
 use Anny\Integrations\Contracts\WebhookProcessor;
+use Anny\Integrations\Contracts\WebhookSubscription;
 use Anny\Integrations\Exceptions\MissingAuthenticationException;
 use Anny\Integrations\Traits\HandlesErrorsAndFailures;
 use Anny\Integrations\Traits\HasManifest;
@@ -456,5 +457,16 @@ abstract class AbstractIntegrationManager implements IntegrationManager, Handles
         }
 
         return $strategy;
+    }
+
+    /**
+     * Do nothing on renewal. Let other implement it.
+     *
+     * @param WebhookSubscription|Model $webhookSubscription
+     *
+     * @return WebhookSubscription|Model|null
+     */
+    public function renewWebhookSubscription(WebhookSubscription|Model $webhookSubscription): WebhookSubscription|Model|null {
+        return null;
     }
 }

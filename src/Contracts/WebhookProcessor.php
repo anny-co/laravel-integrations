@@ -23,5 +23,5 @@ interface WebhookProcessor
 
     public function createResponse(): Response;
 
-    public function renewWebhookSubscription(WebhookSubscription|Model $webhookSubscription): WebhookSubscription|Model;
+    public function renewWebhookSubscription(WebhookSubscription|Model $webhookSubscription): WebhookSubscription|Model|null;
 }
