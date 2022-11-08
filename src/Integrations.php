@@ -44,6 +44,12 @@ class Integrations
      */
     public static int $webhookSubscriptionRenewalThreshold = 6;
 
+    /**
+     * Queue name of which the jobs should run.
+     *
+     * @var string
+     */
+    public static string $defaultQueue = 'default';
 
     /**
      * Create a new model from integration model.
@@ -90,7 +96,8 @@ class Integrations
      *
      * @return void
      */
-    public static function setShouldRunWebhookSubscriptionRenewal(bool $shouldRun = true) {
+    public static function setShouldRunWebhookSubscriptionRenewal(bool $shouldRun = true)
+    {
         static::$shouldRunWebhookSubscriptionRenewal = $shouldRun;
     }
 
@@ -102,6 +109,15 @@ class Integrations
     public static function useCustomWebhookSubscriptionRenewalThreshold(int $hours)
     {
         static::$webhookSubscriptionRenewalThreshold = $hours;
+    }
+
+    /**
+     * @param string $queue
+     * @return void
+     */
+    public static function setDefaultQueue(string $queue)
+    {
+        static::$defaultQueue = $queue;
     }
 
     /**

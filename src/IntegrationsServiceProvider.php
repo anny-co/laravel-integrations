@@ -124,7 +124,7 @@ class IntegrationsServiceProvider extends ServiceProvider
             if(Integrations::$shouldRunWebhookSubscriptionRenewal) {
                 $threshold = Integrations::$webhookSubscriptionRenewalThreshold;
                 $cron = "0 */${threshold} * * *";
-                $schedule->job(new RenewWebhookSubscriptions())->cron($cron);
+                $schedule->job(new RenewWebhookSubscriptions(), Integrations::$defaultQueue)->cron($cron);
             }
         });
 

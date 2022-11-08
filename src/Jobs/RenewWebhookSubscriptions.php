@@ -5,14 +5,20 @@ namespace Anny\Integrations\Jobs;
 use Anny\Integrations\Contracts\IntegrationManager;
 use Anny\Integrations\Contracts\WebhookSubscription;
 use Anny\Integrations\Integrations;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class RenewWebhookSubscriptions implements ShouldQueue
 {
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
     public function __construct(public int $daysBetweenRuns = 2)
     {
-
+        $this->queue = Integrations::$defaultQueue;
     }
 
     public function handle()

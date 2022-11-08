@@ -4,6 +4,7 @@ namespace Anny\Integrations\Jobs;
 
 use Anny\Integrations\Contracts\WebhookCall;
 use Anny\Integrations\Contracts\WebhookSubscription;
+use Anny\Integrations\Integrations;
 use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -17,7 +18,7 @@ class ProcessWebhooks
 
     public function __construct(public Collection $webhookCalls, public WebhookSubscription|Model $webhookSubscription)
     {
-
+        $this->queue = Integrations::$defaultQueue;
     }
 
     public function handle()
