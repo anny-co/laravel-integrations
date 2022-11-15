@@ -52,6 +52,8 @@ abstract class AbstractWebhookProcessor implements WebhookProcessor
         // Check if it's a callable
         if(is_callable($processor)) {
             $processor($webhookCall, $webhookSubscription);
+
+            return;
         }
 
         // Dispatch job
