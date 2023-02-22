@@ -8,10 +8,7 @@
     "plugins"
   ],
   "type": "library",
-  "require-dev": {
-    "phpunit/phpunit": "^8.0",
-    "orchestra/testbench": "v6.0.0"
-  },
+
   "license": "MIT",
   "authors": [
     {
@@ -21,12 +18,23 @@
   ],
   "require": {
     "php": "^8.0",
-    "illuminate/contracts": "^7.0|^8.0",
-    "illuminate/container": "^7.0|^8.0",
-    "illuminate/database": "^7.0|^8.0",
+    "illuminate/contracts": "^7.0 | ^8.0 | ^9.0| ^10.0",
+    "illuminate/container": "^7.0 | ^8.0 | ^9.0| ^10.0",
+    "illuminate/database": "^7.0 | ^8.0 | ^9.0| ^10.0",
     "laravel/socialite": "^5.2",
-    "cloudcreativity/laravel-json-api": "^3.3"
+    "cloudcreativity/laravel-json-api": "dev-fix-meta"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^9.0 | ^10.0",
+    "orchestra/testbench": "v6.0 | ^7.0 | ^8.0",
+    "nunomaduro/collision": "^6.0 | ^7.0"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/anny-co/laravel-json-api"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "Anny\\Integrations\\": "src/",
@@ -37,7 +45,10 @@
     ]
   },
   "scripts": {
-    "test": "phpunit"
+    "post-autoload-dump": [
+      "@php vendor/bin/testbench package:discover --ansi"
+    ],
+    "test": "./vendor/bin/testbench package:test"
   },
   "extra": {
     "laravel": {

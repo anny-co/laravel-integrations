@@ -37,7 +37,9 @@ class IntegrationManagerTest extends TestCase
 		$integration = new Integration();
 		$manager = ExampleIntegrationManager::get()->for($integration);
 
-		$manager->setting(['settingC'], 'test');
+		$manager->setting([
+            'settingC' => 'test'
+        ]);
 
 		$this->assertEquals('test', $integration->settings['settingC']);
 	}
