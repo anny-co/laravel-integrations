@@ -50,7 +50,7 @@ trait HandlesErrorsAndFailures
      */
     public function hasError(): bool
     {
-        return isset($this->error);
+        return isset($this->integration->error);
     }
 
     /**
