@@ -4,6 +4,7 @@ namespace Anny\Integrations\JsonApi;
 
 use Anny\Integrations\Contracts\IntegrationModel;
 use CloudCreativity\LaravelJsonApi\Adapter\AbstractResourceAdapter;
+use CloudCreativity\LaravelJsonApi\Contracts\Http\Query\QueryParametersInterface;
 use CloudCreativity\LaravelJsonApi\Document\ResourceObject;
 use CloudCreativity\LaravelJsonApi\Pagination\Page;
 use Illuminate\Database\Eloquent\Model;
@@ -31,7 +32,7 @@ abstract class AbstractAdapter extends AbstractResourceAdapter
     /**
      * @inheritdoc
      */
-    public function query(EncodingParametersInterface $parameters)
+    public function query(QueryParametersInterface $parameters)
     {
         $integration = $this->getIntegration();
 
@@ -88,7 +89,7 @@ abstract class AbstractAdapter extends AbstractResourceAdapter
      *
      * @return Page
      */
-    protected function createPage(Collection $resources, ?array $pagination = null): Page
+    protected function createPage(Collection $resources, ?array $pagination = null, ?int $total = null): Page
     {
         $meta = null;
         $data = $resources->all();
@@ -96,10 +97,14 @@ abstract class AbstractAdapter extends AbstractResourceAdapter
         if ($pagination) {
             $page = (int) Arr::get($pagination, 'number', 1);
             $size = (int) Arr::get($pagination, 'size', 30);
-            $total = $resources->count();
+            $total = $total ?? $resources->count();
             $from = ($page - 1) * $size;
             $to = min($page * $size, $total);
-            $data = $resources->slice($from, $to - $from)->all();
+
+            // slice only if resource contains all entries instead of single page
+            if (! $total) {
+                $data = $resources->slice($from, $to - $from)->all();
+            }
 
             // Make meta
             $meta = [
