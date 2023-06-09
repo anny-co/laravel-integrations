@@ -32,7 +32,7 @@ abstract class AbstractAdapter extends AbstractResourceAdapter
     /**
      * @inheritdoc
      */
-    public function query(QueryParametersInterface $parameters)
+    public function query(QueryParametersInterface|EncodingParametersInterface $parameters)
     {
         $integration = $this->getIntegration();
 
